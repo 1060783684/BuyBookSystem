@@ -33,6 +33,19 @@ public class EvaluateInfo {
         NO
     }
 
+    public EvaluateInfo(){
+
+    }
+
+    public EvaluateInfo(EvaluateKey evaluateKey, Evaluate evaluate, String descs, String img1, String img2, String img3) {
+        this.evaluateKey = evaluateKey;
+        this.evaluate = evaluate;
+        this.descs = descs;
+        this.img1 = img1;
+        this.img2 = img2;
+        this.img3 = img3;
+    }
+
     /**
      * @description: EvaluateInfo的主键
      */

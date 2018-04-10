@@ -25,6 +25,17 @@ public class ShopCar {
     @Column(name = "goods_num")
     private long number;  //购买宝贝个数
 
+    public ShopCar(){
+
+    }
+
+    public ShopCar(String id, String goods_id, long user_id, long number) {
+        this.id = id;
+        this.goods_id = goods_id;
+        this.user_id = user_id;
+        this.number = number;
+    }
+
     public String getId() {
         return id;
     }

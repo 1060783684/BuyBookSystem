@@ -48,6 +48,25 @@ public class Goods {
         NO
     }
 
+    public Goods(){
+
+    }
+
+    public Goods(String id, long store_id, String name, String descs, float cost,
+                 long good_est, long bad_est, long sell_num, long num, String imgSrc, Check isCheck) {
+        this.id = id;
+        this.store_id = store_id;
+        this.name = name;
+        this.descs = descs;
+        this.cost = cost;
+        this.good_est = good_est;
+        this.bad_est = bad_est;
+        this.sell_num = sell_num;
+        this.num = num;
+        this.imgSrc = imgSrc;
+        this.isCheck = isCheck;
+    }
+
     public String getId() {
         return id;
     }

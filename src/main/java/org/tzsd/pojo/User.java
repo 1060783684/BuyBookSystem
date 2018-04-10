@@ -21,6 +21,16 @@ public class User {
     @Column(name = "password")
     private String password; //密码
 
+    public User(){
+
+    }
+
+    public User(long id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
+
     public long getId() {
         return id;
     }

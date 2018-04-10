@@ -24,6 +24,17 @@ public class UserDetailsInfo {
     @Column(name = "phone")
     private String phone; //手机号
 
+    public UserDetailsInfo(){
+
+    }
+
+    public UserDetailsInfo(long id, String name, String id_number, String phone) {
+        this.id = id;
+        this.name = name;
+        this.id_number = id_number;
+        this.phone = phone;
+    }
+
     public long getId() {
         return id;
     }

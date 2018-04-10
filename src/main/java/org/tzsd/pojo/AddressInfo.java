@@ -27,6 +27,18 @@ public class AddressInfo {
     @Column(name = "addr")
     private String addr;
 
+    public AddressInfo(){
+
+    }
+
+    public AddressInfo(String id, String username, String mail, long user_id, String addr) {
+        this.id = id;
+        this.username = username;
+        this.mail = mail;
+        this.user_id = user_id;
+        this.addr = addr;
+    }
+
     public String getId() {
         return id;
     }

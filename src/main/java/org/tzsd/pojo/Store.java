@@ -25,18 +25,34 @@ public class Store {
     private String addr; //商店地址
 
     @Column(name = "user_id")
-    private String user_id; //所属用户id
+    private long user_id; //所属用户id
 
     @Column(name = "visit_num")
-    private String visit_num; //访问量
+    private long visit_num; //访问量
 
     @Column(name = "ischeck")
     @Enumerated(EnumType.STRING)
     private Check isCheck; //开店检查
 
-    enum Check{
+    public enum Check{
         NO,
         YES
+    }
+
+    public Store(){
+
+    }
+
+    public Store(long id, String descs, String name, String imgsrc, String addr,
+                 long user_id, long visit_num, Check isCheck) {
+        this.id = id;
+        this.descs = descs;
+        this.name = name;
+        this.imgsrc = imgsrc;
+        this.addr = addr;
+        this.user_id = user_id;
+        this.visit_num = visit_num;
+        this.isCheck = isCheck;
     }
 
     public long getId() {
@@ -79,19 +95,19 @@ public class Store {
         this.addr = addr;
     }
 
-    public String getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
-    public String getVisit_num() {
+    public long getVisit_num() {
         return visit_num;
     }
 
-    public void setVisit_num(String visit_num) {
+    public void setVisit_num(long visit_num) {
         this.visit_num = visit_num;
     }
 

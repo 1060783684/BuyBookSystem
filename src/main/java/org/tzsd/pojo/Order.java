@@ -47,6 +47,23 @@ public class Order {
         WAIT_EVALUATION
     }
 
+    public Order(){
+
+    }
+
+    public Order(String id, long user_id, String goods_id, Status status,
+                 long number, String addr_start, String addr_start_ext, String addr_end, String addr_end_ext) {
+        this.id = id;
+        this.user_id = user_id;
+        this.goods_id = goods_id;
+        this.status = status;
+        this.number = number;
+        this.addr_start = addr_start;
+        this.addr_start_ext = addr_start_ext;
+        this.addr_end = addr_end;
+        this.addr_end_ext = addr_end_ext;
+    }
+
     public String getId() {
         return id;
     }
