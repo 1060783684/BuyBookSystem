@@ -1,9 +1,13 @@
 package org.tzsd.test;
 
+import org.json.JSONObject;
 import org.tzsd.dao.GenericDAO;
 import org.tzsd.pojo.AddressInfo;
 import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description: 测试类
@@ -34,8 +38,15 @@ public class Test {
         System.out.println(addressInfo);
     }
 
+    public static void testJson(){
+        Map<String,Object> map = new HashMap();
+        map.put("valid",1);
+        JSONObject json = new JSONObject(map);
+        System.out.println(json);
+    }
     public static void main(String[] args){
 //        TestSaveDAO();
-        TestGetDAO();
+//        TestGetDAO();
+        testJson();
     }
 }

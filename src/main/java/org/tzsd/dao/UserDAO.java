@@ -3,12 +3,14 @@ package org.tzsd.dao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 import org.tzsd.dao.callback.HibernateCallback;
 import org.tzsd.pojo.User;
 
 /**
  * @description: 用于对User进行基本的数据库操作类
  */
+@Repository("userDao")
 public class UserDAO extends GenericDAO {
 
     /**
