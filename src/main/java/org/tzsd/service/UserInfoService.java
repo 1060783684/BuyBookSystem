@@ -2,9 +2,12 @@ package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
 import org.tzsd.dao.UserDAO;
+import org.tzsd.dao.UserDetailsInfoDAO;
 import org.tzsd.pojo.User;
+import org.tzsd.pojo.UserDetailsInfo;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
  * @description: 管理用户信息的服务类
@@ -13,7 +16,10 @@ import javax.annotation.Resource;
 public class UserInfoService {
 
     @Resource(name = "userDao")
-    UserDAO userDAO;
+    private UserDAO userDAO;
+
+    @Resource(name = "userDetailsInfoDAO")
+    private UserDetailsInfoDAO userDetailsInfoDAO;
 
     public UserDAO getUserDAO() {
         return userDAO;
@@ -21,6 +27,14 @@ public class UserInfoService {
 
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
+    }
+
+    public UserDetailsInfoDAO getUserDetailsInfoDAO() {
+        return userDetailsInfoDAO;
+    }
+
+    public void setUserDetailsInfoDAO(UserDetailsInfoDAO userDetailsInfoDAO) {
+        this.userDetailsInfoDAO = userDetailsInfoDAO;
     }
 
     /**
@@ -58,9 +72,28 @@ public class UserInfoService {
         return userDAO.getUserByName(username);
     }
 
-    public int saveUser(String username, String password){
-        Integer id = Integer.valueOf(username);
+    /**
+     * @description: 通过用户名密码创建新的用户实例并保存
+     * @param username 用户名
+     * @param password 密码
+     * @return 保存成功后返回用户id
+     */
+    public long saveUser(String username, String password){
+        long id = Long.valueOf(username);
         User user = new User(id, username, password);
-        return (int) userDAO.save(user);
+        return (long) userDAO.save(user);
+    }
+
+    /**
+     * @description: 通过用户名获取用户详细信息实例
+     * @param username 用户名
+     * @return 若采用非正规手段可能产生异常,在上一层处理
+     */
+    public UserDetailsInfo searchUserDetailsInfo(String username){
+        if(username == null){
+            return null;
+        }
+        long id = Long.valueOf(username);
+        return userDetailsInfoDAO.getUserDetailsInfoById(id);
     }
 }

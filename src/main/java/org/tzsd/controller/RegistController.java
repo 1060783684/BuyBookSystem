@@ -1,7 +1,9 @@
 package org.tzsd.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
+import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.User;
 import org.tzsd.service.UserInfoService;
 
@@ -14,7 +16,8 @@ import java.util.Map;
 /**
  * @description: 注册业务处理
  */
-public class RegistController {
+@Controller
+public class RegistController extends BaseController {
 
     @Resource(name = "userInfoService")
     private UserInfoService userInfoService;
@@ -38,18 +41,26 @@ public class RegistController {
         String password = request.getParameter("password");
         Map<String, Object> jsonMap = new HashMap();
         if(username == null || password == null){
-            jsonMap.put("result", JSONProtocolConstance.REGIST_FAIL);
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_FAIL);
         }else {
             User user = userInfoService.getUser(username);
             if(user != null){
-                jsonMap.put("result", JSONProtocolConstance.REGIST_USERNAME_EXIST);
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_USERNAME_EXIST);
             }else{
                 try {
-                    userInfoService.saveUser(username, password);
+                    long id = userInfoService.saveUser(username, password);
+                    //使用用户名作为账户id
+                    if(Long.valueOf(username).equals(id)){
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_SUCCESS);
+                    }else {
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_FAIL);
+                    }
                 }catch (Exception e){
-                    jsonMap.put("result", JSONProtocolConstance.REGIST_FAIL);
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_FAIL);
                 }
             }
         }
+        //发送消息
+        writeJSONProtocol(response, jsonMap);
     }
 }

@@ -40,12 +40,12 @@ public class ValidateController extends BaseController {
         String password = request.getParameter("password");
         Map<String, Object> jsonMap = new HashMap();
         if(username == null || password == null){
-            jsonMap.put("valid", JSONProtocolConstance.VALID_FAIL);
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
         }else {
             if(userInfoService.validateUser(username,password)){
-                jsonMap.put("valid", JSONProtocolConstance.VALID_SUCCESS);
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_SUCCESS);
             }else {
-                jsonMap.put("valid", JSONProtocolConstance.VALID_FAIL);
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
             }
         }
 

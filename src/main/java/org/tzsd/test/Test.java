@@ -41,6 +41,9 @@ public class Test {
     public static void testJson(){
         Map<String,Object> map = new HashMap();
         map.put("valid",1);
+        //带有自动将对象json化的功能
+        User user = new User(1060783684,"1060783684","123456");
+        map.put("user", user);
         JSONObject json = new JSONObject(map);
         System.out.println(json);
     }
