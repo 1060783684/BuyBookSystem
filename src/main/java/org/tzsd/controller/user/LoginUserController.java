@@ -36,7 +36,7 @@ public class LoginUserController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("getUserDetailInfo")
+    @RequestMapping("/getUserDetailInfo")
     public void getUserDetailInfo(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
         Map<String, Object> jsonMap = new HashMap();

@@ -5,4 +5,8 @@
     <query name="getUserByName">
         <![CDATA[ from User  where name=:name]]>
     </query>
+
+    <query name="getShopCarListByUserId">
+        <![CDATA[ from ShopCar where user_id=:user_id]]>
+    </query>
 </hibernate-mapping>

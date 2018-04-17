@@ -6,7 +6,9 @@ import org.tzsd.pojo.AddressInfo;
 import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,11 +43,25 @@ public class Test {
     public static void testJson(){
         Map<String,Object> map = new HashMap();
         map.put("valid",1);
+
         //带有自动将对象json化的功能
         User user = new User(1060783684,"1060783684","123456");
         map.put("user", user);
+
+        //自带将list对象和数组对象json数组化的功能
+        List<User> userList = new ArrayList<>();
+        User user1 = new User(1060783684,"1060783684","123456");
+        User user2 = new User(1060783685,"1060783685","123455");
+        User user3 = new User(1060783686,"1060783686","123456");
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+        map.put("users", userList);
+
+
         JSONObject json = new JSONObject(map);
         System.out.println(json);
+
     }
     public static void main(String[] args){
 //        TestSaveDAO();

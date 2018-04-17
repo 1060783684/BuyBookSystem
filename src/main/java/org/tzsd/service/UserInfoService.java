@@ -7,7 +7,6 @@ import org.tzsd.pojo.User;
 import org.tzsd.pojo.UserDetailsInfo;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 
 /**
  * @description: 管理用户信息的服务类

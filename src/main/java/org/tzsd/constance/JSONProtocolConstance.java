@@ -7,10 +7,17 @@ public interface JSONProtocolConstance {
     //操作成功与否
     String RESULT = "result";
 
-    //操作成功后的后续的KEY
-    String USERDETAIINFO = "userDetailInfo";
+    //------------------------操作成功后的后续的KEY-------------------------
+    //用户信息相关
+    String USERDETAIINFO = "userDetailInfo"; //用户详细信息 key
 
-    //登录成功与失败
+    //购物车相关
+    String SHOPCAR_LIST_SIZE = "shopCarListSize"; //购物车列表长度 key
+    String SHOPCAR_LIST = "shopCarList"; //购物车条目数组 key
+
+
+
+    //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败
 

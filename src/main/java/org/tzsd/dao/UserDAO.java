@@ -15,8 +15,8 @@ public class UserDAO extends GenericDAO {
 
     /**
      * @description: 通过id获取对应的User对象
-     * @param id
-     * @return
+     * @param id 用户id
+     * @return 用户实例
      */
     public User getUserById(long id){
         return getById(User.class, id);
