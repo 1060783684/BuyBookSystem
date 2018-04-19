@@ -9,4 +9,8 @@
     <query name="getShopCarListByUserId">
         <![CDATA[ from ShopCar where user_id=:user_id]]>
     </query>
+
+    <query name="deleteShopCar">
+        <![CDATA[ delete from ShopCar where id=:id]]>
+    </query>
 </hibernate-mapping>

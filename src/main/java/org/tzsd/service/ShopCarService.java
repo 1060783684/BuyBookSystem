@@ -21,6 +21,8 @@ public class ShopCarService {
     @Resource(name = "userDao")
     private UserDAO userDAO;
 
+    //物品dao
+
     public ShopCarDAO getShopCarDAO() {
         return shopCarDAO;
     }
@@ -53,9 +55,24 @@ public class ShopCarService {
         long user_id = user.getId();
         return getShopCarDAO().getShopCarListByUserId(user_id);
     }
-    //2.添加购物车
 
-    //3.从购物车中删除
+    /**
+     * @description: 添加购物车条目
+     * @param username 用户名
+     * @param goods_id 宝贝id
+     * @param number 个数
+     * @return
+     */
+    public boolean addShopCar(String username, String goods_id, long number){
+        return true;
+    }
+
+    /**
+     * @description: 删除对应购物车id
+     * @param username
+     * @param shopCarId 购物车条目id
+     * @return
+     */
     public boolean deleteShopCar(String username, String shopCarId){
         if(username == null || shopCarId == null){
             return false;
@@ -64,11 +81,12 @@ public class ShopCarService {
         if(shopCar == null){
             return false;
         }
-        long userId = Long.valueOf(username);
-        if(shopCar.getUser_id() != userId){
+        User user = getUserDAO().getUserByName(username);
+        long userId = user.getId();
+        if(shopCar.getUser_id() != userId) {
             return false;
         }
-        //待续:通过sessionId判断是否是正确的用户操作
+        getShopCarDAO().deleteShopCarForId(shopCarId);
         return true;
     }
 }

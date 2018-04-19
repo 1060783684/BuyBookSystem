@@ -39,4 +39,19 @@ public class ShopCarDAO extends GenericDAO{
             }
         });
     }
+
+    /**
+     * @description: 通过条目id删除购物车条目
+     * @param id
+     * @return 被删除的条目id
+     */
+    public String deleteShopCarForId(String  id){
+        return(String) getTemplate().doCall(new HibernateCallback<Object>() {
+            @Override
+            public Object doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("deleteShopCar");
+                return query.executeUpdate();
+            }
+        });
+    }
 }

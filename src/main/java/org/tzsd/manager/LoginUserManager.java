@@ -5,6 +5,7 @@ import org.tzsd.pojo.User;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -25,8 +26,8 @@ public class LoginUserManager {
     }
 
     private LoginUserManager(){
-        users = new HashMap<String, User>();
-        sessions = new HashMap<String, Long>();
+        users = new ConcurrentHashMap<String, User>();
+        sessions = new ConcurrentHashMap<String, Long>();
     }
 
     /**
@@ -47,6 +48,22 @@ public class LoginUserManager {
             }
         }
         return inst;
+    }
+
+    public Map<String, Long> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Map<String, Long> sessions) {
+        this.sessions = sessions;
+    }
+
+    public Map<String, User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Map<String, User> users) {
+        this.users = users;
     }
 
     /**
