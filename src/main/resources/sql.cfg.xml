@@ -10,6 +10,46 @@
         <![CDATA[ from ShopCar where user_id=:user_id]]>
     </query>
 
+    <!--&lt;!&ndash;获取物品list&ndash;&gt;-->
+    <!--<query name="getGoodsList">-->
+        <!--<![CDATA[ from Goods order by sell_num]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;根据类型获取物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByType">-->
+        <!--<![CDATA[ from Goods where type=:type order by sell_num]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;根据价格范围获取物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByCostBetween">-->
+        <!--<![CDATA[ from Goods where cost between :low and :hight]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;获取价格低于low的物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByCostLow">-->
+        <!--<![CDATA[ from Goods where cost <= :low]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;获取价格超过hight的物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByCostHight">-->
+        <!--<![CDATA[ from Goods where cost >= :hight]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;根据type价格范围获取物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByTypeAndCostBetween">-->
+        <!--<![CDATA[ from Goods where type=:type and cost between :low and :hight]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;根据type获取价格低于low的物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByTypeAndCostLow">-->
+        <!--<![CDATA[ from Goods where type=:type and cost <= :low]]>-->
+    <!--</query>-->
+
+    <!--&lt;!&ndash;根据type获取价格超过hight的物品list&ndash;&gt;-->
+    <!--<query name="getGoodsListByTypeAndCostHight">-->
+        <!--<![CDATA[ from Goods where type=:type and cost >= :hight]]>-->
+    <!--</query>-->
+
     <query name="deleteShopCar">
         <![CDATA[ delete from ShopCar where id=:id]]>
     </query>

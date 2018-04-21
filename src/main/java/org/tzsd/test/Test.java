@@ -6,10 +6,7 @@ import org.tzsd.pojo.AddressInfo;
 import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description: 测试类
@@ -63,9 +60,18 @@ public class Test {
         System.out.println(json);
 
     }
+
+    public static void testStringTokenizer(){
+        StringTokenizer tokenizer = new StringTokenizer(" xxx  yyy  uuu i", " ");
+        System.out.println(tokenizer.countTokens());
+        while (tokenizer.hasMoreElements()){
+            System.out.println(tokenizer.nextElement());
+        }
+    }
     public static void main(String[] args){
 //        TestSaveDAO();
 //        TestGetDAO();
-        testJson();
+//        testJson();
+        testStringTokenizer();
     }
 }

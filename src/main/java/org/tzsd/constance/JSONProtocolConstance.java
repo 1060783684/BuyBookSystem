@@ -15,7 +15,8 @@ public interface JSONProtocolConstance {
     String SHOPCAR_LIST_SIZE = "shopCarListSize"; //购物车列表长度 key
     String SHOPCAR_LIST = "shopCarList"; //购物车条目数组 key
 
-
+    //物品信息相关
+    String GOODS_LIST = "goods";
 
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过

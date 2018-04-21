@@ -32,7 +32,7 @@ public class UserDAO extends GenericDAO {
             @Override
             public Object doCall(Session session) throws HibernateException {
                 Query query = session.getNamedQuery("getUserByName");
-                query.setParameter(1, name);
+                query.setParameter("name", name);
                 return query.uniqueResult();
             }
         });
