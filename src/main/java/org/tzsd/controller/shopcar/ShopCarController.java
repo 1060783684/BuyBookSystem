@@ -70,6 +70,48 @@ public class ShopCarController extends BaseController {
      */
     @RequestMapping("/deleteShopCar")
     public void deleteShopCar(HttpServletRequest request, HttpServletResponse response){
+        String username = request.getParameter("username");
+        String shopCarId = request.getParameter("shopCarId");
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        if(username == null || shopCarId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            try {
+                if (getShopCarService().deleteShopCar(username, shopCarId)) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
 
+                }
+            }catch (Exception e){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                e.printStackTrace();
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 添加购物车条目
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/addShopCar")
+    public void addShopCar(HttpServletRequest request, HttpServletResponse response){
+        String username = request.getParameter("username");
+        String goods_id = request.getParameter("goodsId");
+        String numStr = request.getParameter("number");
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        if(username == null || goods_id == null || numStr == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            try {
+                int number = Integer.valueOf(numStr);
+                if (getShopCarService().addShopCar(username, goods_id, number)) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                }
+            }catch (Exception e){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                e.printStackTrace();
+            }
+        }
     }
 }

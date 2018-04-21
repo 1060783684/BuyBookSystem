@@ -37,6 +37,7 @@ public class GoodsController extends BaseController {
      * @param request
      * @param response
      */
+    @RequestMapping("/searchGoods")
     public void searchGoods(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
         String costStr = request.getParameter("cost");

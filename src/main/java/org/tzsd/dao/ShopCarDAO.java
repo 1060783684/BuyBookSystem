@@ -54,4 +54,13 @@ public class ShopCarDAO extends GenericDAO{
             }
         });
     }
+
+    /**
+     * @description: 存储新的购物车条目
+     * @param shopCar 购物车条目实例
+     * @return 添加的条目id
+     */
+    public String saveShopCar(ShopCar shopCar){
+        return (String) save(shopCar);
+    }
 }

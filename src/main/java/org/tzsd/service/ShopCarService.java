@@ -8,6 +8,7 @@ import org.tzsd.pojo.User;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @description: 购物车相关业务处理类
@@ -64,6 +65,24 @@ public class ShopCarService {
      * @return
      */
     public boolean addShopCar(String username, String goods_id, long number){
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return false;
+        }
+        UUID uuid = null;
+        do {
+            uuid = UUID.randomUUID();
+        }while (getShopCarDAO().getShopCarById(uuid.toString()) == null);
+        ShopCar shopCar = new ShopCar(uuid.toString(), goods_id, user.getId(), number);
+        try {
+            String shopCarId = getShopCarDAO().saveShopCar(shopCar);
+            if(!shopCarId.equals(uuid.toString())){
+                return false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 

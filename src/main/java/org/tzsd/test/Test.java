@@ -30,11 +30,14 @@ public class Test {
     public static void TestGetDAO(){
         GenericDAO gdao = new GenericDAO();
         User user = gdao.getById(User.class, 1060783684);
+        User user1 = gdao.getById(User.class, 1060783685);
         Store store = gdao.getById(Store.class, 1060783684);
         AddressInfo addressInfo = gdao.getById(AddressInfo.class, "xxx-xxx");
         System.out.println(user);
         System.out.println(store);
         System.out.println(addressInfo);
+
+        System.out.println(user1);
     }
 
     public static void testJson(){
@@ -70,8 +73,8 @@ public class Test {
     }
     public static void main(String[] args){
 //        TestSaveDAO();
-//        TestGetDAO();
+        TestGetDAO();
 //        testJson();
-        testStringTokenizer();
+//        testStringTokenizer();
     }
 }
