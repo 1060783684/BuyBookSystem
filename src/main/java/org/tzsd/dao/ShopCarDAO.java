@@ -29,12 +29,12 @@ public class ShopCarDAO extends GenericDAO{
      * @param id 用户id
      * @return 购物车条目列表
      */
-    public List<ShopCar> getShopCarListByUserId(long id){
+    public List<ShopCar> getShopCarListByUserId(final long id){
         return (List<ShopCar>) getTemplate().doCall(new HibernateCallback<Object>() {
             @Override
             public Object doCall(Session session) throws HibernateException {
                 Query query = session.getNamedQuery("getShopCarListByUserId");
-                query.setParameter(1,id);
+                query.setParameter("id",id);
                 return query.list();
             }
         });

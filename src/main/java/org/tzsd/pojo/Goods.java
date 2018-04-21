@@ -43,9 +43,17 @@ public class Goods {
     @Enumerated(EnumType.STRING)
     private Check isCheck;
 
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
     enum Check{
         YES,
         NO
+    }
+
+    enum Type{
+        Other
     }
 
     public Goods(){
@@ -155,6 +163,14 @@ public class Goods {
         this.isCheck = isCheck;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -169,6 +185,7 @@ public class Goods {
                 ", num=" + num +
                 ", imgSrc='" + imgSrc + '\'' +
                 ", isCheck=" + isCheck +
+                ", type=" + type +
                 '}';
     }
 }

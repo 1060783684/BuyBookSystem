@@ -46,7 +46,7 @@ public class ShopCarController extends BaseController {
         }else {
             try {
                 List<ShopCar> shopCarList = getShopCarService().searchShopCarList(username);
-                if(shopCarList == null){
+                if(shopCarList == null || shopCarList.isEmpty()){
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 }else {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
