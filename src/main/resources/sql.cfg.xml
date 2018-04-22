@@ -69,4 +69,16 @@
     <query name="getAddressInfoListByUserId">
         <![CDATA[ from AddressInfo where user_id=:user_id]]>
     </query>
+
+    <query name="deleteAddressInfoByIdAndUserId">
+        <![CDATA[ delete from AddressInfo where id = :id and user_id = :user_id]]>
+    </query>
+
+    <query name="getEvaluateInfoListByGoodsId">
+        <![CDATA[  from EvaluateInfo where id =: id]]>
+    </query>
+
+    <query name="deleteEvaluateInfoByIdAndUserId">
+        <![CDATA[ delete from AddressInfo where id = :id and user_id = :user_id]]>
+    </query>
 </hibernate-mapping>

@@ -77,7 +77,7 @@ public class AddressInfoDAO extends GenericDAO{
         return getTemplate().doCall(new HibernateCallback<Integer>() {
             @Override
             public Integer doCall(Session session) throws HibernateException {
-                Query query = session.getNamedQuery("getAddressInfoByIdAndUserId");
+                Query query = session.getNamedQuery("deleteAddressInfoByIdAndUserId");
                 query.setParameter("id", id);
                 query.setParameter("user_id", user_id);
                 return query.executeUpdate();

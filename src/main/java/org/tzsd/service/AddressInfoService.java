@@ -6,6 +6,7 @@ import org.tzsd.dao.UserDAO;
 import org.tzsd.pojo.AddressInfo;
 import org.tzsd.pojo.User;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +15,10 @@ import java.util.UUID;
  */
 @Service("addressInfoService")
 public class AddressInfoService {
+    @Resource(name = "addressInfoDao")
     private AddressInfoDAO addressInfoDAO;
 
+    @Resource(name = "userDao")
     private UserDAO userDAO;
 
     public AddressInfoDAO getAddressInfoDAO() {

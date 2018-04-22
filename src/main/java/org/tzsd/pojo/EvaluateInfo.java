@@ -9,8 +9,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "evaluation_info")
 public class EvaluateInfo {
-    @EmbeddedId
-    private EvaluateKey evaluateKey;
+    @Id
+    @Column(name = "id")
+    private String id;
+
+    @Column(name = "goods_id")
+    private String goods_id;
+
+    @Column(name = "user_id")
+    private long user_id;
 
     @Column(name = "evaluate")
     @Enumerated(EnumType.STRING)
@@ -37,57 +44,49 @@ public class EvaluateInfo {
 
     }
 
-    public EvaluateInfo(EvaluateKey evaluateKey, Evaluate evaluate, String descs, String img1, String img2, String img3) {
-        this.evaluateKey = evaluateKey;
-        this.evaluate = evaluate;
-        this.descs = descs;
-        this.img1 = img1;
-        this.img2 = img2;
-        this.img3 = img3;
-    }
 
-    /**
-     * @description: EvaluateInfo的主键
-     */
-    @Embeddable
-    static class EvaluateKey implements Serializable{
-        private String goods_id;
-
-        private long user_id;
-
-        public String getGoods_id() {
-            return goods_id;
-        }
-
-        public void setGoods_id(String goods_id) {
-            this.goods_id = goods_id;
-        }
-
-        public long getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(long user_id) {
-            this.user_id = user_id;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            EvaluateKey that = (EvaluateKey) o;
-
-            if (user_id != that.user_id) return false;
-            return goods_id != null ? goods_id.equals(that.goods_id) : that.goods_id == null;
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = goods_id != null ? goods_id.hashCode() : 0;
-            result = 31 * result + (int) (user_id ^ (user_id >>> 32));
-            return result;
-        }
-    }
+//    /**
+//     * @description: EvaluateInfo的主键
+//     */
+//    @Embeddable
+//    static class EvaluateKey implements Serializable{
+//        private String goods_id;
+//
+//        private long user_id;
+//
+//        public String getGoods_id() {
+//            return goods_id;
+//        }
+//
+//        public void setGoods_id(String goods_id) {
+//            this.goods_id = goods_id;
+//        }
+//
+//        public long getUser_id() {
+//            return user_id;
+//        }
+//
+//        public void setUser_id(long user_id) {
+//            this.user_id = user_id;
+//        }
+//
+//        @Override
+//        public boolean equals(Object o) {
+//            if (this == o) return true;
+//            if (o == null || getClass() != o.getClass()) return false;
+//
+//            EvaluateKey that = (EvaluateKey) o;
+//
+//            if (user_id != that.user_id) return false;
+//            return goods_id != null ? goods_id.equals(that.goods_id) : that.goods_id == null;
+//
+//        }
+//
+//        @Override
+//        public int hashCode() {
+//            int result = goods_id != null ? goods_id.hashCode() : 0;
+//            result = 31 * result + (int) (user_id ^ (user_id >>> 32));
+//            return result;
+//        }
+//    }
 }

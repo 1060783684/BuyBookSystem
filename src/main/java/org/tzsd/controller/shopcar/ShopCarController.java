@@ -45,6 +45,12 @@ public class ShopCarController extends BaseController {
         if(username == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            String sessionId = request.getSession().getAttribute("sessionId").toString();
+            if(!SessionService.getInstance().isUser(sessionId, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                writeJSONProtocol(response, jsonMap);
+                return;
+            }
             try {
                 List<ShopCar> shopCarList = getShopCarService().searchShopCarList(username);
                 if(shopCarList == null || shopCarList.isEmpty()){
@@ -73,11 +79,11 @@ public class ShopCarController extends BaseController {
     public void deleteShopCar(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
         String shopCarId = request.getParameter("shopCarId");
-        String sessionId = request.getSession().getAttribute("sessionId").toString();
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         if(username == null || shopCarId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
@@ -110,6 +116,12 @@ public class ShopCarController extends BaseController {
         if(username == null || goods_id == null || numStr == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            String sessionId = request.getSession().getAttribute("sessionId").toString();
+            if(!SessionService.getInstance().isUser(sessionId, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                writeJSONProtocol(response, jsonMap);
+                return;
+            }
             try {
                 int number = Integer.valueOf(numStr);
                 if (getShopCarService().addShopCar(username, goods_id, number)) {
