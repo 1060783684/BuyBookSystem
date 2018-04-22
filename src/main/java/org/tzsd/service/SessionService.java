@@ -6,15 +6,42 @@ import org.tzsd.pojo.User;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @description: session服务类
  */
 public class SessionService {
 
-    @Resource(name = "userDao")
     private UserDAO userDAO;
 
+    private static ReentrantLock lock;
+
+    private static SessionService inst;
+
+    static {
+        lock = new ReentrantLock();
+    }
+
+    private SessionService(){
+        userDAO = new UserDAO();
+    }
+
+    public static SessionService getInstance(){
+        if(inst == null){
+            if(inst == null){
+                try{
+                    lock.lock();
+                    inst = new SessionService();
+                }finally {
+                    if(lock.isHeldByCurrentThread()){
+                        lock.unlock();
+                    }
+                }
+            }
+        }
+        return inst;
+    }
     /**
      * @description: 判断这个session是不是这个用户的
      * @param sessionId

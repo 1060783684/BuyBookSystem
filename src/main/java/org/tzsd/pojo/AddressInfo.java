@@ -27,16 +27,20 @@ public class AddressInfo {
     @Column(name = "addr")
     private String addr;
 
+    @Column(name = "phone")
+    private String phone;
+
     public AddressInfo(){
 
     }
 
-    public AddressInfo(String id, String username, String mail, long user_id, String addr) {
+    public AddressInfo(String id, String username, String mail, long user_id, String addr, String phone) {
         this.id = id;
         this.username = username;
         this.mail = mail;
         this.user_id = user_id;
         this.addr = addr;
+        this.phone = phone;
     }
 
     public String getId() {
@@ -77,6 +81,14 @@ public class AddressInfo {
 
     public void setAddr(String addr) {
         this.addr = addr;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

@@ -53,4 +53,20 @@
     <query name="deleteShopCar">
         <![CDATA[ delete from ShopCar where id=:id]]>
     </query>
+
+    <query name="getOrderListByUsernameAndStatus">
+        <![CDATA[  from Order where user_id = :userId and status = :status]]>
+    </query>
+
+    <query name="getOrderByIdAndUserId">
+        <![CDATA[ from Order  where id = :id and user_id = :user_id]]>
+    </query>
+
+    <query name="getAddressInfoByIdAndUserId">
+        <![CDATA[ from AddressInfo where id = :id and user_id = :user_id]]>
+    </query>
+
+    <query name="getAddressInfoListByUserId">
+        <![CDATA[ from AddressInfo where user_id=:user_id]]>
+    </query>
 </hibernate-mapping>

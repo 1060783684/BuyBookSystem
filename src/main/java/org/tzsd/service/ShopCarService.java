@@ -76,7 +76,7 @@ public class ShopCarService {
         ShopCar shopCar = new ShopCar(uuid.toString(), goods_id, user.getId(), number);
         try {
             String shopCarId = getShopCarDAO().saveShopCar(shopCar);
-            if(!shopCarId.equals(uuid.toString())){
+            if(shopCarId == null || !shopCarId.equals(uuid.toString())){
                 return false;
             }
         }catch (Exception e){

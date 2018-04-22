@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.ShopCar;
+import org.tzsd.service.SessionService;
 import org.tzsd.service.ShopCarService;
 
 import javax.annotation.Resource;
@@ -72,10 +73,16 @@ public class ShopCarController extends BaseController {
     public void deleteShopCar(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
         String shopCarId = request.getParameter("shopCarId");
+        String sessionId = request.getSession().getAttribute("sessionId").toString();
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         if(username == null || shopCarId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            if(!SessionService.getInstance().isUser(sessionId, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                writeJSONProtocol(response, jsonMap);
+                return;
+            }
             try {
                 if (getShopCarService().deleteShopCar(username, shopCarId)) {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);

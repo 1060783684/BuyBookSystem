@@ -65,4 +65,16 @@ public class GoodsService {
         List<Goods> results = getGoodsDAO().getGoodsList(type, low, hight, keywords, page, PAGE_SIZE);
         return results;
     }
+
+    /**
+     * @description: 通过物品id获取物品的详细信息
+     * @param goodsId 物品id
+     * @return 物品实例
+     */
+    public Goods getGoodsInfo(String goodsId){
+        if(goodsId == null){
+            return null;
+        }
+        return getGoodsDAO().getGoodsById(goodsId);
+    }
 }

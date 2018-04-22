@@ -43,12 +43,12 @@ public class ShopCarDAO extends GenericDAO{
     /**
      * @description: 通过条目id删除购物车条目
      * @param id
-     * @return 被删除的条目id
+     * @return 执行成功的条目数
      */
-    public String deleteShopCarForId(String  id){
-        return(String) getTemplate().doCall(new HibernateCallback<Object>() {
+    public Integer deleteShopCarForId(String  id){
+        return getTemplate().doCall(new HibernateCallback<Integer>() {
             @Override
-            public Object doCall(Session session) throws HibernateException {
+            public Integer doCall(Session session) throws HibernateException {
                 Query query = session.getNamedQuery("deleteShopCar");
                 return query.executeUpdate();
             }

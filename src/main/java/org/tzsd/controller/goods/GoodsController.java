@@ -37,7 +37,7 @@ public class GoodsController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/searchGoods")
+    @RequestMapping("/searchGoodsList")
     public void searchGoods(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
         String costStr = request.getParameter("cost");
@@ -69,5 +69,27 @@ public class GoodsController extends BaseController {
         }
 
         writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 获取单个商品的详细信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getGoodsInfo")
+    public void getGoodsInfo(HttpServletRequest request, HttpServletResponse response){
+        String goodsId = request.getParameter("goodsId");
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        if(goodsId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            Goods goods = getGoodsService().getGoodsInfo(goodsId);
+            if (goods == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            } else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                jsonMap.put(JSONProtocolConstance.GOODS_INFO, goods);
+            }
+        }
     }
 }

@@ -33,6 +33,9 @@ public class Goods {
     @Column(name = "sell_num")
     private long sell_num; //访问量
 
+    @Column(name = "sales_num")
+    private long sales_num; //销量
+
     @Column(name = "num")
     private long num; //库存
 
@@ -45,7 +48,7 @@ public class Goods {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Type type; //物品类型
 
     enum Check{
         YES,
@@ -137,6 +140,14 @@ public class Goods {
 
     public void setSell_num(long sell_num) {
         this.sell_num = sell_num;
+    }
+
+    public long getSales_num() {
+        return sales_num;
+    }
+
+    public void setSales_num(long sales_num) {
+        this.sales_num = sales_num;
     }
 
     public long getNum() {

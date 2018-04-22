@@ -16,7 +16,16 @@ public interface JSONProtocolConstance {
     String SHOPCAR_LIST = "shopCarList"; //购物车条目数组 key
 
     //物品信息相关
-    String GOODS_LIST = "goods";
+    String GOODS_LIST = "goodsList"; //物品list
+    String GOODS_INFO = "goodsInfo"; //物品信息
+
+    //订单相关信息
+    String ORDER_LIST = "orders"; //订单list
+    String ORDER_INFO = "orderInfo"; //订单信息
+
+    //地址信息相关
+    String ADDRESS_LIST = "addressList"; //地址list
+    String ADDRESS_INFO = "addressInfo"; //地址信息
 
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
