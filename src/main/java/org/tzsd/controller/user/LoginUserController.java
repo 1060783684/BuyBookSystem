@@ -5,12 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.AddressInfo;
+import org.tzsd.pojo.EvaluateInfo;
 import org.tzsd.pojo.Order;
 import org.tzsd.pojo.UserDetailsInfo;
-import org.tzsd.service.AddressInfoService;
-import org.tzsd.service.OrderService;
-import org.tzsd.service.SessionService;
-import org.tzsd.service.UserInfoService;
+import org.tzsd.service.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +32,9 @@ public class LoginUserController extends BaseController {
 
     @Resource(name = "addressInfoService")
     private AddressInfoService addressInfoService;
+
+    @Resource(name = "evaluateInfoService")
+    private EvaluateInfoService evaluateInfoService;
 
     public UserInfoService getUserInfoService() {
         return userInfoService;
@@ -59,6 +60,14 @@ public class LoginUserController extends BaseController {
         this.addressInfoService = addressInfoService;
     }
 
+    public EvaluateInfoService getEvaluateInfoService() {
+        return evaluateInfoService;
+    }
+
+    public void setEvaluateInfoService(EvaluateInfoService evaluateInfoService) {
+        this.evaluateInfoService = evaluateInfoService;
+    }
+
     /**
      * @description: 获取用户详细信息
      * @param request
@@ -71,12 +80,14 @@ public class LoginUserController extends BaseController {
         if(username == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }
+        //判断用户名和session是否对应
         String sessionId = request.getSession().getAttribute("sessionId").toString();
         if(!SessionService.getInstance().isUser(sessionId, username)){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
             writeJSONProtocol(response, jsonMap);
             return;
         }
+        //操作
         UserDetailsInfo userDetailsInfo = getUserInfoService().searchUserDetailsInfo(username);
         if(userDetailsInfo == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -100,12 +111,14 @@ public class LoginUserController extends BaseController {
         if(username == null || status == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             List<Order> orders = getOrderService().getOrderList(username, status);
             if(orders == null || orders.isEmpty()){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -130,12 +143,14 @@ public class LoginUserController extends BaseController {
         if(username == null || orderId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             Order order = getOrderService().getOrderInfo(orderId, username);
             if(order == null){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -147,6 +162,11 @@ public class LoginUserController extends BaseController {
         writeJSONProtocol(response, jsonMap);
     }
 
+    /**
+     * @description: 获取地址信息
+     * @param request
+     * @param response
+     */
     @RequestMapping("/getAddressInfo")
     public void getAddressInfo(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
@@ -155,12 +175,14 @@ public class LoginUserController extends BaseController {
         if(username == null || addressId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             AddressInfo addressInfo = getAddressInfoService().getAddressInfo(username, addressId);
             if(addressInfo == null){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -172,6 +194,11 @@ public class LoginUserController extends BaseController {
         writeJSONProtocol(response, jsonMap);
     }
 
+    /**
+     * @description: 获取一个用户的所有地址简要信息
+     * @param request
+     * @param response
+     */
     @RequestMapping("/getAddressList")
     public void getAdderssInfoList(HttpServletRequest request, HttpServletResponse response){
         String username =  request.getParameter("username");
@@ -179,12 +206,14 @@ public class LoginUserController extends BaseController {
         if(username == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             List<AddressInfo> list = getAddressInfoService().getAddressInfoListByUserId(username);
             if(list == null || list.isEmpty()){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -196,6 +225,11 @@ public class LoginUserController extends BaseController {
         writeJSONProtocol(response, jsonMap);
     }
 
+    /**
+     * @description: 删除一个用户的某个特定的地址信息
+     * @param request
+     * @param response
+     */
     @RequestMapping("/deleteAddressInfo")
     public void deleteAddressInfo(HttpServletRequest request, HttpServletResponse response){
         String username =  request.getParameter("username");
@@ -204,12 +238,14 @@ public class LoginUserController extends BaseController {
         if(username == null || addressId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             if(getAddressInfoService().deleteAddressInfo(username, addressId)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
             }else {
@@ -219,6 +255,11 @@ public class LoginUserController extends BaseController {
         writeJSONProtocol(response, jsonMap);
     }
 
+    /**
+     * @description: 添加地址信息
+     * @param request
+     * @param response
+     */
     @RequestMapping("/addAddressInfo")
     public void addAddressInfo(HttpServletRequest request, HttpServletResponse response){
         String address = request.getParameter("address");
@@ -230,13 +271,79 @@ public class LoginUserController extends BaseController {
         if(address == null || name == null || mail == null || phone == null || username == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
+            //判断用户名和session是否对应
             String sessionId = request.getSession().getAttribute("sessionId").toString();
             if(!SessionService.getInstance().isUser(sessionId, username)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 writeJSONProtocol(response, jsonMap);
                 return;
             }
+            //操作
             if(getAddressInfoService().addAddressInfo(address, name, mail, phone, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 更新某个特定的地址信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/updateAddressInfo")
+    public void updateAddressInfo(HttpServletRequest request, HttpServletResponse response){
+        String addressId = request.getParameter("addressId");
+        String address = request.getParameter("address");
+        String name = request.getParameter("name");
+        String mail = request.getParameter("mail");
+        String phone = request.getParameter("phone");
+        String username = request.getParameter("username");
+        Map<String, Object> jsonMap = new HashMap();
+        if(username == null || addressId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            //判断用户名和session是否对应
+            String sessionId = request.getSession().getAttribute("sessionId").toString();
+            if(!SessionService.getInstance().isUser(sessionId, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                writeJSONProtocol(response, jsonMap);
+                return;
+            }
+            //操作
+            if (getAddressInfoService().updateAddressInfo(username, addressId, address, name, mail, phone)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 删除某个用户对某个商品的评论
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/deleteEvaluate")
+    public void deleteEvaluate(HttpServletRequest request, HttpServletResponse response){
+        String username = request.getParameter("username");
+        String evaluateId = request.getParameter("evaluateId");
+        Map<String, Object> jsonMap = new HashMap();
+        if(username == null || evaluateId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            //判断用户名和session是否对应
+            String sessionId = request.getSession().getAttribute("sessionId").toString();
+            if(!SessionService.getInstance().isUser(sessionId, username)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                writeJSONProtocol(response, jsonMap);
+                return;
+            }
+            //操作
+            if(getEvaluateInfoService().deleteEvaluate(username, evaluateId)){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
             }else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);

@@ -27,6 +27,9 @@ public interface JSONProtocolConstance {
     String ADDRESS_LIST = "addressList"; //地址list
     String ADDRESS_INFO = "addressInfo"; //地址信息
 
+    //评论相关
+    String EVALUATE_LIST = "evaluateList"; //评论list
+
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败

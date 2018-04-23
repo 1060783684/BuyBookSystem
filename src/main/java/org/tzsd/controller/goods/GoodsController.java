@@ -4,7 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
+import org.tzsd.pojo.EvaluateInfo;
 import org.tzsd.pojo.Goods;
+import org.tzsd.service.EvaluateInfoService;
 import org.tzsd.service.GoodsService;
 
 import javax.annotation.Resource;
@@ -24,12 +26,23 @@ public class GoodsController extends BaseController {
     @Resource(name = "goodsService")
     GoodsService goodsService;
 
+    @Resource(name = "evaluateInfoService")
+    private EvaluateInfoService evaluateInfoService;
+
     public GoodsService getGoodsService() {
         return goodsService;
     }
 
     public void setGoodsService(GoodsService goodsService) {
         this.goodsService = goodsService;
+    }
+
+    public EvaluateInfoService getEvaluateInfoService() {
+        return evaluateInfoService;
+    }
+
+    public void setEvaluateInfoService(EvaluateInfoService evaluateInfoService) {
+        this.evaluateInfoService = evaluateInfoService;
     }
 
     /**
@@ -91,5 +104,28 @@ public class GoodsController extends BaseController {
                 jsonMap.put(JSONProtocolConstance.GOODS_INFO, goods);
             }
         }
+    }
+
+    /**
+     * @description: 获取一个物品的评论信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/getEvaluateInfoList")
+    public void getEvaluateInfoList(HttpServletRequest request, HttpServletResponse response){
+        String goodsId = request.getParameter("goodsId");
+        Map<String, Object> jsonMap = new HashMap();
+        if(goodsId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            List<EvaluateInfo> list = getEvaluateInfoService().getEvaluateList(goodsId);
+            if(list == null || list.isEmpty()){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                jsonMap.put(JSONProtocolConstance.EVALUATE_LIST, list);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
     }
 }

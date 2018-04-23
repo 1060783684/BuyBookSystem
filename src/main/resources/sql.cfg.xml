@@ -81,4 +81,8 @@
     <query name="deleteEvaluateInfoByIdAndUserId">
         <![CDATA[ delete from AddressInfo where id = :id and user_id = :user_id]]>
     </query>
+
+    <!--<query name="updateGoodsStatusById">-->
+        <!--<![CDATA[ update Goods set status = :status where id = :id]]>-->
+    <!--</query>-->
 </hibernate-mapping>

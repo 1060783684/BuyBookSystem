@@ -42,21 +42,17 @@ public class Goods {
     @Column(name = "img")
     private String imgSrc; //图片路径
 
-    @Column(name = "ischeck")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Check isCheck;
+    private Status status;
 
     @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private Type type; //物品类型
+    private String type; //物品类型,通过后端配置常量配置
 
-    enum Check{
-        YES,
-        NO
-    }
-
-    enum Type{
-        Other
+    enum Status{
+        UP,
+        STAYUP,
+        DOWN
     }
 
     public Goods(){
@@ -64,7 +60,7 @@ public class Goods {
     }
 
     public Goods(String id, long store_id, String name, String descs, float cost,
-                 long good_est, long bad_est, long sell_num, long num, String imgSrc, Check isCheck) {
+                 long good_est, long bad_est, long sell_num, long num, String imgSrc, Status status) {
         this.id = id;
         this.store_id = store_id;
         this.name = name;
@@ -75,7 +71,7 @@ public class Goods {
         this.sell_num = sell_num;
         this.num = num;
         this.imgSrc = imgSrc;
-        this.isCheck = isCheck;
+        this.status = status;
     }
 
     public String getId() {
@@ -166,37 +162,21 @@ public class Goods {
         this.imgSrc = imgSrc;
     }
 
-    public Check getIsCheck() {
-        return isCheck;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setIsCheck(Check isCheck) {
-        this.isCheck = isCheck;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id='" + id + '\'' +
-                ", store_id=" + store_id +
-                ", name='" + name + '\'' +
-                ", descs='" + descs + '\'' +
-                ", cost=" + cost +
-                ", good_est=" + good_est +
-                ", bad_est=" + bad_est +
-                ", sell_num=" + sell_num +
-                ", num=" + num +
-                ", imgSrc='" + imgSrc + '\'' +
-                ", isCheck=" + isCheck +
-                ", type=" + type +
-                '}';
-    }
+
 }

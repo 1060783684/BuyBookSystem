@@ -37,8 +37,6 @@ public class AddressInfoService {
         this.userDAO = userDAO;
     }
 
-    //1.添加
-
     /**
      * @description: 添加地址信息进入数据库
      * @param address 详细地址
@@ -69,7 +67,6 @@ public class AddressInfoService {
         }
         return true;
     }
-    //2.查看
 
     /**
      * @description: 通过用户名获取用户的地址list
@@ -114,7 +111,6 @@ public class AddressInfoService {
         }
         return addressInfo;
     }
-    //3.删除
 
     /**
      * @description: 根据用户名和地址id删除地址记录
@@ -155,10 +151,18 @@ public class AddressInfoService {
         if(addressId == null){
             return false;
         }
-        addressInfo.setAddr(address);
-        addressInfo.setUsername(name);
-        addressInfo.setMail(mail);
-        addressInfo.setPhone(phone);
+        if(address != null) {
+            addressInfo.setAddr(address);
+        }
+        if(name != null) {
+            addressInfo.setUsername(name);
+        }
+        if(mail != null) {
+            addressInfo.setMail(mail);
+        }
+        if(phone != null) {
+            addressInfo.setPhone(phone);
+        }
         try {
             getAddressInfoDAO().updateAddressInfo(addressInfo);
         }catch (Exception e){

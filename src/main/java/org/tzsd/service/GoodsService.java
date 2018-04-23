@@ -2,7 +2,9 @@ package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
 import org.tzsd.dao.GoodsDAO;
+import org.tzsd.dao.UserDAO;
 import org.tzsd.pojo.Goods;
+import org.tzsd.pojo.User;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,12 +25,23 @@ public class GoodsService {
     @Resource(name = "goodsDao")
     private GoodsDAO goodsDAO;
 
+    @Resource(name = "userDao")
+    private UserDAO userDAO;
+
     public GoodsDAO getGoodsDAO() {
         return goodsDAO;
     }
 
     public void setGoodsDAO(GoodsDAO goodsDAO) {
         this.goodsDAO = goodsDAO;
+    }
+
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     /**
@@ -77,4 +90,21 @@ public class GoodsService {
         }
         return getGoodsDAO().getGoodsById(goodsId);
     }
+
+    /**
+     * @description: 修改id对应的物品的状态信息
+     * @param username 用户名
+     * @param id　物品id
+     * @return
+     */
+//    public boolean downGoods(String username, String id){
+//        if(username == null || id == null){
+//            return false;
+//        }
+//        User user = getUserDAO().getUserByName(username);
+//        if(user == null){
+//            return false;
+//        }
+//
+//    }
 }

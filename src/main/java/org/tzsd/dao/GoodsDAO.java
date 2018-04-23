@@ -116,6 +116,35 @@ public class GoodsDAO extends GenericDAO{
         });
     }
 
+    /**
+     * @description: 存储物品实例
+     * @param goods
+     * @return
+     */
+    public String saveGoods(Goods goods){
+        return (String) save(goods);
+    }
+
+    /**
+     * @description: 修改某个物品的状态信息(上架,带审核,下架)
+     * @param id 物品的id
+     * @param userId 用户id
+     * @param status 想要修改成的状态
+     * @return
+     */
+//    public int updateGoodsStatusByIdAndUserId(final String id, final long userId, final String status){
+//        return getTemplate().doCall(new HibernateCallback<Integer>() {
+//            @Override
+//            public Integer doCall(Session session) throws HibernateException {
+//                Query query = session.getNamedQuery("updateGoodsStatusById");
+//                query.setParameter("id", id);
+//                query.setParameter("user_id", userId);
+//                query.setParameter("status", status);
+//                return query.executeUpdate();
+//            }
+//        });
+//    }
+
 //    /**
 //     * @description: 获取从start开始的size个物品list
 //     * @param start 分页开始位置
