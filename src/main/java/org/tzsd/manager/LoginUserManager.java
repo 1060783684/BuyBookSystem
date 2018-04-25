@@ -77,6 +77,17 @@ public class LoginUserManager {
     }
 
     /**
+     * @description: 注销session
+     * @param sessionId
+     */
+    public void invaldateSession(String sessionId){
+        if(users.containsKey(sessionId)) {
+            users.remove(sessionId);
+            sessions.remove(sessionId);
+        }
+    }
+
+    /**
      * @description: 注册用户实例与对应的sessionId
      * @param sessionId sessionId
      * @param user 用户实例

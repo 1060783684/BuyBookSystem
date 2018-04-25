@@ -10,6 +10,7 @@ import org.tzsd.pojo.User;
 import org.tzsd.service.UserInfoService;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,10 +37,22 @@ public class ValidateController extends BaseController {
         this.userInfoService = userInfoService;
     }
 
+    /**
+     * @description: 初始化session管理器
+     */
     @PostConstruct
     public void init(){
         SessionManager.getInstance().init();
     }
+
+    /**
+     * @description: 销毁session管理器
+     */
+    @PreDestroy
+    public void destory(){
+        SessionManager.getInstance().destory();
+    }
+
     /**
      * @description: 处理登录验证
      * @param request

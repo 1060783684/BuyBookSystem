@@ -20,6 +20,7 @@ public class SessionManager {
 
     private LoginUserManager loginUserManager;
     private Timer timer;
+    private TimerTask task;
 
     static{
         lock = new ReentrantLock();
@@ -28,6 +29,7 @@ public class SessionManager {
     private SessionManager(){
         this.loginUserManager = LoginUserManager.getInstance();
         this.timer = new Timer();
+        this.task = new SessionManagerTask(loginUserManager);
     }
 
     public static SessionManager getInstance(){
@@ -47,7 +49,11 @@ public class SessionManager {
     }
 
     public void init(){
-        TimerTask task = new SessionManagerTask(loginUserManager);
-        this.timer.schedule(task,MINUTE * 1);
+        this.timer.schedule(this.task, MINUTE * 1);
+    }
+
+    public void destory(){
+        this.task.cancel();
+        this.timer.cancel();
     }
 }

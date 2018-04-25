@@ -21,7 +21,7 @@
             color: #CCC;
         }
 
-        #m2 {
+        #m3 {
             color: #CCC;
         }
 
@@ -53,10 +53,10 @@
                 var username = $("#uname").val();
                 var password = $("#psword").val();
                 var conpassword = $("#conpsword").val();
-                $.post("/regist.do", {"username":username, "password":password}, function (data,status) {
-                    var json = eval('('+data+')');
+                $.post("/regist.do", {"username": username, "password": password}, function (data, status) {
+                    var json = eval('(' + data + ')');
                     var result = json.sresult;
-                    switch (result){
+                    switch (result) {
                         case REGIST_SUCCESS:
                             alert("注册成功");
                             window.location.href = "/view/login.html"
@@ -105,7 +105,8 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input id="uname" type="text" name="name"
+        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input id="uname" type="text"
+                                                                                           name="name"
                                                                                            style="height:25px;width:250px"/>
         </td>
     </tr>
@@ -115,11 +116,12 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="21" colspan="2" bgcolor="#FFFFFF" id="m2">密码</td>
+        <td height="21" colspan="2" bgcolor="#FFFFFF" id="m3">密码</td>
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="32" colspan="2" bgcolor="#FFFFFF"><input id="psword" type="text" name="name2" style="height:25px;width:250px"/>
+        <td height="32" colspan="2" bgcolor="#FFFFFF"><input id="psword" type="password" name="name2"
+                                                             style="height:25px;width:250px"/>
         </td>
     </tr>
     <tr>
@@ -131,7 +133,8 @@
     </tr>
     <tr>
         <td width="43" rowspan="3" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="31" colspan="2" bgcolor="#FFFFFF"><input id="conpsword" type="text" name="name3" style="height:25px;width:250px"/>
+        <td height="31" colspan="2" bgcolor="#FFFFFF"><input id="conpsword" type="password" name="name3"
+                                                             style="height:25px;width:250px"/>
         </td>
     </tr>
     <tr>

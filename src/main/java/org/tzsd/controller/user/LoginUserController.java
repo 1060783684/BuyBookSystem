@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
+import org.tzsd.manager.LoginUserManager;
 import org.tzsd.pojo.AddressInfo;
 import org.tzsd.pojo.EvaluateInfo;
 import org.tzsd.pojo.Order;
@@ -66,6 +67,24 @@ public class LoginUserController extends BaseController {
 
     public void setEvaluateInfoService(EvaluateInfoService evaluateInfoService) {
         this.evaluateInfoService = evaluateInfoService;
+    }
+
+    /**
+     * @description: 用户注销登陆,session无效化,删除session管理者中的session
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/logout.do")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        String sessionId = request.getSession().getId();
+        System.out.println(sessionId+" logout");
+        if(LoginUserManager.getInstance().getUsers().containsKey(sessionId)){
+            request.getSession().invalidate();
+            LoginUserManager.getInstance().invaldateSession(sessionId);
+        }
+        Map<String, Object> jsonMap = new HashMap();
+        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+        writeJSONProtocol(response, jsonMap);
     }
 
     /**
