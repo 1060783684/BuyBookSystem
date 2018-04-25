@@ -45,6 +45,39 @@
             color: #CCC;
         }
     </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#regist").click(function () {
+                var username = $("#uname").val();
+                var password = $("#psword").val();
+                var conpassword = $("#conpsword").val();
+                $.post("/regist.do", {"username":username, "password":password}, function (data,status) {
+                    var json = eval('('+data+')');
+                    var result = json.sresult;
+                    switch (result){
+                        case REGIST_SUCCESS:
+                            alert("注册成功");
+                            window.location.href = "/view/login.html"
+                            break;
+                        case REGIST_USERNAME_EXIST:
+                            alert("用户名已存在");
+                            break;
+                        case REGIST_VALIDCODE_FAIL:
+                            alert("验证码错误");
+                            break;
+                        case REGIST_FAIL:
+                            alert("注册失败");
+                            break;
+                        default:
+                            alert("操作错误");
+                            break;
+                    }
+                });
+            })
+        });
+    </script>
 </head>
 
 <body>
@@ -72,7 +105,7 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input type="text" name="name"
+        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input id="uname" type="text" name="name"
                                                                                            style="height:25px;width:250px"/>
         </td>
     </tr>
@@ -86,7 +119,7 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="32" colspan="2" bgcolor="#FFFFFF"><input type="text" name="name2" style="height:25px;width:250px"/>
+        <td height="32" colspan="2" bgcolor="#FFFFFF"><input id="psword" type="text" name="name2" style="height:25px;width:250px"/>
         </td>
     </tr>
     <tr>
@@ -98,14 +131,14 @@
     </tr>
     <tr>
         <td width="43" rowspan="3" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="31" colspan="2" bgcolor="#FFFFFF"><input type="text" name="name3" style="height:25px;width:250px"/>
+        <td height="31" colspan="2" bgcolor="#FFFFFF"><input id="conpsword" type="text" name="name3" style="height:25px;width:250px"/>
         </td>
     </tr>
     <tr>
         <td height="7" colspan="2" bgcolor="#FFFFFF">&nbsp;</td>
     </tr>
     <tr>
-        <td height="33" colspan="2" bgcolor="#FFFFFF"><input type="button" value="注册"
+        <td height="33" colspan="2" bgcolor="#FFFFFF"><input id="regist" type="button" value="注册"
                                                              style="background:blue;height:30px" class="tj"
                                                              color="grey"/></td>
     </tr>

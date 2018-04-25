@@ -5,9 +5,12 @@ package org.tzsd.constance;
  */
 public interface JSONProtocolConstance {
     //操作成功与否
-    String RESULT = "result";
+    String RESULT = "sresult";
 
     //------------------------操作成功后的后续的KEY-------------------------
+    //主页加载用户信息
+    String USERNAME = "username"; //主页加载用户信息
+
     //用户信息相关
     String USERDETAIINFO = "userDetailInfo"; //用户详细信息 key
 

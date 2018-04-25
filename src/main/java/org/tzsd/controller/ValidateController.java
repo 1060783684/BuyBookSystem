@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.manager.LoginUserManager;
 import org.tzsd.manager.session.SessionManager;
+import org.tzsd.pojo.User;
 import org.tzsd.service.UserInfoService;
 
 import javax.annotation.PostConstruct;
@@ -52,15 +53,17 @@ public class ValidateController extends BaseController {
         if(username == null || password == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
         }else {
-            String sessionId = null;
-            if((sessionId = userInfoService.validateUser(username,password)) != null){
+            User user = null;
+            if((user = userInfoService.validateUser(username,password)) != null){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_SUCCESS);
                 //设置Cookie
                 HttpSession session = request.getSession(true);
                 session.setMaxInactiveInterval(60 * 60);
-                Cookie cookieSId = new Cookie("sessionId",sessionId);
+                String sessionId = session.getId();
+                System.out.println(sessionId);
+                LoginUserManager.getInstance().registSession(sessionId, user);
+                Cookie cookieSId = new Cookie("JSESSIONID",sessionId);
                 cookieSId.setMaxAge(60 * 60);
-                cookieSId.setPath("/");
                 response.addCookie(cookieSId);
             }else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);

@@ -72,6 +72,7 @@ public class Test {
         }
     }
     public static void main(String[] args){
+        String s = "<a href=\"/view/regist.html\" title=\"b\" class=\"a\">退出</a>";
 //        TestSaveDAO();
         TestGetDAO();
 //        testJson();

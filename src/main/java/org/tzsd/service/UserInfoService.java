@@ -44,7 +44,7 @@ public class UserInfoService {
      * @param password 用户输入的密码
      * @return
      */
-    public String validateUser(final String username, final String password){
+    public User validateUser(final String username, final String password){
         if(username == null || password == null){
             return null;
         }
@@ -55,11 +55,7 @@ public class UserInfoService {
             String u = user.getName(); //数据库中获取的用户名
             String p = user.getPassword(); //数据库中获取的密码
             if(username.equals(u) && password.equals(p)){
-                //注册sessionId
-                UUID uuid = UUID.randomUUID();
-                String sessionId = uuid.toString() + username;
-                LoginUserManager.getInstance().registSession(sessionId, user);
-                return sessionId;
+                return user;
             }
         }
         return null;

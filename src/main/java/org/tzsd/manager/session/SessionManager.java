@@ -48,6 +48,6 @@ public class SessionManager {
 
     public void init(){
         TimerTask task = new SessionManagerTask(loginUserManager);
-        this.timer.schedule(task,MINUTE * 3);
+        this.timer.schedule(task,MINUTE * 1);
     }
 }

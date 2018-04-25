@@ -23,6 +23,7 @@ abstract public class BaseController {
             Writer writer = response.getWriter();
             writer.write(json.toString());
             writer.flush();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
