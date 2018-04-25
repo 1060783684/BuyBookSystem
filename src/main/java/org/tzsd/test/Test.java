@@ -23,8 +23,8 @@ public class Test {
         Store store = new Store(1060783684,"xxx","god store","xxx/xxx/xxx","haikou",
                 1060783684, 500, Store.Check.YES);
         gdao.save(store);
-        AddressInfo addressInfo = new AddressInfo("xxx-xxx","wangwei","xxx@qq.com", 1060783684, "haikou");
-        gdao.save(addressInfo);
+//        AddressInfo addressInfo = new AddressInfo("xxx-xxx","wangwei","xxx@qq.com", 1060783684, "haikou");
+//        gdao.save(addressInfo);
     }
 
     public static void TestGetDAO(){

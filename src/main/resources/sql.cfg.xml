@@ -75,7 +75,7 @@
     </query>
 
     <query name="getEvaluateInfoListByGoodsId">
-        <![CDATA[  from EvaluateInfo where id =: id]]>
+        <![CDATA[  from EvaluateInfo where id = :id]]>
     </query>
 
     <query name="deleteEvaluateInfoByIdAndUserId">

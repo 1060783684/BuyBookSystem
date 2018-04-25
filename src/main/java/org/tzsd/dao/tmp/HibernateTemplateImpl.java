@@ -22,7 +22,7 @@ public class HibernateTemplateImpl implements HibernateTemplate{
     }
 
     private HibernateTemplateImpl(){
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+        sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
     }
 
     /**

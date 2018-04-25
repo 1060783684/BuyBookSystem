@@ -4,13 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
+import org.tzsd.manager.LoginUserManager;
+import org.tzsd.manager.session.SessionManager;
 import org.tzsd.service.UserInfoService;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @description: 处理登录时用户验证请求
@@ -29,6 +35,10 @@ public class ValidateController extends BaseController {
         this.userInfoService = userInfoService;
     }
 
+    @PostConstruct
+    public void init(){
+        SessionManager.getInstance().init();
+    }
     /**
      * @description: 处理登录验证
      * @param request
@@ -42,8 +52,16 @@ public class ValidateController extends BaseController {
         if(username == null || password == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
         }else {
-            if(userInfoService.validateUser(username,password)){
+            String sessionId = null;
+            if((sessionId = userInfoService.validateUser(username,password)) != null){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_SUCCESS);
+                //设置Cookie
+                HttpSession session = request.getSession(true);
+                session.setMaxInactiveInterval(60 * 60);
+                Cookie cookieSId = new Cookie("sessionId",sessionId);
+                cookieSId.setMaxAge(60 * 60);
+                cookieSId.setPath("/");
+                response.addCookie(cookieSId);
             }else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
             }

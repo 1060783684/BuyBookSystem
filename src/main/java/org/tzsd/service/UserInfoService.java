@@ -3,10 +3,12 @@ package org.tzsd.service;
 import org.springframework.stereotype.Service;
 import org.tzsd.dao.UserDAO;
 import org.tzsd.dao.UserDetailsInfoDAO;
+import org.tzsd.manager.LoginUserManager;
 import org.tzsd.pojo.User;
 import org.tzsd.pojo.UserDetailsInfo;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * @description: 管理用户信息的服务类
@@ -42,21 +44,25 @@ public class UserInfoService {
      * @param password 用户输入的密码
      * @return
      */
-    public boolean validateUser(final String username, final String password){
+    public String validateUser(final String username, final String password){
         if(username == null || password == null){
-            return false;
+            return null;
         }
         User user = userDAO.getUserByName(username);
         if(user == null){
-            return false;
+            return null;
         }else {
             String u = user.getName(); //数据库中获取的用户名
             String p = user.getPassword(); //数据库中获取的密码
             if(username.equals(u) && password.equals(p)){
-                return true;
+                //注册sessionId
+                UUID uuid = UUID.randomUUID();
+                String sessionId = uuid.toString() + username;
+                LoginUserManager.getInstance().registSession(sessionId, user);
+                return sessionId;
             }
         }
-        return false;
+        return null;
     }
 
     /**
