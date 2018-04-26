@@ -19,6 +19,7 @@ abstract public class BaseController {
      */
     protected void writeJSONProtocol(HttpServletResponse response, Map<String, Object> jsonMap){
         JSONObject json = new JSONObject(jsonMap);
+        System.out.println("[send data]: " + json);
         try {
             Writer writer = response.getWriter();
             writer.write(json.toString());

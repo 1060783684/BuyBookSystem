@@ -20,9 +20,12 @@ public class UserLoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest)req;
         String sessionId = request.getSession().getId();
-        //若用户不存在,则重定向到登陆页面
+        //若用户不存在,则重定向到登陆页面(forword不好使)
+        System.out.println(request.getRequestURL() + " redirect!");
+        System.out.println("filter: " + sessionId);
         if(!LoginUserManager.getInstance().getUsers().containsKey(sessionId)){
-            request.getRequestDispatcher("/view/login.html").forward(req,resp);
+            HttpServletResponse response = (HttpServletResponse) resp;
+            response.sendRedirect("/view/login.html");
         }
         chain.doFilter(req, resp);
     }

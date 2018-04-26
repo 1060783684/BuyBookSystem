@@ -48,7 +48,7 @@ public class RegistController extends BaseController {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_USERNAME_EXIST);
             }else{
                 try {
-                    long id = userInfoService.saveUser(username, password);
+                    long id = userInfoService.regist(username, password);
                     //使用用户名作为账户id
                     if(Long.valueOf(username).equals(id)){
                         jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_SUCCESS);
@@ -57,6 +57,7 @@ public class RegistController extends BaseController {
                     }
                 }catch (Exception e){
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.REGIST_FAIL);
+                    e.printStackTrace();
                 }
             }
         }

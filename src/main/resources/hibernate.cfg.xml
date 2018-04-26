@@ -11,6 +11,9 @@
         <!--jdbc url-->
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3307/bbs</property>
 
+        <property name="connection.useUnicode">true</property>
+
+        <property name="connection.characterEncoding">UTF-8</property>
         <!--用户名-->
         <property name="hibernate.connection.username">root</property>
 

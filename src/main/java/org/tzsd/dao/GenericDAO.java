@@ -54,11 +54,11 @@ public class GenericDAO {
      * @param object 待持久化的对象
      * @return 持久化后的对象id
      */
-    public Serializable merge(final Object object){
-        return (Serializable) getTemplate().doCall(new HibernateCallback<Object>() {
+    public Object merge(final Object object){
+        return getTemplate().doCall(new HibernateCallback<Object>() {
             @Override
             public Object doCall(Session session) throws HibernateException {
-                return (Serializable) session.merge(object);
+                return session.merge(object);
             }
         });
     }

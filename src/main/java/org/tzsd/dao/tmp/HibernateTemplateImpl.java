@@ -76,4 +76,12 @@ public class HibernateTemplateImpl implements HibernateTemplate{
         }
         return result;
     }
+
+    /**
+     * @description: 关闭session工厂线程
+     */
+    @Override
+    public void destory(){
+        this.sessionFactory.close();
+    }
 }

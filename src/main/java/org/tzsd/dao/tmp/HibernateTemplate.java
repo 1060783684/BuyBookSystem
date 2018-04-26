@@ -8,4 +8,6 @@ import org.tzsd.dao.callback.HibernateCallback;
 public interface HibernateTemplate {
 
     <T> T doCall(HibernateCallback<T> callback);
+
+    void destory();
 }

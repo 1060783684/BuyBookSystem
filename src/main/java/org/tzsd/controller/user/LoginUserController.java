@@ -5,10 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.manager.LoginUserManager;
-import org.tzsd.pojo.AddressInfo;
-import org.tzsd.pojo.EvaluateInfo;
-import org.tzsd.pojo.Order;
-import org.tzsd.pojo.UserDetailsInfo;
+import org.tzsd.pojo.*;
 import org.tzsd.service.*;
 
 import javax.annotation.Resource;
@@ -92,31 +89,64 @@ public class LoginUserController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/getUserDetailInfo")
+    @RequestMapping("/getUserDetailInfo.do")
     public void getUserDetailInfo(HttpServletRequest request, HttpServletResponse response){
-        String username = request.getParameter("username");
         Map<String, Object> jsonMap = new HashMap();
-        if(username == null){
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if(user == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            String username = user.getName();
+            if (username == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }else {
+                //操作
+                UserDetailsInfo userDetailsInfo = getUserInfoService().searchUserDetailsInfo(username);
+                if (userDetailsInfo == null) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                }else {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                    jsonMap.put(JSONProtocolConstance.USERDETAIINFO, userDetailsInfo);
+                }
+            }
         }
-        //判断用户名和session是否对应
-        String sessionId = request.getSession().getAttribute("sessionId").toString();
-        if(!SessionService.getInstance().isUser(sessionId, username)){
-            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-            writeJSONProtocol(response, jsonMap);
-            return;
-        }
-        //操作
-        UserDetailsInfo userDetailsInfo = getUserInfoService().searchUserDetailsInfo(username);
-        if(userDetailsInfo == null){
-            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-        }
-        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-        jsonMap.put(JSONProtocolConstance.USERDETAIINFO, userDetailsInfo);
 
         writeJSONProtocol(response, jsonMap);
     }
 
+    /**
+     * @description: 修改用户详细信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/updateUserInfo.do")
+    public void updateDetailInfo(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if(user == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            long id = user.getId();
+            String name = request.getParameter("name");
+            String id_number = request.getParameter("idnumber");
+            String phone = request.getParameter("phone");
+            int sex = -1;
+            try {
+                sex = Integer.valueOf(request.getParameter("sex"));
+            }catch (Exception e){
+
+            }
+            try {
+                getUserInfoService().updateUserDetailsInfo(id, name, id_number, phone, sex);
+            }catch (Exception e){
+
+            }
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
     /**
      * @description: 获取订单list
      * @param request

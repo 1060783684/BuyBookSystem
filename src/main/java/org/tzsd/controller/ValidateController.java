@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
+import org.tzsd.dao.tmp.HibernateTemplateImpl;
 import org.tzsd.manager.LoginUserManager;
 import org.tzsd.manager.session.SessionManager;
 import org.tzsd.pojo.User;
@@ -38,22 +39,6 @@ public class ValidateController extends BaseController {
     }
 
     /**
-     * @description: 初始化session管理器
-     */
-    @PostConstruct
-    public void init(){
-        SessionManager.getInstance().init();
-    }
-
-    /**
-     * @description: 销毁session管理器
-     */
-    @PreDestroy
-    public void destory(){
-        SessionManager.getInstance().destory();
-    }
-
-    /**
      * @description: 处理登录验证
      * @param request
      * @param response
@@ -73,7 +58,7 @@ public class ValidateController extends BaseController {
                 HttpSession session = request.getSession(true);
                 session.setMaxInactiveInterval(60 * 60);
                 String sessionId = session.getId();
-                System.out.println(sessionId);
+                System.out.println("login: " + sessionId);
                 LoginUserManager.getInstance().registSession(sessionId, user);
                 Cookie cookieSId = new Cookie("JSESSIONID",sessionId);
                 cookieSId.setMaxAge(60 * 60);
