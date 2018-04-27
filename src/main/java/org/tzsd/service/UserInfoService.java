@@ -23,7 +23,7 @@ public class UserInfoService {
     public static final int WOMAN = 2;
 
     public static final String USERHEAD_IMG_PATH = "/userimg/head/"; //客户端请求头像的根目录
-    public static final String[] IMGS = new String[]{".jpg",".jpge",".gif",".png"}; //头像支持的文件类型
+    public static final String[] IMGS = new String[]{".jpg",".jpeg",".gif",".png"}; //头像支持的文件类型
     public static final int _4M = 4 * 1024 *1024; //文件大小上限
 
     @Resource(name = "userDao")

@@ -51,7 +51,7 @@ public class AddressInfoDAO extends GenericDAO{
         return getTemplate().doCall(new HibernateCallback<List<AddressInfo>>() {
             @Override
             public List<AddressInfo> doCall(Session session) throws HibernateException {
-                Query query = session.getNamedQuery("");
+                Query query = session.getNamedQuery("getAddressInfoListByUserId");
                 query.setParameter("user_id", userId);
                 return query.list();
             }

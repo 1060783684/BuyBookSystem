@@ -374,12 +374,9 @@ public class LoginUserController extends BaseController {
             if (address == null || name == null || mail == null || phone == null || username == null) {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
             } else {
-                //操作
-                if (getAddressInfoService().addAddressInfo(address, name, mail, phone, username)) {
-                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-                } else {
-                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                }
+                //操作结果状态
+                int result = getAddressInfoService().addAddressInfo(address, name, mail, phone, username);
+                jsonMap.put(JSONProtocolConstance.RESULT, result);
             }
         }
         writeJSONProtocol(response, jsonMap);

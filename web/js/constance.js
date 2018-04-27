@@ -28,3 +28,6 @@ var UPLOAD_SUCCESS = 1; //上传成功
 var UPLOAD_TOBIG = 2; //文件超过4M
 var UPLOAD_TYPE_ERROR = 3; // 文件类型错误
 var UPLOAD_FAIL = 4; //上传错误
+
+//地址相关返回值
+var ADDRESS_TOMUCH = 2;

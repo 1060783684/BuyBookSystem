@@ -1,6 +1,7 @@
 package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
+import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.dao.AddressInfoDAO;
 import org.tzsd.dao.UserDAO;
 import org.tzsd.pojo.AddressInfo;
@@ -46,26 +47,31 @@ public class AddressInfoService {
      * @param username 用于获取用户信息的用户名
      * @return 成功与否
      */
-    public boolean addAddressInfo(String address, String name, String mail, String phone, String username) {
+    public int addAddressInfo(String address, String name, String mail, String phone, String username) {
         User user = getUserDAO().getUserByName(username);
         if (user == null) {
-            return false;
+            return JSONProtocolConstance.REGIST_FAIL;
+        }
+        List<AddressInfo> list = getAddressInfoDAO().getAddressInfoListByUserId(user.getId());
+        if(list.size() >= 8){
+            return JSONProtocolConstance.ADDRESS_TOMUCH;
         }
         UUID uuid = null;
         do {
             uuid = UUID.randomUUID();
-        } while (uuid == null || getAddressInfoDAO().getAddressInfoById(uuid.toString()) == null);
+            System.out.println(uuid);
+        } while (uuid == null || getAddressInfoDAO().getAddressInfoById(uuid.toString()) != null);
         AddressInfo addressInfo = new AddressInfo(uuid.toString(), name, mail, user.getId(), address, phone);
         try {
             String addressId = getAddressInfoDAO().saveAddressInfo(addressInfo);
             if(addressId == null || !addressId.equals(uuid.toString())){
-                return false;
+                return JSONProtocolConstance.REGIST_FAIL;
             }
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return JSONProtocolConstance.REGIST_FAIL;
         }
-        return true;
+        return JSONProtocolConstance.REGIST_SUCCESS;
     }
 
     /**

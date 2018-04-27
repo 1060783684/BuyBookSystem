@@ -52,4 +52,7 @@ public interface JSONProtocolConstance {
     int UPLOAD_TOBIG = 2; //文件超过4M
     int UPLOAD_TYPE_ERROR = 3; // 文件类型错误
     int UPLOAD_FAIL = 4; //上传错误
+
+    //地址相关返回值
+    int ADDRESS_TOMUCH = 2;
 }
