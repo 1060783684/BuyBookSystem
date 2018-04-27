@@ -155,7 +155,7 @@ public class AddressInfoService {
             addressInfo.setAddr(address);
         }
         if(name != null) {
-            addressInfo.setUsername(name);
+            addressInfo.setName(name);
         }
         if(mail != null) {
             addressInfo.setMail(mail);

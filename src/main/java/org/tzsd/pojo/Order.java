@@ -16,6 +16,8 @@ public class Order {
     @Column(name = "id")
     private String id; //订单id
 
+    private String store_id; //商店id
+
     @Column(name = "user_id")
     private long user_id; //用户id
 
@@ -70,6 +72,14 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(String store_id) {
+        this.store_id = store_id;
     }
 
     public long getUser_id() {

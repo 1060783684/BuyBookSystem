@@ -138,9 +138,9 @@
         $(document).ready(function () {
             $.post("/user/getUserDetailInfo.do", {}, function (data, status) {
                 var json = eval('(' + data + ')');
-                var userExt = json.userDetailInfo;//从json对象中获取的{}是json对象类型
                 switch (json.sresult) {
                     case RESULT_SUCCESS: {
+                        var userExt = json.userDetailInfo;//从json对象中获取的{}是json对象类型
                         if (userExt != undefined) {
                             if (userExt.name != undefined) {
                                 $("#name").val(userExt.name);
@@ -151,11 +151,11 @@
                             if (userExt.phone != undefined) {
                                 $("#phone").val(userExt.phone);
                             }
-                            if(userExt.sex != undefined) {
-                                if( userExt.sex == "WOMAN"){
-                                    document.getElementById("woman").checked=true;
-                                }else {
-                                    document.getElementById("man").checked=true;
+                            if (userExt.sex != undefined) {
+                                if (userExt.sex == "WOMAN") {
+                                    document.getElementById("woman").checked = true;
+                                } else {
+                                    document.getElementById("man").checked = true;
                                 }
                             }
                         }
@@ -177,15 +177,20 @@
                 if (document.getElementById("man").checked) {
                     sex = $("#man").val();
                 }
-                if (document.getElementById("woman").checked){
+                if (document.getElementById("woman").checked) {
                     sex = $("#woman").val();
                 }
-                $.post("/user/updateUserInfo.do",{"name":name, "sex":sex, "phone":phone+"", "idnumber":idnumber+""}, function (data, status) {
+                $.post("/user/updateUserInfo.do", {
+                    "name": name,
+                    "sex": sex,
+                    "phone": phone + "",
+                    "idnumber": idnumber + ""
+                }, function (data, status) {
                     var json = eval('(' + data + ')');
                     switch (json.sresult) {
                         case RESULT_SUCCESS: {
                             alert("修改成功");
-                            window.location.href="/view/safety/user/userInfoPage.html"
+                            window.location.href = "/view/safety/user/userInfoPage.html"
                             break;
                         }
                         case RESULT_FAIL: {
@@ -219,7 +224,8 @@
 <table width="1014" border="0" background="/img/userBackground.jpg">
     <tr>
         <td width="244" height="52"><img src="/img/userLogo.jpg" alt="" width="244" height="52"/></td>
-        <td width="210">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/view/safety/user/userMainPage.html" title="aaa" class="aaa">用户首页</a></td>
+        <td width="210">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/view/safety/user/userMainPage.html" title="aaa"
+                                                             class="aaa">用户首页</a></td>
         <td width="546"><a href="#" title="bbb" class="bbb"> 购物车</a></td>
     </tr>
 </table>
@@ -229,8 +235,9 @@
             <div>
                 <p><span id="qb">&nbsp; &nbsp; &nbsp;全部功能</span></p>
                 <p><a href="#" title="ccc" class="ccc"> <span> &nbsp; &nbsp; &nbsp;我的订单</span></a></p>
-                <p><a href="#" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;我的收货地址 </a></p>
-                <p><a href="/view/safety/user/userInfoPage.html" title="eee" class="eee">&nbsp; &nbsp; &nbsp;个人资料</a></p>
+                <p><a href="/view/safety/user/userAddressList.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;我的收货地址 </a></p>
+                <p><a href="/view/safety/user/userInfoPage.html" title="eee" class="eee">&nbsp; &nbsp; &nbsp;个人资料</a>
+                </p>
                 <p><a href="#" title="fff" class="fff">&nbsp; &nbsp; &nbsp;安全设置</a></p>
                 <p><a href="#" title="ggg" class="ggg">&nbsp; &nbsp; &nbsp;我的购物车</a></p>
                 <p></p>
@@ -260,12 +267,12 @@
         </td>
     </tr>
     <tr>
-        <td height="37" colspan="2" align="left" valign="top" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 手机号： &nbsp;&nbsp;&nbsp;&nbsp;
+        <td height="37" colspan="2" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 手机号： &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" name="name4" style="height:25px;width:150px" id="phone"/>
         </td>
     </tr>
     <tr>
-        <td height="40" colspan="2" align="left" valign="top" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 身份证： &nbsp;&nbsp;&nbsp;&nbsp;
+        <td height="40" colspan="2" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 身份证： &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" name="name3" style="height:25px;width:150px" id="idnumber"/>
         </td>
     </tr>

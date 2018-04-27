@@ -91,9 +91,11 @@ public class UserDetailsInfo {
     public String toString() {
         return "UserDetailsInfo{" +
                 "id=" + id +
+                ", headSrc='" + headSrc + '\'' +
                 ", name='" + name + '\'' +
                 ", id_number='" + id_number + '\'' +
                 ", phone='" + phone + '\'' +
+                ", sex='" + sex + '\'' +
                 '}';
     }
 }
