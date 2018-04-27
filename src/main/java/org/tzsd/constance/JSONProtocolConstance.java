@@ -46,4 +46,10 @@ public interface JSONProtocolConstance {
     //正常的成功与失败
     int RESULT_SUCCESS = 1;
     int RESULT_FAIL = 0;
+
+    //上传可能产生的结果
+    int UPLOAD_SUCCESS = 1; //上传成功
+    int UPLOAD_TOBIG = 2; //文件超过4M
+    int UPLOAD_TYPE_ERROR = 3; // 文件类型错误
+    int UPLOAD_FAIL = 4; //上传错误
 }

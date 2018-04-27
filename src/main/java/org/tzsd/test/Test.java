@@ -49,7 +49,7 @@ public class Test {
         map.put("user", user);
 
         //自带将list对象和数组对象json数组化的功能
-        List<User> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<User>();
         User user1 = new User(1060783684,"1060783684","123456");
         User user2 = new User(1060783685,"1060783685","123455");
         User user3 = new User(1060783686,"1060783686","123456");
@@ -72,9 +72,11 @@ public class Test {
         }
     }
     public static void main(String[] args){
-        String s = "";
+        String s = "xxx.txt";
+        System.out.println(s.substring(s.lastIndexOf(".")));
+        System.out.println(System.getProperty("user.dir"));
 //        TestSaveDAO();
-        TestGetDAO();
+//        TestGetDAO();
 //        testJson();
 //        testStringTokenizer();
     }

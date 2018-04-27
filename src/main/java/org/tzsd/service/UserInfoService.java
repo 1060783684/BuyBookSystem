@@ -1,14 +1,18 @@
 package org.tzsd.service;
 
+import org.apache.commons.fileupload.FileItem;
 import org.springframework.stereotype.Service;
+import org.tzsd.constance.JSONProtocolConstance;
+import org.tzsd.constance.TestConstance;
 import org.tzsd.dao.UserDAO;
 import org.tzsd.dao.UserDetailsInfoDAO;
-import org.tzsd.manager.LoginUserManager;
 import org.tzsd.pojo.User;
 import org.tzsd.pojo.UserDetailsInfo;
 
 import javax.annotation.Resource;
-import java.util.UUID;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;;
 
 /**
  * @description: 管理用户信息的服务类
@@ -17,6 +21,10 @@ import java.util.UUID;
 public class UserInfoService {
     public static final int MAN = 1;
     public static final int WOMAN = 2;
+
+    public static final String USERHEAD_IMG_PATH = "/userimg/head/"; //客户端请求头像的根目录
+    public static final String[] IMGS = new String[]{".jpg",".jpge",".gif",".png"}; //头像支持的文件类型
+    public static final int _4M = 4 * 1024 *1024; //文件大小上限
 
     @Resource(name = "userDao")
     private UserDAO userDAO;
@@ -89,13 +97,13 @@ public class UserInfoService {
     }
 
     /**
+     * @description: 保存用户附加信息
      * @param id        用户id
      * @param name      名字
      * @param id_number 身份证号
      * @param phone     电话号
      * @param sex       性别
      * @return
-     * @description: 保存用户附加信息
      */
     public void updateUserDetailsInfo(long id, String name, String id_number, String phone, int sex) {
         UserDetailsInfo userExt = getUserDetailsInfoDAO().getUserDetailsInfoById(id);
@@ -119,6 +127,96 @@ public class UserInfoService {
         getUserDetailsInfoDAO().merge(userExt);
     }
 
+    /**
+     * @description: 保存用户头像信息
+     * @param id 用户id
+     * @param fileList 文件list
+     * @return 操作结果
+     */
+    public int updateUserHeadInfo(long id, List<FileItem> fileList){
+        if(fileList == null || fileList.isEmpty()){
+            System.out.println("没有图片数组");
+            return JSONProtocolConstance.UPLOAD_FAIL;
+        }
+        UserDetailsInfo userExt = getUserDetailsInfoDAO().getUserDetailsInfoById(id);
+        Iterator<FileItem> it = fileList.iterator();
+        String name = ""; //在服务端保存的文件名
+        String extName = ""; //文件本身的扩展名
+
+        String savePath = TestConstance.TEST_USERHEAD_PATH + USERHEAD_IMG_PATH; //在服务端的存储路径
+        String savePath2 = TestConstance.TEST_USERHEAD_PATH2 + USERHEAD_IMG_PATH; //在服务端的存储路径
+
+        //判断文件夹是否存在，若不存在则重新创建
+        File dir = new File(savePath);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+        //头像图片只有一个
+        if (it.hasNext()) {
+            FileItem item = it.next();
+            //判断该表单项是否是普通类型,不是就不保存
+            if (!item.isFormField()) {
+                name = item.getName();
+                long size = item.getSize();
+                String type = item.getContentType();
+                System.out.println(size + " " + type);
+                //超过文件大小上限
+                if(item.getSize() > _4M){
+                    return JSONProtocolConstance.UPLOAD_TOBIG;
+                }
+                if (name == null || name.trim().equals("")) {
+                    System.out.println("没有名字");
+                    return JSONProtocolConstance.UPLOAD_FAIL;
+                }
+                System.out.println(name);
+                // 扩展名格式： extName就是文件的后缀,例如 .txt
+                if (name.lastIndexOf(".") >= 0) {
+                    extName = name.substring(name.lastIndexOf("."));
+                }else {
+                    System.out.println("没有扩展名");
+                    return JSONProtocolConstance.UPLOAD_FAIL;
+                }
+
+                boolean isExt = false;
+                //判断是否是支持的扩展类型
+                for (String ext:IMGS){
+                    if(ext.equals(extName)){
+                        isExt = true;
+                    }
+                }
+                if(!isExt){
+                    System.out.println("不支持的类型");
+                    return JSONProtocolConstance.UPLOAD_TYPE_ERROR;
+                }
+                File file = null;
+
+                    // 生成文件名：
+                    name = id+"head";
+                    file = new File(savePath + name + extName);
+
+                if(file.exists()){
+                    file.delete();
+                }
+
+                File saveFile = new File(savePath + name + extName);
+                System.out.println(savePath + name + extName);
+                File saveFile2 = new File(savePath2 + name + extName);
+                try {
+                    item.write(saveFile);
+                    item.write(saveFile2);
+                    //写入成功才保存
+                    userExt.setHeadSrc(USERHEAD_IMG_PATH+"/"+name+extName);
+                    getUserDetailsInfoDAO().merge(userExt);
+                    return JSONProtocolConstance.UPLOAD_SUCCESS;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("没有图片");
+        return JSONProtocolConstance.UPLOAD_FAIL;
+    }
     /**
      * @param username 用户名
      * @return 若采用非正规手段可能产生异常, 在上一层处理

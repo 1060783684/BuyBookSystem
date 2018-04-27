@@ -145,8 +145,54 @@
             color: #000;
         }
     </style>
+    <!--<link rel="stylesheet" type="text/css" href="/css/uploadify.css">-->
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/jslib/jquery.form.js"></script>
+    <!--<script src="/jslib/jquery.uploadify.js"></script>-->
+    <!--<script src="/jslib/swfobject.js"></script>-->
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                $("#form1").ajaxSubmit({
+                    success: function (data) {
+                        if(data != undefined){
+                            switch (data.sresult){
+                                case UPLOAD_SUCCESS:{
+                                    alert("上传成功");
+                                    window.location.href="/view/safety/user/userMainPage.html"; //回到用户主页
+                                    break;
+                                }
+                                case UPLOAD_TOBIG:{
+                                    alert("文件大小超过4M");
+                                    break;
+                                }
+                                case UPLOAD_TYPE_ERROR:{
+                                    alert("文件类型错误");
+                                    break;
+                                }
+                                case UPLOAD_FAIL:{
+                                    alert("文件上传错误");
+                                    break;
+                                }
+                                default:{
+                                    alert("操作异常");
+                                }
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                        alert("上传失败");
+                    },
+                    url: '/user/updateUserHead.do', /*设置post提交到的页面*/
+                    type: "post", /*设置表单以post方法提交*/
+                    dataType: "json" /*设置返回值类型为文本*/
+                });
+            });
+        });
+    </script>
 </head>
-
 <body>
 <table width="1012" height="37" border="0" rules="none">
     <tr>
@@ -196,11 +242,16 @@
     </tr>
     <tr>
         <td height="43" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="button" value="本地上传" style="background:#C0D6E9;height:30px" class="tj" color="grey"/></td>
+            <!--上传按钮-->
+            <form enctype="multipart/form-data" id="form1">
+                <input type="file" id="imgHeader" name="imgHeader"/>
+            </form>
+        </td>
     </tr>
     <tr>
         <td height="101" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" name="name2" style="height:200px;width:200px"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--存放文件的队列-->
+            <span  style="height:200px;width:200px" id="uploadfileQueue" ></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
     <tr>
@@ -208,7 +259,10 @@
     </tr>
     <tr>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="button" value="保存" style="background:#C3C3C3;height:30px" class="tj" color="grey"/></td>
+            <!--保存图片是取消图片按钮-->
+            <input type="button" value="保存" style="background:#C3C3C3;height:30px" class="tj" color="grey" id="submit" />&nbsp;&nbsp;&nbsp;
+            <input type="button" value="取消" style="background:#C3C3C3;height:30px" class="tj" color="grey" />
+        </td>
     </tr>
 </table>
 

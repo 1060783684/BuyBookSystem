@@ -3,7 +3,6 @@ package org.tzsd.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
-import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.User;
 import org.tzsd.service.UserInfoService;
 

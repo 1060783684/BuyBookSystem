@@ -21,9 +21,9 @@ public class UserLoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)req;
         String sessionId = request.getSession().getId();
         //若用户不存在,则重定向到登陆页面(forword不好使)
-        System.out.println(request.getRequestURL() + " redirect!");
-        System.out.println("filter: " + sessionId);
+        System.out.println( "[" + sessionId + "] : "+request.getRequestURL() + " redirect!");
         if(!LoginUserManager.getInstance().getUsers().containsKey(sessionId)){
+            System.err.println( "[" + sessionId + "] : "+request.getRequestURL() + " redirect!");
             HttpServletResponse response = (HttpServletResponse) resp;
             response.sendRedirect("/view/login.html");
         }

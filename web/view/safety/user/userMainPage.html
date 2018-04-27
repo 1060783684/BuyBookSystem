@@ -112,6 +112,44 @@
             color: #FFF;
         }
     </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.post("/user/getUserDetailInfo.do",{},function (data, status) {
+                var json = eval('('+data+')');
+                var userExt = json.userDetailInfo;//从json对象中获取的{}是json对象类型
+                switch (json.sresult){
+                    case RESULT_SUCCESS: {
+                        if (userExt != undefined) {
+                            if (userExt.headSrc != undefined){
+                                $("#head").attr("src",userExt.headSrc);
+                            }
+                            if(userExt.id != undefined){
+                                $("#name").text(userExt.id);
+                            }
+                            if (userExt.sex != undefined) {
+                                var name = $("#name").text();
+                                if(userExt.sex == "MAN") {
+                                    $("#name").text(name+" (先生)");
+                                }
+                                if(userExt.sex == "WOMAN"){
+                                    $("#name").text(name+" (女士)");
+                                }
+                            }
+                        }
+                    }
+                        break;
+                    case RESULT_FAIL:{
+
+                    }
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -150,8 +188,8 @@
     <tr>
         <td width="192" height="60" bgcolor="#E9E9E9">  &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; <img src="/img/defHead.png"
                                                                                                       width="55"
-                                                                                                      height="55"/></td>
-        <td height="60" colspan="3" bgcolor="#E9E9E9"> 昵称（账号）</td>
+                                                                                                      height="55" id="head"/></td>
+        <td height="60" colspan="3" bgcolor="#E9E9E9" id="name"> 昵称（账号）</td>
     </tr>
     <tr border="1">
         <td height="51" style="border:1px solid #E9E9E9;"><a href="#">待付款</a></td>

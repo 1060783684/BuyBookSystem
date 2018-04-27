@@ -35,7 +35,7 @@ public class GoodsDAO extends GenericDAO{
      * @param size 分页大小
      * @return
      */
-    public List<Goods> getGoodsList(final String type, final int low, final int hight, final String keywords, int start, int size){
+    public List<Goods> getGoodsList(final String type, final int low, final int hight, final String keywords, final int start, final int size){
         return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
             @Override
             public List<Goods> doCall(Session session) throws HibernateException {

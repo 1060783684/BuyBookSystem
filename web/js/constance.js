@@ -22,3 +22,9 @@ var REGIST_SUCCESS = 1; //注册成功
 var REGIST_USERNAME_EXIST = 2; //用户名已存在
 var REGIST_VALIDCODE_FAIL = 3; //验证码错误
 var REGIST_FAIL = 4; //注册失败
+
+//上传可能产生的结果
+var UPLOAD_SUCCESS = 1; //上传成功
+var UPLOAD_TOBIG = 2; //文件超过4M
+var UPLOAD_TYPE_ERROR = 3; // 文件类型错误
+var UPLOAD_FAIL = 4; //上传错误
