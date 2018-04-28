@@ -53,28 +53,32 @@
                 var username = $("#uname").val();
                 var password = $("#psword").val();
                 var conpassword = $("#conpsword").val();
-                $.post("/regist.do", {"username": username, "password": password}, function (data, status) {
-                    var json = eval('(' + data + ')');
-                    var result = json.sresult;
-                    switch (result) {
-                        case REGIST_SUCCESS:
-                            alert("注册成功");
-                            window.location.href = "/view/login.html"
-                            break;
-                        case REGIST_USERNAME_EXIST:
-                            alert("用户名已存在");
-                            break;
-                        case REGIST_VALIDCODE_FAIL:
-                            alert("验证码错误");
-                            break;
-                        case REGIST_FAIL:
-                            alert("注册失败");
-                            break;
-                        default:
-                            alert("操作错误");
-                            break;
-                    }
-                });
+                if(password == conpassword) {
+                    $.post("/regist.do", {"username": username, "password": password}, function (data, status) {
+                        var json = eval('(' + data + ')');
+                        var result = json.sresult;
+                        switch (result) {
+                            case REGIST_SUCCESS:
+                                alert("注册成功");
+                                window.location.href = "/view/login.html"
+                                break;
+                            case REGIST_USERNAME_EXIST:
+                                alert("用户名已存在");
+                                break;
+                            case REGIST_VALIDCODE_FAIL:
+                                alert("验证码错误");
+                                break;
+                            case REGIST_FAIL:
+                                alert("注册失败");
+                                break;
+                            default:
+                                alert("操作错误");
+                                break;
+                        }
+                    });
+                }else {
+                    alert("两次输入密码不同");
+                }
             })
         });
     </script>

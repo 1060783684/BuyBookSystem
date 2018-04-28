@@ -33,6 +33,7 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -43,6 +44,7 @@
         <filter-name>userLoginFilter</filter-name>
         <filter-class>org.tzsd.filter.UserLoginFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>userLoginFilter</filter-name>
         <url-pattern>/user/*</url-pattern>
@@ -55,8 +57,15 @@
         <filter-name>userLoginFilter</filter-name>
         <url-pattern>/view/safety/*</url-pattern>
     </filter-mapping>
+
+    <!--店铺登录检过滤器-->
+    <filter>
+        <filter-name>entryStoreMainPageFilter</filter-name>
+        <filter-class>org.tzsd.filter.EntryStoreMainPageFilter</filter-class>
+    </filter>
+
     <filter-mapping>
-        <filter-name>userLoginFilter</filter-name>
-        <url-pattern>/shopcar</url-pattern>
+        <filter-name>entryStoreMainPageFilter</filter-name>
+        <url-pattern>/view/safety/store/check/*</url-pattern>
     </filter-mapping>
 </web-app>

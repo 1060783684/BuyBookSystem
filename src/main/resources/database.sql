@@ -17,7 +17,7 @@ CREATE TABLE user_ext
 )
   DEFAULT CHARSET = "utf8";
 CREATE TABLE address_info (
-  id      VARCHAR(30) PRIMARY KEY,
+  id      VARCHAR(40) PRIMARY KEY,
   name    VARCHAR(30),
   mail    VARCHAR(10),
   user_id BIGINT,
@@ -26,3 +26,16 @@ CREATE TABLE address_info (
   FOREIGN KEY (user_id) REFERENCES user_info (id)
 )
   DEFAULT CHARSET = "utf8";
+CREATE TABLE store_info
+(
+  id BIGINT(20) PRIMARY KEY NOT NULL,
+  descs VARCHAR(200),
+  name VARCHAR(40),
+  imgsrc VARCHAR(35),
+  addr VARCHAR(20),
+  user_id BIGINT(20),
+  visit_num BIGINT(20),
+  isCheck INT(11),
+  CONSTRAINT store_info_ibfk_1 FOREIGN KEY (user_id) REFERENCES user_info (id)
+);
+CREATE INDEX user_id ON store_info (user_id);

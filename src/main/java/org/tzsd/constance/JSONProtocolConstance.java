@@ -37,6 +37,15 @@ public interface JSONProtocolConstance {
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败
 
+    //修改密码相关的
+    int UPDATE_PW_SUCCESS = 1; //修改密码成功
+    int UPDATE_PW_TOSHORT = 2; //新密码过短
+    int UPDATE_PW_TOLONG = 3; //新密码过长
+    int UPDATE_PW_SAME = 4; //新旧密码相同
+    int UPDATE_PW_FOUL = 5; //密码中含有非法字符
+    int UPDATE_PW_PWFAIL = 6; //原密码不正确
+    int UPDATE_PW_FAIL = 0; //操作错误
+
     //注册业务返回值
     int REGIST_SUCCESS = 1;
     int REGIST_USERNAME_EXIST = 2;

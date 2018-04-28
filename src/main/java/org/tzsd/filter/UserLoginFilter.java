@@ -26,6 +26,8 @@ public class UserLoginFilter implements Filter {
             System.err.println( "[" + sessionId + "] : "+request.getRequestURL() + " redirect!");
             HttpServletResponse response = (HttpServletResponse) resp;
             response.sendRedirect("/view/login.html");
+            //当用户没有登陆时不考虑之后的过滤器
+            return ;
         }
         chain.doFilter(req, resp);
     }

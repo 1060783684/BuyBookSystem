@@ -230,7 +230,8 @@
                                 } else {
                                     addressInfo += '<td height="18" bgcolor="#FFFFFF"><span class="z">' + 无 + '</span></td>';
                                 }
-                                addressInfo += '<td height="37" bgcolor="#FFFFFF"><span style="border:1px solid #E9E9E9;"><input type="button" value="删除" style="background:red;height:30px" class="tj" color="grey"/>'+'</span></td>';
+                                var addrId = address.id;
+                                addressInfo += '<td height="37" bgcolor="#FFFFFF"><span style="border:1px solid #E9E9E9;"><input type="button" value="删除" style="background:red;height:30px" class="tj" color="grey" onclick="delAddress(\''+addrId+'\')"/>'+'</span></td>';
                                 addressInfo += "</tr>";
                                 addressInfos += addressInfo;
                             }
@@ -269,6 +270,29 @@
                 }
             });
         }
+
+        function delAddress(id) {// id是地址的id
+            if(confirm("您确定要删除么？") == true){
+                $.post("/user/deleteAddressInfo.do",{"addressId":id},function (data, status) {
+                    if(data != undefined){
+                        var json = eval("(" + data + ")");
+                        if(json != undefined){
+                            switch (json.sresult){
+                                case RESULT_SUCCESS: {
+                                    alert("删除成功");
+                                    window.location.reload();
+                                    break;
+                                }
+                                case RESULT_FAIL: {
+                                    alert("操作错误！");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
     </script>
 </head>
 
@@ -277,9 +301,9 @@
     <tr>
         <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                 class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
-        <td width="210" bgcolor="#E6E6E6"><a href="#" title="b" class="b">易书网首页</a></td>
-        <td width="220" bgcolor="#E6E6E6"><a href="#" title="d" class="d">我的易书 </a></td>
-        <td width="135" bgcolor="#E6E6E6"><a href="#" title="e" class="e">卖家中心</a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="/index.html" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="/view/safety/user/userMainPage.html" title="d" class="d">我的易书 </a></td>
+        <td width="135" bgcolor="#E6E6E6"><a href="/view/safety/store/check/storeMainPage.html" title="e" class="e">卖家中心</a></td>
     </tr>
 </table>
 <table width="1053" border="0" background="/img/userBackground.jpg">
@@ -306,7 +330,7 @@
                     </a></p>
                 <p><a href="/view/safety/user/userInfoPage.html" title="eee" class="eee">&nbsp; &nbsp; &nbsp;个人资料</a>
                 </p>
-                <p><a href="#" title="fff" class="fff">&nbsp; &nbsp; &nbsp;安全设置</a></p>
+                <p><a href="/view/safety/user/userSafeConfig.html" title="fff" class="fff">&nbsp; &nbsp; &nbsp;安全设置</a></p>
                 <p>
 
                     <a href="#" title="ggg" class="ggg">&nbsp; &nbsp; &nbsp;我的购物车</a></p>

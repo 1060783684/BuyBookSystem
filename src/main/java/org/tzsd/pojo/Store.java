@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Store {
     @Id
     @Column(name = "id")
-    private long id; //商店id
+    private long id; //商店id 用户id*10 + 1
 
     @Column(name = "descs")
     private String descs; //商店描述
@@ -18,7 +18,7 @@ public class Store {
     @Column(name = "name")
     private String name; //商店名字
 
-    @Column(name = "img")
+    @Column(name = "imgsrc")
     private String imgsrc; //商店图片路径
 
     @Column(name = "addr")
@@ -30,21 +30,22 @@ public class Store {
     @Column(name = "visit_num")
     private long visit_num; //访问量
 
-    @Column(name = "ischeck")
-    @Enumerated(EnumType.STRING)
-    private Check isCheck; //开店检查
+    @Column(name = "isCheck")
+    private int isCheck; //开店检查
+//    public enum Check{
+//        NO,
+//        YES
+//    }
 
-    public enum Check{
-        NO,
-        YES
-    }
+    public static final int NO = 0;
+    public static final int YES = 1;
 
     public Store(){
 
     }
 
     public Store(long id, String descs, String name, String imgsrc, String addr,
-                 long user_id, long visit_num, Check isCheck) {
+                 long user_id, long visit_num, int isCheck) {
         this.id = id;
         this.descs = descs;
         this.name = name;
@@ -111,11 +112,11 @@ public class Store {
         this.visit_num = visit_num;
     }
 
-    public Check getIsCheck() {
+    public int getIsCheck() {
         return isCheck;
     }
 
-    public void setIsCheck(Check isCheck) {
+    public void setIsCheck(int isCheck) {
         this.isCheck = isCheck;
     }
 

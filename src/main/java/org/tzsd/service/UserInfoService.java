@@ -84,16 +84,50 @@ public class UserInfoService {
     }
 
     /**
+     * @description: 通过用户名密码创建新的用户实例并保存
      * @param username 用户名
      * @param password 密码
      * @return 保存成功后返回用户id
-     * @description: 通过用户名密码创建新的用户实例并保存
      */
     public long regist(final String username, final String password) {
         long id = Long.valueOf(username);
         User user = new User(id, username, password);
         UserDetailsInfo userExt = new UserDetailsInfo(id, null, null, null, null, null);
         return (long) userDAO.saveUser(user, userExt);
+    }
+
+    /**
+     * @description: 修改密码
+     * @param username 用户名
+     * @param newPassword 新密码
+     * @return 操作状态
+     */
+    public int updatePassword(String username, String password, String newPassword){
+        if(username == null || newPassword == null){
+            return JSONProtocolConstance.UPDATE_PW_FAIL; //操作错误
+        }
+        if(newPassword.length() < 6){
+            return JSONProtocolConstance.UPDATE_PW_TOSHORT; //密码太短
+        }
+        if(newPassword.length() > 16){
+            return JSONProtocolConstance.UPDATE_PW_TOLONG; //密码太长
+        }
+        if(newPassword.indexOf(" ") >= 0){
+            return JSONProtocolConstance.UPDATE_PW_FOUL; //含有非法字符
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return JSONProtocolConstance.UPDATE_PW_FAIL; //操作错误
+        }
+        if(!user.getPassword().equals(password)){
+            return JSONProtocolConstance.UPDATE_PW_PWFAIL; //原密码不正确
+        }
+        if(user.getPassword().equals(newPassword)){
+            return JSONProtocolConstance.UPDATE_PW_SAME; //新旧密码相同
+        }
+        user.setPassword(newPassword);
+        getUserDAO().merge(user);
+        return JSONProtocolConstance.UPDATE_PW_SUCCESS;
     }
 
     /**

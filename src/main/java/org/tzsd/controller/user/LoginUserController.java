@@ -88,6 +88,34 @@ public class LoginUserController extends BaseController {
     }
 
     /**
+     * @description: 修改密码
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/updatePassword.do")
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        } else {
+            String username = user.getName();
+            String newPassword = request.getParameter("newPassword");
+            String password = request.getParameter("password");
+
+            if (username == null || newPassword == null || password == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            } else {
+                int result = getUserInfoService().updatePassword(username, password, newPassword);
+                jsonMap.put(JSONProtocolConstance.RESULT, result);
+            }
+        }
+
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
      * @param request
      * @param response
      * @description: 获取用户详细信息
