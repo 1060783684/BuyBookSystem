@@ -73,4 +73,13 @@ public interface JSONProtocolConstance {
     int STORE_APPLY_INFO_NOTFULL = 2; //信息填写不全
     int STORE_APPLY_EXIST = 3; //店铺申请已提交
     int STORE_APPLY_FAIL = 0; //操作错误
+
+    //发布物品相关
+    int PUB_SUCCESS = 1; //发布成功
+    int PUB_UPLOAD_TOBIG = 2; //文件超过4M
+    int PUB_UPLOAD_TYPE_ERROR = 3; //文件类型错误
+    int PUB_GOODS_TYPE_ERROR = 4; //发布物品类型错误
+    int PUB_INFO_ERROR = 5; //信息填写错误
+    int PUB_IMG_NOTFOUND = 6; //没有文件
+    int PUB_FAIL = 0; //操作错误
 }

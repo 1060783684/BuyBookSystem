@@ -49,3 +49,12 @@ var STORE_APPLY_SUCCESS = 1; //成功
 var STORE_APPLY_INFO_NOTFULL = 2; //信息填写不全
 var STORE_APPLY_EXIST = 3; //店铺申请已提交
 var STORE_APPLY_FAIL = 0; //操作错误
+
+//发布物品相关
+var PUB_SUCCESS = 1; //发布成功
+var PUB_UPLOAD_TOBIG = 2; //文件超过4M
+var PUB_UPLOAD_TYPE_ERROR = 3; //文件类型错误
+var PUB_GOODS_TYPE_ERROR = 4; //发布物品类型错误
+var PUB_INFO_ERROR = 5; //信息填写错误
+var PUB_IMG_NOTFOUND = 6; //没有文件
+var PUB_FAIL = 0; //操作错误

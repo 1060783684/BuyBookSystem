@@ -134,4 +134,39 @@ public class StoreController extends BaseController{
         }
         writeJSONProtocol(response, jsonMap);
     }
+
+    /**
+     * @description: 发布物品
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/publishGoods.do")
+    public void publishGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        } else {
+            if (ServletFileUpload.isMultipartContent(request)) {
+                try {
+                    String username = user.getName(); //用户名
+                    DiskFileItemFactory fac = new DiskFileItemFactory();
+                    ServletFileUpload upload = new ServletFileUpload(fac);
+                    upload.setHeaderEncoding("utf-8");
+                    //从request中获取文件列表
+                    List fileList = upload.parseRequest(request); //文件列表
+                    int result = getStoreService().pubGoods(username, fileList);
+                    //常规方式获取结果
+                    jsonMap.put(JSONProtocolConstance.RESULT, result);
+                } catch (FileUploadException e) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    e.printStackTrace();
+                }
+            } else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
 }

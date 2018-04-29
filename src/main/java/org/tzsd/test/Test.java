@@ -72,12 +72,14 @@ public class Test {
         }
     }
     public static void main(String[] args){
-        String s = "xxx.txt";
-        System.out.println(s.substring(s.lastIndexOf(".")));
-        System.out.println(System.getProperty("user.dir"));
+//        String s = "xxx.txt";
+//        System.out.println(s.substring(s.lastIndexOf(".")));
+//        System.out.println(System.getProperty("user.dir"));
 //        TestSaveDAO();
 //        TestGetDAO();
 //        testJson();
 //        testStringTokenizer();
+        float cost = Float.valueOf("23.5");
+        System.out.println(cost);
     }
 }

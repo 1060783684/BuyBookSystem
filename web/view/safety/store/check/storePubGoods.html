@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>发布宝贝</title>
+    <style>
+        a {
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .aaa {
+            color: #FFF;
+        }
+
+        .aaa {
+            font-size: 18px;
+        }
+
+        .bbb {
+            color: #FFF;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        b {
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a a {
+            color: #808080;
+            font-size: 14px;
+        }
+
+        pre {
+            color: #000;
+            font-size: 14;
+        }
+
+        .ccc {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .ccc {
+            font-size: 16px;
+        }
+
+        .ddd {
+            color: #000;
+        }
+
+        .eee {
+            color: #000;
+        }
+
+        .fff {
+            color: #000;
+        }
+
+        .ggg {
+            color: #000;
+        }
+
+        .h {
+            color: #000;
+        }
+
+        .j {
+            color: #000;
+        }
+
+        .k {
+            color: #000;
+        }
+
+        .m {
+            color: #000;
+        }
+
+        #z {
+            color: #FFF;
+        }
+
+        .z {
+            font-size: 16px;
+        }
+
+        .z {
+            font-size: 18px;
+        }
+
+        #x {
+            color: #F00;
+            font-size: 14;
+        }
+
+        .z {
+            font-size: 18px;
+        }
+
+        .z {
+            color: #FFF;
+        }
+
+        .zz {
+            color: #808080;
+        }
+
+        .z {
+            font-weight: bold;
+        }
+
+        .z {
+            color: #000;
+        }
+
+        .tj {
+            color: white
+        }
+
+        .z {
+            color: #666666;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        hhh {
+            color: #000;
+        }
+
+        #x pre {
+            color: #000;
+        }
+
+        hhh {
+            color: #000;
+        }
+
+        #x pre .ccc {
+            font-size: 14px;
+        }
+
+        #x div p a {
+            color: #000;
+        }
+
+        #x div p .ccc span {
+            font-size: 14px;
+        }
+    </style>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/jslib/jquery.form.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                $("#goodsForm").ajaxSubmit({
+                    success: function (data) { //这里的data会被转换成dataType要求的类型
+                        if (data != undefined) {
+                            switch (data.sresult) {
+                                case PUB_SUCCESS: {
+                                    alert("发布成功");
+                                    window.location.href = "/view/safety/store/check/storeMainPage.html"; //回到用户主页
+                                    break;
+                                }
+                                case PUB_UPLOAD_TOBIG: {
+                                    alert("图片大小超过4M");
+                                    break;
+                                }
+                                case PUB_UPLOAD_TYPE_ERROR: {
+                                    alert("文件类型错误");
+                                    break;
+                                }
+                                case PUB_GOODS_TYPE_ERROR: {
+                                    alert("发布物品类型错误");
+                                    break;
+                                }
+                                case PUB_INFO_ERROR: {
+                                    alert("信息填写错误");
+                                    break;
+                                }
+                                case PUB_IMG_NOTFOUND: {
+                                    alert("没有上传宝贝图片");
+                                    break;
+                                }
+                                case PUB_FAIL: {
+                                    alert("上传失败");
+                                    break;
+                                }
+                                default: {
+                                    alert("操作异常");
+                                    break;
+                                }
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                        alert("上传失败");
+                    },
+                    url: '/store/publishGoods.do', /*设置post提交到的页面*/
+                    type: "post", /*设置表单以post方法提交*/
+                    dataType: "json" /*设置返回值类型为文本*/
+                })
+            });
+        });
+    </script>
+</head>
+
+<body>
+<table width="1015" border="0">
+    <tr>
+        <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
+        <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
+        <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
+        <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span>
+        </td>
+        <td width="123"><span class="a"> <a href="#" title="g">购物车</a></span></td>
+        <td width="112" colspan="2"><a href="#" class="a">退出</a></td>
+    </tr>
+    <tr>
+        <td colspan="7">&nbsp;</td>
+    </tr>
+</table>
+<table width="1014" border="0" background="/img/userBackground.jpg">
+    <tr>
+        <td width="244" height="52"><img src="/img/myStore.jpg" width="244" height="52"/></td>
+        <td width="164">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a
+                href="/view/safety/store/check/storeMainPage.html" title="aaa" class="aaa">店铺首页</a></td>
+        <td width="592"></td>
+    </tr>
+</table>
+<form id="goodsForm" enctype="multipart/form-data">
+    <table width="1014" border="0" rules="none" style="border:1px solid #E9E9E9;">
+        <tbody>
+        <tr>
+            <td width="235" rowspan="10" align="left" valign="top" id="x">
+                <div>
+                    <p><span id="qb">&nbsp; &nbsp; &nbsp;全部功能</span></p>
+                    <p><a href="#" title="ccc" class="ccc">
+        <span>
+        &nbsp; &nbsp; &nbsp;我的订单</span></a></p>
+                    <p>
+
+                        <a href="/view/safety/store/check/storeInfo.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;店铺资料
+                        </a></p>
+                    <p><a href="/view/safety/store/check/storePubGoods.html" title="fff" class="fff">&nbsp; &nbsp;
+                        &nbsp;发布宝贝</a></p>
+                    <p>
+
+                        <a href="#" title="ggg" class="ggg">&nbsp; &nbsp; &nbsp;下架宝贝</a></p>
+                    <p>
+
+                        <a href="#" title="hhh">&nbsp; &nbsp; &nbsp;店铺宝贝</a></p>
+                </div>
+            </td>
+            <td height="2" bgcolor="#FFFFFF"></td>
+        </tr>
+        <tr>
+            <td height="30" align="left" valign="middle" bgcolor="#ECECEC" class="z">发布宝贝</td>
+        </tr>
+        <tr>
+            <td height="18" align="left" valign="middle" bgcolor="#FFFFFF" class="z">&nbsp;</td>
+        </tr>
+        <tr>
+            <td height="43" align="left" valign="top"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图片： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" name="goodsImg" id="goodsImg"/>
+            </td>
+        </tr>
+        <tr>
+            <td height="43" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;书名： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="name" style="height:25px;width:200px" id="name"/></td>
+        </tr>
+        <tr>
+            <td height="40" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 价格： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="cost" style="height:25px;width:150px" id="cost"/></td>
+        </tr>
+        <tr>
+            <td height="36" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 数量： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="num" style="height:25px;width:150px" id="num"/></td>
+        </tr>
+        <tr>
+            <td height="32" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 类别： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <select name="type" form="goodsForm" id="type">
+                    <option value="0">教育类</option>
+                    <option value="1">哲学类</option>
+                    <option value="2">艺术类</option>
+                    <option value="3">古典类</option>
+                    <option value="4">文学类</option>
+                    <option value="5">少儿类</option>
+                    <option value="6">法律类</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td height="117" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 详情： &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                <textarea name="descs" style="height:150px;width:400px" id="descs"></textarea>
+            </td>
+        </tr>
+        <tr border="1">
+            <td height="66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" value="发布" style="background:red;height:30px" class="tj" color="grey" id="submit"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

@@ -6,8 +6,21 @@ import javax.persistence.*;
  * @description: 宝贝信息
  */
 @Entity
-@Table(name = "goods_info")
+@Table(name = "goods")
 public class Goods {
+    //宝贝状态
+    public static final int UP = 2; //上架
+    public static final int STAYUP = 1; //待审核
+    public static final int DOWN = 0; //下架
+
+    //类型
+    public static final int EDUCATION = 0; //教育
+    public static final int PHILOPHY = 1; //哲学
+    public static final int ART = 2; //艺术
+    public static final int CLASSICAL = 3; //古典
+    public static final int LITERATURE = 4; //文学
+    public static final int CHILDREN = 5; //少儿
+    public static final int LAGISLATION = 6; //法律
     @Id
     @Column(name = "id")
     private String id; //宝贝id
@@ -43,24 +56,17 @@ public class Goods {
     private String imgSrc; //图片路径
 
     @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private int status; //状态
 
     @Column(name = "type")
-    private String type; //物品类型,通过后端配置常量配置
-
-    enum Status{
-        UP,
-        STAYUP,
-        DOWN
-    }
+    private int type; //物品类型,通过后端配置常量配置
 
     public Goods(){
 
     }
 
-    public Goods(String id, long store_id, String name, String descs, float cost,
-                 long good_est, long bad_est, long sell_num, long num, String imgSrc, Status status) {
+    public Goods(String id, long store_id, String name, String descs, float cost, long good_est,
+                 long bad_est, long sell_num, long sales_num, long num, String imgSrc, int status, int type) {
         this.id = id;
         this.store_id = store_id;
         this.name = name;
@@ -69,9 +75,11 @@ public class Goods {
         this.good_est = good_est;
         this.bad_est = bad_est;
         this.sell_num = sell_num;
+        this.sales_num = sales_num;
         this.num = num;
         this.imgSrc = imgSrc;
         this.status = status;
+        this.type = type;
     }
 
     public String getId() {
@@ -162,21 +170,19 @@ public class Goods {
         this.imgSrc = imgSrc;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
-
-
 }
