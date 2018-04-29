@@ -33,6 +33,9 @@ public interface JSONProtocolConstance {
     //评论相关
     String EVALUATE_LIST = "evaluateList"; //评论list
 
+    //店铺信息获取相关
+    String STORE_INFO = "storeInfo"; //店铺信息
+
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败
@@ -64,4 +67,10 @@ public interface JSONProtocolConstance {
 
     //地址相关返回值
     int ADDRESS_TOMUCH = 2;
+
+    //店铺申请相关
+    int STORE_APPLY_SUCCESS = 1; //成功
+    int STORE_APPLY_INFO_NOTFULL = 2; //信息填写不全
+    int STORE_APPLY_EXIST = 3; //店铺申请已提交
+    int STORE_APPLY_FAIL = 0; //操作错误
 }

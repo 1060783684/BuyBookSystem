@@ -16,6 +16,15 @@ import java.util.List;
 public class StoreDAO extends GenericDAO{
 
     /**
+     * @description: 通过商店id获取商店信息
+     * @param storeId 商店id
+     * @return 商店实例
+     */
+    public Store getStoreById(long storeId){
+        return getById(Store.class, storeId);
+    }
+
+    /**
      * @description: 通过用户id查询商店信息
      * @param userId 用户id
      * @return 商店实例
@@ -28,7 +37,7 @@ public class StoreDAO extends GenericDAO{
                 query.setParameter("user_id",userId);
                 List<Store> list = query.list();
                 if(list != null && !list.isEmpty()){
-                    query.list().get(0);
+                    return list.get(0);
                 }
                 return null;
             }

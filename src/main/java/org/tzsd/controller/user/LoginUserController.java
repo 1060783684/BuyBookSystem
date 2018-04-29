@@ -37,6 +37,9 @@ public class LoginUserController extends BaseController {
     @Resource(name = "evaluateInfoService")
     private EvaluateInfoService evaluateInfoService;
 
+    @Resource(name = "storeService")
+    private StoreService storeService;
+
     public UserInfoService getUserInfoService() {
         return userInfoService;
     }
@@ -67,6 +70,14 @@ public class LoginUserController extends BaseController {
 
     public void setEvaluateInfoService(EvaluateInfoService evaluateInfoService) {
         this.evaluateInfoService = evaluateInfoService;
+    }
+
+    public StoreService getStoreService() {
+        return storeService;
+    }
+
+    public void setStoreService(StoreService storeService) {
+        this.storeService = storeService;
     }
 
     /**
@@ -190,7 +201,7 @@ public class LoginUserController extends BaseController {
         String sessionId = request.getSession().getId();
         User user = LoginUserManager.getInstance().getUsers().get(sessionId);
         if (user == null) {
-            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.UPLOAD_FAIL);
         } else {
             if (ServletFileUpload.isMultipartContent(request)) {
                 long id = user.getId();
@@ -205,11 +216,11 @@ public class LoginUserController extends BaseController {
                     //常规方式获取结果
                     jsonMap.put(JSONProtocolConstance.RESULT, result);
                 } catch (FileUploadException e) {
-                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.UPLOAD_FAIL);
                     e.printStackTrace();
                 }
             } else {
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.UPLOAD_FAIL);
             }
         }
         writeJSONProtocol(response, jsonMap);
@@ -471,6 +482,39 @@ public class LoginUserController extends BaseController {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
             } else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 申请商店操作
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/applyStore.do")
+    public void applyStore(HttpServletRequest request, HttpServletResponse response)  {
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+
+        if(user == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.STORE_APPLY_FAIL);
+        }else {
+            String name = request.getParameter("name"); //公司法人名字
+            String idNumber = request.getParameter("idnumber"); //公司法人身份证id
+            String storeName = request.getParameter("storeName"); //商店名称
+            String type = request.getParameter("type"); //营业类型
+            String business = request.getParameter("business"); //营业执照号
+            String tax = request.getParameter("tax"); //税务
+            String username = user.getName(); //用户名
+
+            if (username == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.STORE_APPLY_FAIL);
+            } else {
+                //操作
+                int result = getStoreService().storeApply(username, name, idNumber, storeName, type, business, tax);
+                jsonMap.put(JSONProtocolConstance.RESULT, result);
             }
         }
         writeJSONProtocol(response, jsonMap);

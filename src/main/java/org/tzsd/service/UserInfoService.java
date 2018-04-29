@@ -236,11 +236,12 @@ public class UserInfoService {
                 File saveFile = new File(savePath + name + extName);
                 System.out.println(savePath + name + extName);
                 File saveFile2 = new File(savePath2 + name + extName);
+                System.out.println(saveFile2.getAbsolutePath());
                 try {
                     item.write(saveFile);
-                    item.write(saveFile2);
+//                    item.write(saveFile2);
                     //写入成功才保存
-                    userExt.setHeadSrc(USERHEAD_IMG_PATH+"/"+name+extName);
+                    userExt.setHeadSrc(USERHEAD_IMG_PATH + name + extName);
                     getUserDetailsInfoDAO().merge(userExt);
                     return JSONProtocolConstance.UPLOAD_SUCCESS;
                 } catch (Exception e) {
@@ -251,6 +252,7 @@ public class UserInfoService {
         System.out.println("没有图片");
         return JSONProtocolConstance.UPLOAD_FAIL;
     }
+
     /**
      * @param username 用户名
      * @return 若采用非正规手段可能产生异常, 在上一层处理

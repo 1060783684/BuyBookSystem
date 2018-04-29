@@ -1,13 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>我的店铺</title>
-    <style type="text/css">
+    <title>店铺资料</title>
+    <style>
         a {
             text-decoration: none;
             font-size: 14px;
-            color: #808080;
         }
 
         .aaa {
@@ -41,6 +41,7 @@
 
         pre {
             color: #000;
+            font-size: 14;
         }
 
         .ccc {
@@ -98,6 +99,7 @@
 
         #x {
             color: #F00;
+            font-size: 14px;
         }
 
         .z {
@@ -108,40 +110,54 @@
             color: #FFF;
         }
 
+        .zz {
+            color: #808080;
+        }
+
         .z {
-            font-size: 14px;
+            font-weight: bold;
         }
 
-        .x {
-            font-size: 14px;
+        .z {
+            color: #000;
         }
 
-        #fw {
-            font-size: 14px;
+        .tj {
+            color: white
         }
 
-        .hhh {
-            color: #000000;
+        .z {
+            color: #808080;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        hhh {
+            color: #000;
+        }
+
+        #x pre {
+            color: #000;
+        }
+
+        hhh {
+            color: #000;
         }
 
         #x div p a {
             color: #000;
-            font-size: 14px;
         }
 
-        #x div p #qb {
+        #x div p .ccc span {
             font-size: 14px;
-        }
-
-        #kk {
-            color: #000;
         }
     </style>
     <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/js/constance.js"></script>
     <script type="text/javascript">
+
         $(document).ready(function () {
-            $.post("/store/loadStoreInfo.do",{},function (data, status) {
+            $.post("/store/loadStoreInfo.do", {}, function (data, status) {
                 if (data != undefined) {
                     var json = eval('(' + data + ')');
                     if(json != undefined) {
@@ -149,14 +165,14 @@
                         switch (json.sresult) {
                             case RESULT_SUCCESS: {
                                 if (store != undefined) {
-                                    if (store.imgsrc != undefined) {
-                                        $("#head").attr("src", store.imgsrc);
-                                    }
                                     if (store.name != undefined) {
-                                        $("#name").text(store.name);
+                                        $("#name").val(store.name);
                                     }
-                                    if (store.visit_num != undefined) {
-                                        $("#visit").text(store.visit_num);
+                                    if (store.addr != undefined) {
+                                        $("#addr").val(store.addr);
+                                    }
+                                    if (store.descs != undefined){
+                                        $("#descs").val(store.descs);
                                     }
                                 }
                             }
@@ -171,20 +187,44 @@
                     }
                 }
             });
-
+            $("#submit").click(function () {
+                var name = $("#name").val();
+                var addr = $("#addr").val();
+                var descs = $("#descs").val();
+                $.post("/store/updateStoreInfo.do", {
+                    "name": name,
+                    "addr": addr,
+                    "descs": descs
+                }, function (data, status) {
+                    var json = eval('(' + data + ')');
+                    switch (json.sresult) {
+                        case RESULT_SUCCESS: {
+                            alert("修改成功");
+                            window.location.href = "/view/safety/store/check/storeInfo.html"
+                            break;
+                        }
+                        case RESULT_FAIL: {
+                            alert("操作错误");
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                })
+            })
         });
     </script>
 </head>
 
 <body>
-<table width="1013" border="0">
+<table width="1014" border="0">
     <tr>
         <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
         <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
         <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
         <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
         <td width="123"><span class="a"> <a href="#" title="g">购物车</a></span></td>
-        <td width="110" colspan="2"><a href="#" class="a">退出</a></td>
+        <td width="111" colspan="2"><a href="#" class="a">退出</a></td>
     </tr>
     <tr>
         <td colspan="7">&nbsp;</td>
@@ -198,17 +238,16 @@
         <td width="592"></td>
     </tr>
 </table>
-<table width="1019" border="0" rules="none">
+<table width="1014" border="0" rules="none" style="border:1px solid #E9E9E9;">
     <tr>
-        <td width="235" rowspan="6" id="x">
+        <td width="235" rowspan="8" align="left" valign="top" id="x">
             <div>
                 <p><span id="qb">&nbsp; &nbsp; &nbsp;全部功能</span></p>
-                <p><a href="#" title="ccc" class="ccc">
-        <span>
-        &nbsp; &nbsp; &nbsp;我的订单</span></a></p>
                 <p>
-                    <a href="/view/safety/store/check/storeInfo.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;店铺资料</a>
+                    <a href="#" title="ccc" class="ccc"><span>&nbsp; &nbsp; &nbsp;我的订单</span></a>
                 </p>
+                <p><a href="/view/safety/store/check/storeInfo.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;店铺资料</a></p>
+                <p><a href="#" title="eee" class="eee">&nbsp; &nbsp; &nbsp;安全设置</a></p>
                 <p><a href="#" title="fff" class="fff">&nbsp; &nbsp; &nbsp;发布宝贝</a></p>
                 <p>
 
@@ -218,35 +257,32 @@
                     <a href="#" title="hhh">&nbsp; &nbsp; &nbsp;店铺宝贝</a></p>
             </div>
         </td>
-        <td height="2" colspan="5" bgcolor="#FFFFFF"></td>
+        <td height="2" bgcolor="#FFFFFF"></td>
     </tr>
     <tr>
-        <td width="116" height="60" bgcolor="#E9E9E9">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="/userimg/storeHead/default.png" width="55" height="55" id="head"/>
+        <td height="30" align="left" valign="middle" bgcolor="#ECECEC" class="z">店铺资料</td>
+    </tr>
+    <tr>
+        <td height="18" align="left" valign="middle" bgcolor="#FFFFFF" class="z">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="43" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;昵称： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" name="name2" style="height:25px;width:200px" id="name"/></td>
+    </tr>
+    <tr>
+        <td height="37" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 地址： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" name="name" style="height:25px;width:150px" id="addr"/></td>
+    </tr>
+    <tr>
+        <td height="117" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 描述： &nbsp;&nbsp;&nbsp; &nbsp;
+            &nbsp;&nbsp;<textarea name="name4" style="height:150px;width:400px" id="descs"></textarea> &nbsp;&nbsp;&nbsp;&nbsp;
         </td>
-        <td height="60" colspan="2" bgcolor="#E9E9E9" id="name">
-               昵称（账号）
-        </td>
-        <td width="166" height="60" bgcolor="#E9E9E9" id="fw" align="right">访问量:</td>
-        <td width="339" bgcolor="#E9E9E9" align="left" id="visit">&nbsp;</td>
     </tr>
     <tr border="1">
-        <td height="51" colspan="2"><a href="#" id="kk">待付款</a></td>
-        <td width="139" height="51"><a href="#" id="kk1">待发货</a></td>
-        <td height="51"><a href="#" id="kk2">待收货 </a></td>
-        <td height="51"><a href="#" id="kk3">待评价</a></td>
-    </tr>
-    <tr>
-        <td height="20" colspan="5" bgcolor="#FFFFFF">&nbsp; </td>
-    </tr>
-    <tr>
-        <td height="39" colspan="5" bgcolor="#9AC7D1" id="z">   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 热卖商品
-        </td>
-    </tr>
-    <tr>
-        <td colspan="5">&nbsp;</td>
+        <td height="66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" value="保存" style="background:orange;height:30px" class="tj" color="grey" id="submit"/></td>
     </tr>
 </table>
-<p>&nbsp;</p>
+
 </body>
 </html>

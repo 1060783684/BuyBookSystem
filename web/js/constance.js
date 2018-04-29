@@ -9,6 +9,9 @@ var RESULT = "sresult";
 //主页加载用户信息
 var USERNAME = "username"; //主页加载用户信息
 
+//店铺信息获取相关
+var STORE_INFO = "storeInfo"; //店铺信息
+
 //正常的成功与失败
 var RESULT_SUCCESS = 1;
 var RESULT_FAIL = 0;
@@ -40,3 +43,9 @@ var UPLOAD_FAIL = 4; //上传错误
 
 //地址相关返回值
 var ADDRESS_TOMUCH = 2;
+
+//店铺申请相关
+var STORE_APPLY_SUCCESS = 1; //成功
+var STORE_APPLY_INFO_NOTFULL = 2; //信息填写不全
+var STORE_APPLY_EXIST = 3; //店铺申请已提交
+var STORE_APPLY_FAIL = 0; //操作错误

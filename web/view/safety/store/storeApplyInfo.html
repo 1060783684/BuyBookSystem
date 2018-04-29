@@ -91,6 +91,59 @@
             color: white
         }
     </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                var name = $("#name").val(); //公司法人姓名
+                var idnumber = $("#idnumber").val(); //身份证号
+                var storeName = $("#storeName").val(); //商店名
+                var type = $("#type").val(); //经营类型
+                var business = $("#business").val(); //营业执照id
+                var tax = $("#tax").val(); //税务
+                //这里加个判断
+                $.post("/user/applyStore.do", {
+                    "name": name,
+                    "idnumber": idnumber,
+                    "storeName": storeName,
+                    "type": type,
+                    "business": business,
+                    "tax": tax
+                }, function (data, status) {
+                    if (data != undefined) {
+                        var json = eval("(" + data + ")");
+                        if(json != undefined){
+                            if(json.sresult != undefined){
+                                switch (json.sresult){
+                                    case STORE_APPLY_SUCCESS : {
+                                        alert("提交成功");
+                                        window.location.href="/view/safety/store/check/storeMainPage.html";
+                                        break;
+                                    }
+                                    case STORE_APPLY_INFO_NOTFULL : {
+                                        alert("信息填写不全");
+                                        break;
+                                    }
+                                    case STORE_APPLY_EXIST : {
+                                        alert("已提交过申请");
+                                    }
+                                    case STORE_APPLY_FAIL : {
+                                        alert("操作失败");
+                                        break;
+                                    }
+                                    default:{
+                                        alert("操作失败");
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -99,7 +152,8 @@
         <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
         <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
         <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
-        <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
+        <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span>
+        </td>
         <td width="97"><span class="a"> <a href="#" title="g">购物车</a></span></td>
         <td width="43" colspan="2"><a href="#" class="a">退出</a></td>
     </tr>
@@ -114,37 +168,40 @@
     <tr>
         <td height="72" valign="bottom">&nbsp;</td>
         <td width="151" height="72" valign="bottom">公司法人姓名：</td>
-        <td width="305" valign="bottom"><input type="text" name="name2" style="height:25px;width:200px"/></td>
+        <td width="305" valign="bottom"><input type="text" name="name2" style="height:25px;width:200px" id="name"/></td>
         <td width="305" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="46">&nbsp;</td>
         <td height="46" valign="bottom">公司法人身份证号：</td>
-        <td height="46" valign="bottom"><input type="text" name="name" style="height:25px;width:200px"/></td>
+        <td height="46" valign="bottom"><input type="text" name="name" style="height:25px;width:200px" id="idnumber"/>
+        </td>
         <td height="46" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="47">&nbsp;</td>
         <td height="47" valign="bottom">店铺名称：</td>
-        <td height="47" valign="bottom"><input type="text" name="name3" style="height:25px;width:200px"/></td>
+        <td height="47" valign="bottom"><input type="text" name="name3" style="height:25px;width:200px" id="storeName"/>
+        </td>
         <td height="47" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="45">&nbsp;</td>
         <td height="45" valign="bottom">经营类目：</td>
-        <td height="45" valign="bottom"><input type="text" name="name4" style="height:25px;width:200px"/></td>
+        <td height="45" valign="bottom"><input type="text" name="name4" style="height:25px;width:200px" id="type"/></td>
         <td height="45" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="47">&nbsp;</td>
         <td height="47" valign="bottom">营业执照：</td>
-        <td height="47" valign="bottom"><input type="text" name="name5" style="height:25px;width:200px"/></td>
+        <td height="47" valign="bottom"><input type="text" name="name5" style="height:25px;width:200px" id="business"/>
+        </td>
         <td height="47" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="52">&nbsp;</td>
         <td height="52" valign="bottom">税务：</td>
-        <td height="52" valign="bottom"><input type="text" name="name6" style="height:25px;width:200px"/></td>
+        <td height="52" valign="bottom"><input type="text" name="name6" style="height:25px;width:200px" id="tax"/></td>
         <td height="52" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
@@ -154,7 +211,8 @@
         <td width="134" height="35">&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td><input type="button" value="下一步" style="background:orange;height:30px" class="tj" color="grey"/></td>
+        <td><input type="button" value="下一步" style="background:orange;height:30px" class="tj" color="grey" id="submit"/>
+        </td>
     </tr>
     <tr>
         <td height="18" colspan="4">&nbsp;</td>

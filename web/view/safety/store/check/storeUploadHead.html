@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>上传头像</title>
+    <style>
+        a {
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .aaa {
+            color: #FFF;
+        }
+
+        .aaa {
+            font-size: 18px;
+        }
+
+        .bbb {
+            color: #FFF;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        b {
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a a {
+            color: #808080;
+            font-size: 14px;
+        }
+
+        pre {
+            color: #000;
+            font-size: 14;
+        }
+
+        .ccc {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .ccc {
+            font-size: 16px;
+        }
+
+        .ddd {
+            color: #000;
+        }
+
+        .eee {
+            color: #000;
+        }
+
+        .fff {
+            color: #000;
+        }
+
+        .ggg {
+            color: #000;
+        }
+
+        .h {
+            color: #000;
+        }
+
+        .j {
+            color: #000;
+        }
+
+        .k {
+            color: #000;
+        }
+
+        .m {
+            color: #000;
+        }
+
+        #z {
+            color: #FFF;
+        }
+
+        .z {
+            font-size: 16px;
+        }
+
+        .z {
+            font-size: 18px;
+        }
+
+        #x {
+            color: #F00;
+        }
+
+        .z {
+            font-size: 18px;
+        }
+
+        .z {
+            color: #FFF;
+        }
+
+        .zz {
+            color: #808080;
+        }
+
+        .z {
+            font-weight: bold;
+        }
+
+        .z {
+            color: #000;
+        }
+
+        .tj {
+            color: white
+        }
+
+        .z {
+            font-weight: bold;
+        }
+
+        #ff {
+            font-size: 14px;
+        }
+
+        .b {
+            color: #000;
+        }
+
+        .d {
+            color: #000;
+        }
+
+        .e {
+            color: #000;
+        }
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="/css/uploadify.css">-->
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/jslib/jquery.form.js"></script>
+    <!--<script src="/jslib/jquery.uploadify.js"></script>-->
+    <!--<script src="/jslib/swfobject.js"></script>-->
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                $("#form1").ajaxSubmit({
+                    success: function (data) {
+                        if(data != undefined){
+                            switch (data.sresult){
+                                case UPLOAD_SUCCESS:{
+                                    alert("上传成功");
+                                    window.location.href="/view/safety/store/check/storeMainPage.html"; //回到用户主页
+                                    break;
+                                }
+                                case UPLOAD_TOBIG:{
+                                    alert("文件大小超过4M");
+                                    break;
+                                }
+                                case UPLOAD_TYPE_ERROR:{
+                                    alert("文件类型错误");
+                                    break;
+                                }
+                                case UPLOAD_FAIL:{
+                                    alert("文件上传错误");
+                                    break;
+                                }
+                                default:{
+                                    alert("操作异常");
+                                }
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                        alert("上传失败");
+                    },
+                    url: '/store/updateStoreHead.do', /*设置post提交到的页面*/
+                    type: "post", /*设置表单以post方法提交*/
+                    dataType: "json" /*设置返回值类型为文本*/
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<table width="1012" height="37" border="0" rules="none">
+    <tr>
+        <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="/index.html" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="/view/safety/user/userMainPage.html" title="d" class="d">我的易书 </a></td>
+        <td width="95" bgcolor="#E6E6E6"><a href="/view/safety/store/check/storeMainPage.html" title="e" class="e">卖家中心</a></td>
+    </tr>
+</table>
+<table width="1014" border="0" background="/img/userBackground.jpg">
+    <tr>
+        <td width="244" height="52"><img src="/img/userLogo.jpg" alt="" width="244" height="52"/></td>
+        <td width="210">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/view/safety/user/userMainPage.html" title="aaa"
+                                                                           class="aaa">用户首页</a></td>
+        <td width="546"><a href="#" title="bbb" class="bbb"> 购物车</a></td>
+    </tr>
+</table>
+<table width="1014" border="0" rules="none" style="border: 1px solid #E9E9E9;">
+    <tr>
+        <td width="235" rowspan="7" align="left" valign="top" id="x">
+            <div>
+                <p><span id="qb">&nbsp; &nbsp; &nbsp;全部功能</span></p>
+                <p><a href="#" title="ccc" class="ccc">
+        <span>
+        &nbsp; &nbsp; &nbsp;我的订单</span></a></p>
+                <p>
+
+                    <a href="/view/safety/user/userAddressList.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;我的收货地址
+                    </a></p>
+                <p><a href="/view/safety/user/userInfoPage.html" title="eee" class="eee">&nbsp; &nbsp; &nbsp;个人资料</a></p>
+                <p><a href="/view/safety/user/userSafeConfig.html" title="fff" class="fff">&nbsp; &nbsp; &nbsp;安全设置</a></p>
+                <p>
+
+                    <a href="#" title="ggg" class="ggg">&nbsp; &nbsp; &nbsp;我的购物车</a></p>
+                <p>
+
+            </div>
+        </td>
+        <td height="2" bgcolor="#FFFFFF"></td>
+    </tr>
+    <tr>
+        <td height="37" align="left" valign="middle" bgcolor="#ECECEC" class="z">店铺资料-<font id="ff">上传头像</font></td>
+    </tr>
+    <tr>
+        <td height="21" align="left" valign="top"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="43" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--上传按钮-->
+            <form enctype="multipart/form-data" id="form1">
+                <input type="file" id="imgHeader" name="imgHeader"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td height="101" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--存放文件的队列-->
+            <span  style="height:200px;width:200px" id="uploadfileQueue" ></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td height="23" align="left" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--保存图片是取消图片按钮-->
+            <input type="button" value="保存" style="background:#C3C3C3;height:30px" class="tj" color="grey" id="submit" />&nbsp;&nbsp;&nbsp;
+            <input type="button" value="取消" style="background:#C3C3C3;height:30px" class="tj" color="grey" />
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

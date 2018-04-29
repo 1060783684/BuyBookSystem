@@ -31,11 +31,12 @@ CREATE TABLE store_info
   id BIGINT(20) PRIMARY KEY NOT NULL,
   descs VARCHAR(200),
   name VARCHAR(40),
-  imgsrc VARCHAR(35),
+  imgsrc VARCHAR(60),
   addr VARCHAR(20),
   user_id BIGINT(20),
   visit_num BIGINT(20),
   isCheck INT(11),
   CONSTRAINT store_info_ibfk_1 FOREIGN KEY (user_id) REFERENCES user_info (id)
-);
+)
+  DEFAULT CHARSET = "utf8";
 CREATE INDEX user_id ON store_info (user_id);
