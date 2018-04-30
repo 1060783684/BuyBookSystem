@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>搜索</title>
+    <style type="text/css">
+        .s {
+            color: #F00;
+        }
+    </style>
+    <style type="text/css">
+        a {
+            text-decoration: none
+        }
+
+        .a {
+            color: #808080;
+        }
+
+        b {
+            color: #808080;
+        }
+
+        .a a {
+            color: #808080;
+        }
+
+        input {
+            border: 2px solid red;
+        }
+
+        .tj {
+            color: white
+        }
+
+        .aa {
+            color: #000;
+        }
+
+        .bb {
+            color: #000;
+        }
+
+        .cc {
+            color: #000;
+        }
+
+        .dd {
+            color: #000;
+        }
+
+        .ee {
+            color: #000;
+        }
+
+        .ff {
+            color: #000;
+        }
+
+        .gg {
+            color: #000;
+        }
+
+        gg {
+            color: #000;
+        }
+
+        hh {
+            color: #000;
+        }
+
+        .gg a {
+            color: #000;
+        }
+
+        .t:hover {
+            background-color: #E6E6E6;
+        }
+
+        #abc {
+            cursor: pointer;
+        }
+
+        .s {
+            color: #000;
+        }
+    </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript" src="/js/url.util.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.post("/mainPageLoad.do", {}, function (data, status) {
+                var json = eval('(' + data + ')');
+                var result = json.sresult;
+                switch (result) {
+                    case RESULT_SUCCESS: {
+                        $("#lToU").html("<a href=\"/view/login.html\" title=\"a\" class=\"a\" id=\"uname\">" + json.username + "</a>");
+                        $("#rToO").html("<button title=\"b\" class=\"a\" id=\"logout\" onclick='logout()'>退出</button>");
+                        break;
+                    }
+                    case RESULT_FAIL:
+                        break;
+                    default:
+                        break;
+                }
+            });
+            //搜索
+            var keyword = getQueryVariable("keyword");
+            var type = getQueryVariable("type");
+            $("#type").val(type); //给type赋值
+            $.post("", {"keyword":keyword, "type":type},function (data, status) {
+
+            });
+
+        });
+        function logout() {
+            $.post("/user/logout.do", {}, function (data, status) {
+                var json = eval('(' + data + ')');
+                var result = json.sresult;
+                window.location.href = "/index.html";
+            });
+        }
+    </script>
+</head>
+<body>
+<table width="983" border="0" rules="none">
+    <tr>
+        <td width="100" bgcolor="#CCCCCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/view/login.html" title="a" class="a" id="lToU"> 登录</a></td>
+        <td width="331" bgcolor="#CCCCCC"><a href="/view/regist.html" title="b" class="a" id="rToO">注册</a></td>
+        <td width="146" bgcolor="#CCCCCC"><a href="/index.html" title="c" class="a">易书网首页</a></td>
+        <td width="149" bgcolor="#CCCCCC"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
+        <td width="137" bgcolor="#CCCCCC"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
+        <td width="94" bgcolor="#CCCCCC"><span class="a"> <a href="#" title="g">购物车</a></span></td>
+    </tr>
+    <tr>
+        <td colspan="6">&nbsp;</td>
+    </tr>
+</table>
+<table width="985" border="0">
+    <tr>
+        <td width="301" height="78"><img src="/img/logo.png" width="189" height="68"/></td>
+        <td width="514">
+            <input type="text" name=name style="height:30px;width:500px"/>
+            <input type="hidden" name="type" value="1" id="type"/>
+        </td>
+        <td width="156">
+            <input type="button" value="搜索" style="background:red;height:30px" class="tj" color="grey"/>
+        </td>
+    </tr>
+</table>
+<table width="987" border="0">
+    <tr bgcolor="#F0F0F0" id="t">
+        <td width="186" height="35" class="t" id="abc1">&nbsp;&nbsp;&nbsp;&nbsp;综合排序</td>
+        <td width="175" class="t" id="abc2">销量</td>
+        <td width="183" class="t" id="abc3">价格从高到低</td>
+        <td width="161" class="t" id="abc4">价格从低到高</td>
+        <td width="260" class="t" id="abc">
+            <input type="text" name=name style="height:15px;width:25px;border: 1px solid white"/>&nbsp; &nbsp;—&nbsp; &nbsp;
+            <input type="text" name=name style="height:15px;width:25px;border: 1px solid white"/>&nbsp;&nbsp; &nbsp; &nbsp;
+            <input type="button" value="搜索" style="background:white;height:20px;border: 1px solid white"/>
+        </td>
+    </tr>
+</table>
+<pre>&nbsp; </pre>
+<table width="984" border="0" class="t">
+    <tr>
+        <td width="178" height="212" align="center" valign="middle"><a href="#"><img src="书图片.jpg" width="156"
+                                                                                     height="156"/></a></td>
+        <td width="790" align="left" valign="top" bgcolor="#F0F0F0"><p><a href="#" title="s" class="s">书名</a></p>
+            <p>￥</em></strong>0.00&nbsp; &nbsp; &nbsp;价钱</p>
+            <p>好评率</p>
+            <p>导语_点评_推荐词 </p>
+            <p><input type="button" value="加入购物车" style="background:red;height:30px" class="tj" color="grey"/>&nbsp;
+                &nbsp; &nbsp;<input type="button" value="购买" style="background:red;height:30px" class="tj"
+                                    color="grey"/></p></td>
+    </tr>
+</table>
+
+</body>
+</html>

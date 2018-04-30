@@ -36,6 +36,7 @@ public interface JSONProtocolConstance {
     //店铺信息获取相关
     String STORE_INFO = "storeInfo"; //店铺信息
 
+    String PAGE = "page"; //业务无关,代表页数
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败

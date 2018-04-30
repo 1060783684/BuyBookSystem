@@ -2,6 +2,7 @@ package org.tzsd.dao;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.annotations.Type;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.tzsd.dao.callback.HibernateCallback;
@@ -26,6 +27,29 @@ public class GoodsDAO extends GenericDAO{
     }
 
     /**
+     * @description: 根据店铺id和物品id获取物品实例
+     * @param storeId 店铺id
+     * @param id 物品id
+     * @return 物品实例
+     */
+    public Goods getGoodsByStoreIdAndId(final long storeId, final String id){
+        return getTemplate().doCall(new HibernateCallback<Goods>() {
+            @Override
+            public Goods doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsStoreIdAndId");
+                query.setParameter("store_id", storeId);
+                query.setParameter("id", id);
+                List<Goods> list = query.list();
+                Goods goods = null;
+                if(list != null && !list.isEmpty()){
+                    goods = list.get(0);
+                }
+                return goods;
+            }
+        });
+    }
+
+    /**
      * @description: 获取对应类型价格对应范围以及对应关键字的物品list
      * @param type 物品类型
      * @param low 最低价格
@@ -35,7 +59,7 @@ public class GoodsDAO extends GenericDAO{
      * @param size 分页大小
      * @return
      */
-    public List<Goods> getGoodsList(final String type, final int low, final int hight, final String keywords, final int start, final int size){
+    public List<Goods> getGoodsList(final int type, final int low, final int hight, final String keywords, final int start, final int size){
         return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
             @Override
             public List<Goods> doCall(Session session) throws HibernateException {
@@ -44,15 +68,18 @@ public class GoodsDAO extends GenericDAO{
                 StringBuilder typeEqual = null;
                 StringBuilder cost = null;
                 StringBuilder keyEqual = null;
-                if(type != null){
-                    typeEqual = new StringBuilder();
-                    where = "where";
-                    typeEqual.append(" ").append(where).append(" ");
-                    typeEqual.append("type = :type");
+                for (int i = 0; i < Goods.TYPES.length; i++) {
+                    if (type == Goods.TYPES[i]) {
+                        typeEqual = new StringBuilder();
+                        where = "where";
+                        typeEqual.append(" ").append(where).append(" ");
+                        typeEqual.append("type = :type");
 
-                    hql.append(typeEqual);
+                        hql.append(typeEqual);
+                        break;
+                    }
                 }
-                if(low < hight){
+                if((low >= 0 || hight >= 0)){
                     cost = new StringBuilder();
                     if(where == null){
                         cost.append(" ").append(where).append(" ");
@@ -64,7 +91,7 @@ public class GoodsDAO extends GenericDAO{
                         cost.append("cost >= ").append(":hight");
                     }else if(low > 0 && hight <= 0){
                         cost.append("cost <= ").append(":low");
-                    }else if(low > 0 && hight > 0){
+                    }else if(low > 0 && hight > 0 && low < hight){
                         cost.append("between ").append(":low").append(" and ").append(":hight");
                     }
 
@@ -163,25 +190,92 @@ public class GoodsDAO extends GenericDAO{
 //        });
 //    }
 //
-//    /**
-//     * @description: 通过type获取从start开始的size个物品list
-//     * @param type 物品类型
-//     * @param start 分页开始位置
-//     * @param size 分页个数
-//     * @return 从start开始的size个物品的list
-//     */
-//    public List<Goods> getGoodsListByTypeLimit(final String type, final int start, final int size){
-//        return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
-//            @Override
-//            public List<Goods> doCall(Session session) throws HibernateException {
-//                Query query = session.getNamedQuery("getGoodsListByType");
-//                query.setParameter(1,type);
-//                query.setFirstResult(start);
-//                query.setMaxResults(size);
-//                return query.list();
-//            }
-//        });
-//    }
+    /**
+     * @description: 通过type获取从start开始的size个物品list
+     * @param storeId 店铺id
+     * @param status 物品状态
+     * @param start 分页开始位置
+     * @param size 分页个数
+     * @return 从start开始的size个物品的list
+     */
+    public List<Goods> getGoodsListByStoreIdAndStatusLimit(final long storeId,final int status, final int start, final int size){
+        return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
+            @Override
+            public List<Goods> doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsListByStoreIdAndStatus");
+                query.setParameter("store_id", storeId);
+                query.setParameter("status", status);
+                query.setFirstResult(start);
+                query.setMaxResults(size);
+                return query.list();
+            }
+        });
+    }
+
+    /**
+     * @description: 通过type获取从start开始的size个物品list
+     * @param storeId 店铺id
+     * @param start 分页开始位置
+     * @param size 分页个数
+     * @return 从start开始的size个物品的list
+     */
+    public List<Goods> getGoodsListByStoreIdLimit(final long storeId, final int start, final int size){
+        return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
+            @Override
+            public List<Goods> doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsListByStoreId");
+                query.setParameter("store_id", storeId);
+                query.setFirstResult(start);
+                query.setMaxResults(size);
+                return query.list();
+            }
+        });
+    }
+
+    /**
+     * @description: 通过商店id和类型获取符合条件的商品的个数
+     * @param storeId 商店id
+     * @param status 物品状态
+     * @return 符合条件的物品的个数
+     */
+    public Long getGoodsCountByStoreIdAndStatus(final long storeId,final int status){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsCountByStoreIdAndStatus");
+                query.setParameter("store_id", storeId);
+                query.setParameter("status", status);
+                List<Long> list = query.list();
+                long count = 0;
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
+            }
+        });
+    }
+
+    /**
+     * @description: 通过商店id和类型获取符合条件的商品的个数
+     * @param storeId 商店id
+     * @return 符合条件的物品的个数
+     */
+    public Long getGoodsCountByStoreId(final long storeId){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsCountByStoreId");
+                query.setParameter("store_id", storeId);
+                List<Long> list = query.list();
+                long count = 0;
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
+            }
+        });
+    }
+
 //
 //    /**
 //     * @description: 获取价格从low至hight的从start开始的size个物品list

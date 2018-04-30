@@ -52,12 +52,14 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping("/searchGoodsList")
     public void searchGoods(HttpServletRequest request, HttpServletResponse response){
-        String type = request.getParameter("type");
+        String typeStr = request.getParameter("type");
         String costStr = request.getParameter("cost");
         String keywords = request.getParameter("keywords");
         String pageStr = request.getParameter("page");
-        int cost = 0;
+        int cost = -1;
         int page = 0;
+        int type = -1;
+
         if(costStr != null){
             try{
                 cost = Integer.valueOf(costStr);
@@ -68,6 +70,13 @@ public class GoodsController extends BaseController {
         if(pageStr != null){
             try{
                 page = Integer.valueOf(pageStr);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if(typeStr != null){
+            try{
+                type = Integer.valueOf(typeStr);
             }catch (Exception e){
                 e.printStackTrace();
             }

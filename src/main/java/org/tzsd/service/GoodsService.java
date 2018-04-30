@@ -52,7 +52,7 @@ public class GoodsService {
      * @param page 分页开始的页号
      * @return
      */
-    public List<Goods> searchGoods(String type, int cost, String keywords, int page){
+    public List<Goods> searchGoods(int type, int cost, String keywords, int page){
         int low = -1;
         int hight = low;
         switch (cost){

@@ -21,6 +21,10 @@ public class Goods {
     public static final int LITERATURE = 4; //文学
     public static final int CHILDREN = 5; //少儿
     public static final int LAGISLATION = 6; //法律
+
+    public static final int[] TYPES = new int[]{Goods.EDUCATION, Goods.PHILOPHY, Goods.ART,
+            Goods.CLASSICAL, Goods.LITERATURE, Goods.CHILDREN, Goods.LAGISLATION};
+
     @Id
     @Column(name = "id")
     private String id; //宝贝id

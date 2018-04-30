@@ -15,11 +15,30 @@
         <!--<![CDATA[ from Goods order by sell_num]]>-->
     <!--</query>-->
 
-    <!--&lt;!&ndash;根据类型获取物品list&ndash;&gt;-->
-    <!--<query name="getGoodsListByType">-->
-        <!--<![CDATA[ from Goods where type=:type order by sell_num]]>-->
-    <!--</query>-->
+    <!--根据状态和店铺id获取物品list-->
+    <query name="getGoodsListByStoreIdAndStatus">
+        <![CDATA[ from Goods where store_id = :store_id and status = :status order by num]]>
+    </query>
 
+    <!--根据店铺id获取物品list-->
+    <query name="getGoodsListByStoreId">
+        <![CDATA[ from Goods where store_id = :store_id order by num]]>
+    </query>
+
+    <!--根据状态和店铺id获取总数-->
+    <query name="getGoodsCountByStoreIdAndStatus">
+        <![CDATA[ select count(*) from Goods where store_id = :store_id and status = :status order by num]]>
+    </query>
+
+    <!--根据店铺id获取总数-->
+    <query name="getGoodsCountByStoreId">
+        <![CDATA[ select count(*) from Goods where store_id = :store_id order by num]]>
+    </query>
+
+    <!--根据店铺id和物品id获取物品实例-->
+    <query name="getGoodsStoreIdAndId">
+        <![CDATA[ from Goods where store_id = :store_id and id = :id]]>
+    </query>
     <!--&lt;!&ndash;根据价格范围获取物品list&ndash;&gt;-->
     <!--<query name="getGoodsListByCostBetween">-->
         <!--<![CDATA[ from Goods where cost between :low and :hight]]>-->

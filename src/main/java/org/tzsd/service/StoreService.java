@@ -63,6 +63,7 @@ public class StoreService {
     public static final int _4M = 4 * 1024 * 1024; //文件大小上限
     public static final int[] TYPES = new int[]{Goods.EDUCATION, Goods.PHILOPHY, Goods.ART,
             Goods.CLASSICAL, Goods.LITERATURE, Goods.CHILDREN, Goods.LAGISLATION};
+    public static final int PAGE_SIZE = 8;
 
     /**
      * @param username 用户名
@@ -409,5 +410,129 @@ public class StoreService {
 
         getGoodsDAO().save(goods);
         return JSONProtocolConstance.PUB_SUCCESS;
+    }
+
+    /**
+     * @description: 搜索已上架宝贝
+     * @param username 用户名
+     * @param page 分页号
+     * @return 返回长度为8的上架物品list
+     */
+    public List<Goods> searchUpGoods(String username, int page){
+        if(username == null){
+            return null;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return null;
+        }
+        Store store = getStoreDAO().getStoreByUserId(user.getId());
+        if(store == null){
+            return null;
+        }
+        int pageStart = page * PAGE_SIZE;
+        List<Goods> list = getGoodsDAO().getGoodsListByStoreIdAndStatusLimit(store.getId(), Goods.UP, pageStart, PAGE_SIZE);
+        return list;
+    }
+
+    /**
+     * @description: 搜索所有对应店铺的宝贝
+     * @param username 用户名
+     * @param page 分页号
+     * @return 返回长度为8的上架物品list
+     */
+    public List<Goods> searchGoods(String username, int page){
+        if(username == null){
+            return null;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return null;
+        }
+        Store store = getStoreDAO().getStoreByUserId(user.getId());
+        if(store == null){
+            return null;
+        }
+        int pageStart = page * PAGE_SIZE;
+        List<Goods> list = getGoodsDAO().getGoodsListByStoreIdLimit(store.getId(), pageStart, PAGE_SIZE);
+        return list;
+    }
+
+
+    /**
+     * @description: 获取已上架商品的页数
+     * @param username 用户名
+     * @return 已上架商品的页数
+     */
+    public long getUpGoodsPage(String username){
+        if(username == null){
+            return 0;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return 0;
+        }
+        Store store = getStoreDAO().getStoreByUserId(user.getId());
+        if(store == null){
+            return 0;
+        }
+        long count = getGoodsDAO().getGoodsCountByStoreIdAndStatus(store.getId(), Goods.UP);
+        long page = count/PAGE_SIZE;
+        if(count % PAGE_SIZE > 0){ //不够一页的也算一页
+            page += 1;
+        }
+        return page;//总个数/8为页数
+    }
+
+    /**
+     * @description: 获取所有商品的页数
+     * @param username 用户名
+     * @return 已上架商品的页数
+     */
+    public long getGoodsPage(String username){
+        if(username == null){
+            return 0;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return 0;
+        }
+        Store store = getStoreDAO().getStoreByUserId(user.getId());
+        if(store == null){
+            return 0;
+        }
+        long count = getGoodsDAO().getGoodsCountByStoreId(store.getId());
+        long page = count/PAGE_SIZE;
+        if(count % PAGE_SIZE > 0){ //不够一页的也算一页
+            page += 1;
+        }
+        return page;//总个数/8为页数
+    }
+
+    /**
+     * @description: 下架宝贝
+     * @param username 用户名
+     * @param goodsId 物品id
+     * @return 是否下架成功
+     */
+    public boolean soldGoods(String username, String goodsId){
+        if(username == null || goodsId == null){
+            return false;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return false;
+        }
+        Store store = getStoreDAO().getStoreByUserId(user.getId());
+        if(store == null){
+            return false;
+        }
+        Goods goods = getGoodsDAO().getGoodsByStoreIdAndId(store.getId(), goodsId);
+        if(goods.getStatus() != Goods.UP){
+            return false;
+        }
+        goods.setStatus(Goods.DOWN);
+        getGoodsDAO().merge(goods);
+        return true;
     }
 }

@@ -58,3 +58,20 @@ var PUB_GOODS_TYPE_ERROR = 4; //发布物品类型错误
 var PUB_INFO_ERROR = 5; //信息填写错误
 var PUB_IMG_NOTFOUND = 6; //没有文件
 var PUB_FAIL = 0; //操作错误
+
+//-----------------------JSON协议常量end------------------------------
+
+//物品类型
+//类型
+var EDUCATION = 0; //教育
+var PHILOPHY = 1; //哲学
+var ART = 2; //艺术
+var CLASSICAL = 3; //古典
+var LITERATURE = 4; //文学
+var CHILDREN = 5; //少儿
+var LAGISLATION = 6; //法律
+
+//宝贝状态
+var UP = 2; //上架
+var STAYUP = 1; //待审核
+var DOWN = 0; //下架

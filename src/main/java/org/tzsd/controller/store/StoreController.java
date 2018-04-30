@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.manager.LoginUserManager;
+import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
 import org.tzsd.service.StoreService;
@@ -165,6 +166,110 @@ public class StoreController extends BaseController{
                 }
             } else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 搜索店铺的所有物品物品
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/searchGoodsList.do")
+    public void searchGoodsList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            String username = user.getName(); //用户名
+            String pageStr = request.getParameter("page");
+            if (pageStr == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            } else {
+                try{
+                    int page = Integer.valueOf(pageStr);
+                    List<Goods> list = getStoreService().searchGoods(username, page); //获取物品list
+                    long pageNum = getStoreService().getGoodsPage(username); //获取物品list的页数
+                    if(list == null){
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    }else {
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                        jsonMap.put(JSONProtocolConstance.GOODS_LIST, list);
+                        jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
+                    }
+                } catch (Exception e){
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    e.printStackTrace();
+                }
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 搜索已审核物品
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/searchUpGoodsList.do")
+    public void searchUpGoodsList(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            String username = user.getName(); //用户名
+            String pageStr = request.getParameter("page");
+            if (pageStr == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            } else {
+                try{
+                    int page = Integer.valueOf(pageStr);
+                    List<Goods> list = getStoreService().searchUpGoods(username, page); //获取物品list
+                    long pageNum = getStoreService().getUpGoodsPage(username); //获取物品list的页数
+                    if(list == null){
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    }else {
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                        jsonMap.put(JSONProtocolConstance.GOODS_LIST, list);
+                        jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
+                    }
+                } catch (Exception e){
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    e.printStackTrace();
+                }
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 下架商品
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/soldGoods.do")
+    public void soldGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            String username = user.getName(); //用户名
+            String goodsId = request.getParameter("goodsId").trim();
+            if (goodsId == null) {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            } else {
+                if(getStoreService().soldGoods(username, goodsId)){
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                }else {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                }
             }
         }
         writeJSONProtocol(response, jsonMap);

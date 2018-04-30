@@ -19,14 +19,42 @@
             color: white
         }
     </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.post("/mainPageLoad.do", {}, function (data, status) {
+                var json = eval('(' + data + ')');
+                var result = json.sresult;
+                switch (result) {
+                    case RESULT_SUCCESS: {
+                        $("#lToU").html("<a href=\"/view/login.html\" title=\"a\" class=\"a\" id=\"uname\">" + json.username + "</a>");
+                        $("#rToO").html("<button title=\"b\" class=\"a\" id=\"logout\" onclick='logout()'>退出</button>");
+                        break;
+                    }
+                    case RESULT_FAIL:
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+        function logout() {
+            $.post("/user/logout.do", {}, function (data, status) {
+                var json = eval('(' + data + ')');
+                var result = json.sresult;
+                window.location.href = "/index.html";
+            });
+        }
+    </script>
 </head>
 
 <body>
 <table width="1040" border="0" rules="none">
     <tr>
         <td width="136" height="35" bgcolor="#E9E9E9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                href="#" title="a">登录</a></td>
-        <td width="312" bgcolor="#E9E9E9"><a href="#">注册</a></td>
+                href="#" title="a" id="lToU">登录</a></td>
+        <td width="312" bgcolor="#E9E9E9"><a href="#" id="rToO">注册</a></td>
         <td width="144" bgcolor="#E9E9E9"><a href="#" title="a">易书网首页</a></td>
         <td width="140" bgcolor="#E9E9E9"><a href="#" title="a">我的易书</a></td>
         <td width="148" bgcolor="#E9E9E9"><a href="#" title="a">卖家中心</a></td>
@@ -41,9 +69,13 @@
     </tr>
     <tr>
         <td width="293" height="40">&nbsp;</td>
-        <td width="562"><input type="text" name="name" style="height:30px;width:500px"/> <input type="button" value="搜索"
-                                                                                                style="background:blue;height:30px"
-                                                                                                class="tj"/></td>
+        <td width="562">
+            <form action="/view/search/search.html" method="get">
+                <input type="text" name="keyword" style="height:30px;width:500px"/>
+                <input type="hidden" name="type" value="1"/>
+                <input type="submit" value="搜索" style="background:red;height:30px" class="tj"/>
+            </form>
+        </td>
     </tr>
     <tr>
         <td height="40" colspan="2" bgcolor="#FFFFFF">&nbsp;</td>
