@@ -26,16 +26,39 @@ public class ShopCarDAO extends GenericDAO{
 
     /**
      * @description: 通过用户id获取所有购物车的条目
-     * @param id 用户id
+     * @param userId 用户id
      * @return 购物车条目列表
      */
-    public List<ShopCar> getShopCarListByUserId(final long id){
-        return (List<ShopCar>) getTemplate().doCall(new HibernateCallback<Object>() {
+    public List getShopCarListByUserId(final long userId, final int startPage, final int pageSize){
+        return (List) getTemplate().doCall(new HibernateCallback<Object>() {
             @Override
             public Object doCall(Session session) throws HibernateException {
-                Query query = session.getNamedQuery("getShopCarListByUserId");
-                query.setParameter("id",id);
+                Query query = session.getNamedQuery("getShopCarInfoListByUserId");
+                query.setParameter("user_id", userId);
+                query.setFirstResult(startPage);
+                query.setMaxResults(pageSize);
                 return query.list();
+            }
+        });
+    }
+
+    /**
+     * @description: 获取对应用户id的购物车条目的个数
+     * @param userId 用户id
+     * @return 条目个数
+     */
+    public long getShopCarCountByUserId(final long userId){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getShopCarCountByUserId");
+                query.setParameter("user_id", userId);
+                long count = 0;
+                List<Long> list = query.list();
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
             }
         });
     }
@@ -50,6 +73,7 @@ public class ShopCarDAO extends GenericDAO{
             @Override
             public Integer doCall(Session session) throws HibernateException {
                 Query query = session.getNamedQuery("deleteShopCar");
+                query.setParameter("id",id);
                 return query.executeUpdate();
             }
         });

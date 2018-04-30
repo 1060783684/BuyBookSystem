@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>宝贝</title>
+    <style type="text/css">
+        .a {
+            color: #000;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        .b {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .c {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .d {
+            color: #000;
+        }
+
+        .e {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .a {
+            font-size: 14px;
+        }
+
+        .d {
+            font-size: 14px;
+        }
+
+        .z {
+            font-weight: bold;
+        }
+
+        .z {
+            color: #000;
+        }
+
+        .z em {
+            color: #FFE1E1;
+        }
+
+        #st {
+            color: #F00;
+        }
+
+        #st #st {
+            font-size: 18px;
+        }
+
+        #st #st em {
+            font-size: 24px;
+            color: #FFB3B3;
+        }
+
+        .tj {
+            color: white
+        }
+
+        .jj {
+            color: #57ABFF;
+        }
+
+        .z {
+            color: #000;
+        }
+
+        #pp {
+            color: #000;
+            font-size: 14;
+        }
+
+        #hp {
+            font-size: 14px;
+        }
+
+        .pj {
+            color: #000;
+        }
+
+        .t:hover {
+            background-color: #999999;
+        }
+
+        #abc {
+            cursor: pointer;
+        }
+
+        #def {
+            cursor: pointer;
+        }
+
+        .p2 {
+            font-size: 14px;
+        }
+
+        #p2 {
+            color: #666;
+        }
+    </style>
+    <script src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript" src="/js/url.util.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#abc").click(function () {
+                $("#p2").hide();
+                $("#p1").show();
+            });
+            $("#def").click(function () {
+                $("#p1").hide();
+                $("#p2").show();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var id = getQueryVariable("id");
+            $.post("/goods/getGoodsInfo.do", {"goodsId":id}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval('(' + data + ')');
+                    if (json != undefined) {
+                        var result = json.sresult;
+                        switch (result) {
+                            case RESULT_SUCCESS: {
+                                var goods = json.goodsInfo;
+                                var store = json.storeInfo;
+                                if(goods.id != undefined){
+                                    $("#goodsId").val(goods.id);
+                                }
+                                if(goods.imgSrc != undefined){
+                                    $("#imgSrc").attr("src", goods.imgSrc);
+                                }
+                                if(goods.name != undefined){
+                                    $("#name").text(goods.name);
+                                }
+                                if(goods.cost != undefined){
+                                    $("#cost").text(goods.cost);
+                                }
+                                if(store.addr != undefined){
+                                    $("#addr").text(store.addr);
+                                }
+                                break;
+                            }
+                            case RESULT_FAIL:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+        });
+        function addShopCar() {
+            var id = $("#goodsId").val();
+            var num = $("#num").val();
+            $.post("/shopcar/addShopCar.do", {"goodsId":id, "num":num}, function (data, status) {
+                var json = eval('(' + data + ')');
+                if(json == undefined){
+                    $(document).html(data)
+                }
+                var result = json.sresult;
+                switch (result) {
+                    case RESULT_SUCCESS:
+                        alert("添加成功");
+                        window.location.href = "/index.html"
+                        break;
+                    case RESULT_FAIL:
+                        alert("添加失败");
+                        break;
+                    case POST_REDIRECT:
+                        var r_url = json.redirect;
+                        window.location.href = r_url;
+                        break;
+                    default:
+                        alert("操作错误");
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<table width="1052" height="37" border="0" rules="none">
+    <tr>
+        <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="#" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="#" title="d" class="d">我的易书 </a></td>
+        <td width="135" bgcolor="#E6E6E6"><a href="#" title="e" class="e">卖家中心</a></td>
+    </tr>
+</table>
+<table width="1053" border="0">
+    <tr>
+        <td width="1047" height="29"><img src="/img/logo.png" width="150" height="57"/></td>
+    </tr>
+    <tr>
+        <td height="30">
+            <hr align=center width=1010 color=#000 size=1>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="1052" border="0" style="border:1px solid #E6E6E6">
+    <tr>
+        <td width="236" height="277" rowspan="6" align="left" valign="top">
+            <img src="/img/book.jpg" width="156" height="156" id="imgSrc"/>
+        </td>
+        <td width="806" height="41" class="z" id="name">书名及描述</td>
+    </tr>
+    <tr>
+        <td height="41" bgcolor="#FFE6E6">价格： <span id="st"><strong id="st"><em>¥</em><em id="cost"
+                                                                                          data-spm-anchor-id="2013.1.iteminfo.i0.73d2f226XPtwrN">39.99</em></strong></span>
+        </td>
+    </tr>
+    <tr>
+        <td height="37">商家地址：<a id="addr">广州</a></td>
+    </tr>
+    <tr>
+        <td height="37">购买数量：
+            <input type="text" name="name" style="height:15px;width:25px" id="num"/>
+        </td>
+    </tr>
+    <tr>
+        <td height="37"><input type="button" value="购买" style="background:red;height:30px" class="tj" color="grey"/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" value="加入购物车" style="background:#FFB3B3;height:30px" class="tj" color="grey" id="addShopCar" onclick="addShopCar()"/>
+            <input type="hidden" id="goodsId"/>
+        </td>
+    </tr>
+    <tr>
+        <td height="0"><a href="#" title="jj" class="jj">进入店铺</a></td>
+    </tr>
+</table>
+<br/>
+<table width="1050" border="0" rules="none" style="border:1px solid #E6E6E6">
+    <tr>
+        <td width="237" height="30" bgcolor="#F1F1F1" class="t"><p id="abc">宝贝详情&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </td>
+        <td width="803" bgcolor="#F1F1F1" class="t"><p id="def">宝贝评价</p></td>
+    </tr>
+    <tr border="1">
+        <td height="277" colspan="2" align="left" valign="top" bgcolor="#FFFFFF" style="border:1px solid #F1F1F1">
+            <div id="p1">宝贝详情</div>
+            <div id="p2" style="display:none">
+                <p><span>好评数：   差评数：</span></p>
+                <table width="1042" border="0" style="border:1px solid #E6E6E6">
+                    <tr>
+                        <td width="103" height="79" align="center" valign="middle"><img src="头像副本.png" width="55"
+                                                                                        height="55"/></td>
+                        <td width="927" rowspan="2" align="center">评价内容</td>
+                    </tr>
+                    <tr>
+                        <td align="center">账号</td>
+                    </tr>
+                </table>
+                <p>&nbsp;</p>
+            </div>
+        </td>
+    </tr>
+</table>
+<br/>
+</body>
+</html>

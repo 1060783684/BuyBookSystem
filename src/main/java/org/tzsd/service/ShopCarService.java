@@ -1,8 +1,10 @@
 package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
+import org.tzsd.dao.GoodsDAO;
 import org.tzsd.dao.ShopCarDAO;
 import org.tzsd.dao.UserDAO;
+import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.ShopCar;
 import org.tzsd.pojo.User;
 
@@ -22,6 +24,9 @@ public class ShopCarService {
     @Resource(name = "userDao")
     private UserDAO userDAO;
 
+    @Resource(name = "goodsDao")
+    private GoodsDAO goodsDAO;
+
     //物品dao
 
     public ShopCarDAO getShopCarDAO() {
@@ -40,12 +45,22 @@ public class ShopCarService {
         this.userDAO = userDAO;
     }
 
+    public GoodsDAO getGoodsDAO() {
+        return goodsDAO;
+    }
+
+    public void setGoodsDAO(GoodsDAO goodsDAO) {
+        this.goodsDAO = goodsDAO;
+    }
+
+    public static final int PAGE_SIZE = 8;
+
     /**
      * @description: 通过用户名获取用户id
      * @param username
      * @return
      */
-    public List<ShopCar> searchShopCarList(String username){
+    public List searchShopCarList(String username, int page){
         if(username == null){
             return null;
         }
@@ -54,7 +69,28 @@ public class ShopCarService {
             return null;
         }
         long user_id = user.getId();
-        return getShopCarDAO().getShopCarListByUserId(user_id);
+        return getShopCarDAO().getShopCarListByUserId(user_id, page, PAGE_SIZE);
+    }
+
+    /**
+     * @description: 返回对应用户的购物车条目页数
+     * @param username 用户名
+     * @return 页数
+     */
+    public long getShopCarListSize(String username){
+        if(username == null){
+            return 0;
+        }
+        User user = getUserDAO().getUserByName(username);
+        if(user == null){
+            return 0;
+        }
+        long count = getShopCarDAO().getShopCarCountByUserId(user.getId());
+        long page = count/PAGE_SIZE;
+        if(count % PAGE_SIZE > 0){
+            page += 1;
+        }
+        return page;
     }
 
     /**
@@ -69,10 +105,14 @@ public class ShopCarService {
         if(user == null){
             return false;
         }
+        Goods goods = getGoodsDAO().getGoodsById(goods_id);
+        if(goods == null){
+            return false;
+        }
         UUID uuid = null;
         do {
             uuid = UUID.randomUUID();
-        }while (getShopCarDAO().getShopCarById(uuid.toString()) == null);
+        }while (getShopCarDAO().getShopCarById(uuid.toString()) != null);
         ShopCar shopCar = new ShopCar(uuid.toString(), goods_id, user.getId(), number);
         try {
             String shopCarId = getShopCarDAO().saveShopCar(shopCar);

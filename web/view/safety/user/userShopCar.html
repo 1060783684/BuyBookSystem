@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>购物车</title>
+    <style type="text/css">
+        .a {
+            color: #000;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        .b {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .c {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .d {
+            color: #000;
+        }
+
+        .e {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .a {
+            font-size: 14px;
+        }
+
+        .d {
+            font-size: 14px;
+        }
+
+        #g {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .g {
+            font-family: "Comic Sans MS", cursive;
+        }
+
+        #q {
+            color: #F00;
+        }
+
+        #q #q {
+            color: #F00;
+        }
+
+        #q {
+            color: #F00;
+        }
+
+        #J_SmallTotal {
+            color: #F00;
+        }
+
+        .x {
+            font-size: 14px;
+        }
+
+        #t td p {
+            font-size: 14px;
+        }
+    </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.post("/shopcar/getShopCars.do", {"page":0}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval("(" + data + ")");
+                    if (json != undefined) {
+                        if (json.sresult == RESULT_SUCCESS) {
+                            var shopCarList = json.shopCarList;
+                            var shopCarInfos = "";
+                            for (var i = 0; i < shopCarList.length; i++) {
+                                shopCarInfos += '<tr border="1" id="t">';
+                                var shopCar = shopCarList[i][0];
+                                var goods = shopCarList[i][1];
+                                shopCarInfos += '<td width="55" height="124" align="left" valign="top" bgcolor="#F9FBFB"><pre>  <input type="checkbox" name="qu" value="qu"/> </pre><span class="x"></span></td>';
+                                //商品图片
+                                if (goods.imgSrc != undefined) {
+                                    shopCarInfos += '<td width="100" align="left" valign="baseline" bgcolor="#F9FBFB"><img src="' + goods.imgSrc + '" width="81" height="81"/></td>';
+                                } else {
+                                    shopCarInfos += '<td width="100" align="left" valign="baseline" bgcolor="#F9FBFB"><img src="/userimg/goods/default.png" width="81" height="81"/></td>';
+                                }
+                                //商品名
+                                if (goods.name != undefined) {
+                                    shopCarInfos += '<td width="164" align="left" valign="top" bgcolor="#F9FBFB"><p>' + goods.name + '</p><p>&nbsp;</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="164" align="left" valign="top" bgcolor="#F9FBFB"><p>' + '无' + '</p><p>&nbsp;</p></td>';
+                                }
+                                //商品描述
+                                if (goods.descs != undefined) {
+                                    shopCarInfos += '<td width="208" align="left" valign="top" bgcolor="#F9FBFB"><p>' + goods.descs + '</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="208" align="left" valign="top" bgcolor="#F9FBFB"><p>' + '无' + '</p></td>';
+                                }
+                                //单价
+                                var cost = 0;
+                                if (goods.cost != undefined) {
+                                    cost = goods.cost;
+                                    shopCarInfos += '<td width="135" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal2" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + cost + '</p><p>&nbsp;</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="135" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal2" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + cost + '</p><p>&nbsp;</p></td>';
+                                }
+                                //个数
+                                var num = 0;
+                                if (shopCar.number != undefined) {
+                                    num = shopCar.number;
+                                    shopCarInfos += '<td width="114" align="left" valign="top" bgcolor="#F9FBFB"><p><a>' + num + '</a></p><p>&nbsp;</p><p>&nbsp; </p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="114" align="left" valign="top" bgcolor="#F9FBFB"><p><a>' + num + '</a></p><p>&nbsp;</p><p>&nbsp; </p></td>';
+                                }
+                                //总价格
+                                shopCarInfos += '<td width="97" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal3" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + (cost * num) + '</p><p id="j">&nbsp;</p></td>';
+                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj"/></p><p>&nbsp; </p></td>';
+                                shopCarInfos += '</tr>';
+                            }
+                            var pageButtons = "";
+                            if(json.page != undefined){
+                                var pageNum = parseInt(json.page);
+                                pageButtons += '<tr><td colspan="6" align="center">';
+                                for(var i = 0; i < pageNum; i++){
+                                    pageButtons += '<input type="button" value="' + (i+1) + '" onclick="selectPage(' + i + ')"/>';
+                                }
+                                pageButtons += '</td></tr>';
+                            }
+                            $("#shopCarTable").html(shopCarInfos + pageButtons);
+                        }
+                    }
+                }
+            });
+        });
+        function selectPage(page) {
+            $.post("/shopcar/getShopCars.do", {"page":page}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval("(" + data + ")");
+                    if (json != undefined) {
+                        if (json.sresult == RESULT_SUCCESS) {
+                            var shopCarList = json.shopCarList;
+                            var shopCarInfos = "";
+                            for (var i = 0; i < shopCarList.length; i++) {
+                                shopCarInfos += '<tr border="1" id="t">';
+                                var shopCar = shopCarList[i][0];
+                                var goods = shopCarList[i][1];
+                                shopCarInfos += '<td width="55" height="124" align="left" valign="top" bgcolor="#F9FBFB"><pre>  <input type="checkbox" name="qu" value="qu"/> </pre><span class="x"></span></td>';
+                                //商品图片
+                                if (goods.imgSrc != undefined) {
+                                    shopCarInfos += '<td width="100" align="left" valign="baseline" bgcolor="#F9FBFB"><img src="' + goods.imgSrc + '" width="81" height="81"/></td>';
+                                } else {
+                                    shopCarInfos += '<td width="100" align="left" valign="baseline" bgcolor="#F9FBFB"><img src="/userimg/goods/default.png" width="81" height="81"/></td>';
+                                }
+                                //商品名
+                                if (goods.name != undefined) {
+                                    shopCarInfos += '<td width="164" align="left" valign="top" bgcolor="#F9FBFB"><p>' + goods.name + '</p><p>&nbsp;</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="164" align="left" valign="top" bgcolor="#F9FBFB"><p>' + '无' + '</p><p>&nbsp;</p></td>';
+                                }
+                                //商品描述
+                                if (goods.descs != undefined) {
+                                    shopCarInfos += '<td width="208" align="left" valign="top" bgcolor="#F9FBFB"><p>' + goods.descs + '</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="208" align="left" valign="top" bgcolor="#F9FBFB"><p>' + '无' + '</p></td>';
+                                }
+                                //单价
+                                var cost = 0;
+                                if (goods.cost != undefined) {
+                                    cost = goods.cost;
+                                    shopCarInfos += '<td width="135" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal2" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + cost + '</p><p>&nbsp;</p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="135" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal2" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + cost + '</p><p>&nbsp;</p></td>';
+                                }
+                                //个数
+                                var num = 0;
+                                if (shopCar.number != undefined) {
+                                    num = shopCar.number;
+                                    shopCarInfos += '<td width="114" align="left" valign="top" bgcolor="#F9FBFB"><p><a>' + num + '</a></p><p>&nbsp;</p><p>&nbsp; </p></td>';
+                                } else {
+                                    shopCarInfos += '<td width="114" align="left" valign="top" bgcolor="#F9FBFB"><p><a>' + num + '</a></p><p>&nbsp;</p><p>&nbsp; </p></td>';
+                                }
+                                //总价格
+                                shopCarInfos += '<td width="97" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal3" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + (cost * num) + '</p><p id="j">&nbsp;</p></td>';
+                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj"/></p><p>&nbsp; </p></td>';
+                                shopCarInfos += '</tr>';
+                            }
+                            var pageButtons = "";
+                            if(json.page != undefined){
+                                var pageNum = parseInt(json.page);
+                                pageButtons += '<tr><td colspan="6" align="center">';
+                                for(var i = 0; i < pageNum; i++){
+                                    pageButtons += '<input type="button" value="' + (i+1) + '" onclick="selectPage(' + i + ')"/>';
+                                }
+                                pageButtons += '</td></tr>';
+                            }
+                            $("#shopCarTable").html(shopCarInfos + pageButtons);
+                        }
+                    }
+                }
+            });
+        }
+        function deleteShopCar(id) { //购物车id
+            if(confirm("您确定要删除么？") == true) {
+                $.post("/shopcar/deleteShopCar.do", {"shopCarId": id}, function (data, status) {
+                    var json = eval('(' + data + ')');
+                    if (json == undefined) {
+                        $(document).html(data)
+                    }
+                    var result = json.sresult;
+                    switch (result) {
+                        case RESULT_SUCCESS:
+                            alert("删除成功");
+                            window.location.reload();
+                            break;
+                        case RESULT_FAIL:
+                            alert("删除失败");
+                            break;
+                        case POST_REDIRECT:
+                            var r_url = json.redirect;
+                            window.location.href = r_url;
+                            break;
+                        default:
+                            alert("操作错误");
+                    }
+
+                });
+            }
+        }
+        function buy(id) { //购物车id
+
+        }
+    </script>
+</head>
+
+<body>
+<table width="1045" height="37" border="0" rules="none">
+    <tr>
+        <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="/index.html" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="/view/safety/user/userMainPage.html" title="d" class="d">我的易书 </a></td>
+        <td width="128" bgcolor="#E6E6E6"><a href="/view/safety/store/check/storeMainPage.html" title="e" class="e">卖家中心</a></td>
+    </tr>
+</table>
+<table width="1046" border="0">
+    <tr>
+        <td width="155" height="61"><img src="/img/logo.png" width="150" height="57"/></td>
+        <td width="881" id="g">购物车</td>
+    </tr>
+</table>
+<table width="1045" border="0">
+    <tr>
+        <td width="820" height="48" id="q">&nbsp;&nbsp;<span id="q">&nbsp;&nbsp;<a href="#" id="q">全部商品</a></span></td>
+        <td width="215"></td>
+    </tr>
+</table>
+<hr align=left width=1010 color=#987cb9 size=1>
+
+
+<table width="1027" border="0">
+    <tr>
+        <td width="264">&nbsp;</td>
+        <td width="275"><span class="x">商品信息 </span></td>
+        <td width="124"><span class="x">单价</span></td>
+        <td width="124"><span class="x">数量</span></td>
+        <td width="95"><span class="x">金额 </span></td>
+        <td width="119"><span class="x">编辑</span></td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<table width="1032" rules="none">
+    <tbody id="shopCarTable">
+    <tr border="1" id="t">
+        <td width="55" height="124" align="left" valign="top" bgcolor="#F9FBFB"><pre>  <input type="checkbox" name="qu" value="qu"/> </pre><span class="x"></span></td>
+        <td width="100" align="left" valign="baseline" bgcolor="#F9FBFB"><img src="图片.jpg" width="81" height="81"/></td>
+        <td width="164" align="left" valign="top" bgcolor="#F9FBFB"><p>描述该商品</p><p>&nbsp;</p></td>
+        <td width="208" align="left" valign="top" bgcolor="#F9FBFB"><p>商品附加信息，</p><p>如具体选择</p></td>
+        <td width="135" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal2" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>0.00</p><p>&nbsp;</p></td>
+        <td width="114" align="left" valign="top" bgcolor="#F9FBFB"><p><a>5</a></p><p>&nbsp;</p><p>&nbsp; </p></td>
+        <td width="97" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal3" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>0.00</p><p id="j">&nbsp;</p></td>
+        <td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj"/></p><p>&nbsp; </p></td>
+    </tr>
+    </tbody>
+</table>
+<pre class="g">&nbsp; </pre>
+</body>
+</html>

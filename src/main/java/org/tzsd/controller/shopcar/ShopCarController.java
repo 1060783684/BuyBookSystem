@@ -4,7 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
+import org.tzsd.manager.LoginUserManager;
 import org.tzsd.pojo.ShopCar;
+import org.tzsd.pojo.User;
 import org.tzsd.service.SessionService;
 import org.tzsd.service.ShopCarService;
 
@@ -38,27 +40,26 @@ public class ShopCarController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/getShopCars")
+    @RequestMapping("/getShopCars.do")
     public void getShopCarList(HttpServletRequest request, HttpServletResponse response){
-        String username = request.getParameter("username");
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        if(username == null){
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if(user == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
-            String sessionId = request.getSession().getAttribute("sessionId").toString();
-            if(!SessionService.getInstance().isUser(sessionId, username)){
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                writeJSONProtocol(response, jsonMap);
-                return;
-            }
+            String username = user.getName();
+            String pageStr = request.getParameter("page");
             try {
-                List<ShopCar> shopCarList = getShopCarService().searchShopCarList(username);
+                int page = Integer.valueOf(pageStr);
+                List shopCarList = getShopCarService().searchShopCarList(username, page);
+                long pageNum = getShopCarService().getShopCarListSize(username);
                 if(shopCarList == null || shopCarList.isEmpty()){
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 }else {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-                    jsonMap.put(JSONProtocolConstance.SHOPCAR_LIST_SIZE, shopCarList.size());
                     jsonMap.put(JSONProtocolConstance.SHOPCAR_LIST, shopCarList);
+                    jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
                 }
             }catch (Exception e){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -66,7 +67,6 @@ public class ShopCarController extends BaseController {
             }
 
         }
-
         writeJSONProtocol(response, jsonMap);
     }
 
@@ -75,24 +75,19 @@ public class ShopCarController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/deleteShopCar")
+    @RequestMapping("/deleteShopCar.do")
     public void deleteShopCar(HttpServletRequest request, HttpServletResponse response){
-        String username = request.getParameter("username");
-        String shopCarId = request.getParameter("shopCarId");
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        if(username == null || shopCarId == null){
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String shopCarId = request.getParameter("shopCarId");
+        String username = user.getName();
+        if(user == null || shopCarId == null){
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
-            String sessionId = request.getSession().getAttribute("sessionId").toString();
-            if(!SessionService.getInstance().isUser(sessionId, username)){
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                writeJSONProtocol(response, jsonMap);
-                return;
-            }
             try {
                 if (getShopCarService().deleteShopCar(username, shopCarId)) {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-
                 }
             }catch (Exception e){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -107,30 +102,32 @@ public class ShopCarController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/addShopCar")
+    @RequestMapping("/addShopCar.do")
     public void addShopCar(HttpServletRequest request, HttpServletResponse response){
-        String username = request.getParameter("username");
-        String goods_id = request.getParameter("goodsId");
-        String numStr = request.getParameter("number");
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        if(username == null || goods_id == null || numStr == null){
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        if (user == null) {
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
-            String sessionId = request.getSession().getAttribute("sessionId").toString();
-            if(!SessionService.getInstance().isUser(sessionId, username)){
+            String username = user.getName();
+            String goods_id = request.getParameter("goodsId");
+            String numStr = request.getParameter("num");
+
+            if (goods_id == null || numStr == null) {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                writeJSONProtocol(response, jsonMap);
-                return;
-            }
-            try {
-                int number = Integer.valueOf(numStr);
-                if (getShopCarService().addShopCar(username, goods_id, number)) {
-                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            } else {
+                try {
+                    int number = Integer.valueOf(numStr);
+                    if (getShopCarService().addShopCar(username, goods_id, number)) {
+                        jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                    }
+                } catch (Exception e) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                    e.printStackTrace();
                 }
-            }catch (Exception e){
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                e.printStackTrace();
             }
         }
+        writeJSONProtocol(response, jsonMap);
     }
 }

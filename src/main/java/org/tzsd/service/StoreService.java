@@ -82,6 +82,17 @@ public class StoreService {
     }
 
     /**
+     * @description: 通过商品id获取店铺实例
+     * @param goodsId 商品id
+     * @return 商店实例
+     */
+    public Store getStoreByGoodsId(String goodsId){
+        Goods goods = getGoodsDAO().getGoodsById(goodsId);
+        Store store = getStoreDAO().getStoreById(goods.getStore_id());
+        return store;
+    }
+
+    /**
      * @param name      名字
      * @param idNumber  身份证号
      * @param storeName 商店名

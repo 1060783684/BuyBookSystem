@@ -37,6 +37,10 @@ public interface JSONProtocolConstance {
     String STORE_INFO = "storeInfo"; //店铺信息
 
     String PAGE = "page"; //业务无关,代表页数
+
+    //------------------------post重定向---------------------------------
+    String REDIRECT = "redirect";
+
     //------------------------登录成功与失败-------------------------------
     int VALID_SUCCESS = 1; //验证通过
     int VALID_FAIL = 0; //验证失败
@@ -83,4 +87,7 @@ public interface JSONProtocolConstance {
     int PUB_INFO_ERROR = 5; //信息填写错误
     int PUB_IMG_NOTFOUND = 6; //没有文件
     int PUB_FAIL = 0; //操作错误
+
+    //重定向相关
+    int POST_REDIRECT = -1;
 }

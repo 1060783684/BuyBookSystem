@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.tzsd.dao.callback.HibernateCallback;
 import org.tzsd.pojo.Goods;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -82,6 +83,7 @@ public class GoodsDAO extends GenericDAO{
                 if((low >= 0 || hight >= 0)){
                     cost = new StringBuilder();
                     if(where == null){
+                        where = "where";
                         cost.append(" ").append(where).append(" ");
                     }else {
                         cost.append(" ").append("and").append(" ");
@@ -97,19 +99,26 @@ public class GoodsDAO extends GenericDAO{
 
                     hql.append(cost);
                 }
-                if(keywords != null){
+                if(keywords != null && !keywords.equals("")){
                     keyEqual = new StringBuilder();
                     if(where == null){
+                        where = "where";
                         keyEqual.append(" ").append(where).append(" ");
                     }else {
                         keyEqual.append(" ").append("and").append(" ");
                     }
 
-                    keyEqual.append("name = ").append(":name");
+                    keyEqual.append("name like ").append(":name");
 
                     hql.append(keyEqual);
                 }
-
+                if(where == null){
+                    where = "where";
+                    hql.append(" ").append(where).append(" ");
+                }else {
+                    hql.append(" ").append("and").append(" ");
+                }
+                hql.append("status = :status");
                 Query query = session.createQuery(hql.toString());
                 if(typeEqual != null){
                     query.setParameter("type", type);
@@ -128,17 +137,120 @@ public class GoodsDAO extends GenericDAO{
                     StringTokenizer tokenizer = new StringTokenizer(keywords," ");
                     StringBuilder name = new StringBuilder();
                     name.append("%");
-                    while (tokenizer.hasMoreElements()){
-                        name.append(tokenizer.nextElement()).append("%");
+                    while (tokenizer.hasMoreTokens()){
+                        String key = tokenizer.nextToken();
+                        name.append(key).append("%");
                     }
-                    query.setParameter("name", name);
+                    query.setParameter("name", name.toString());
                 }
-
+                query.setParameter("status", Goods.UP);
                 if(start >= 0 && size > 0){
                     query.setFirstResult(start);
                     query.setMaxResults(size);
                 }
                 return query.list();
+            }
+        });
+    }
+
+    /**
+     * @description: 获取对应类型价格对应范围以及对应关键字的物品的个数
+     * @param type 物品类型
+     * @param low 最低价格
+     * @param hight 最高价格
+     * @param keywords 关键字
+     * @return
+     */
+    public long getGoodsListPage(final int type, final int low, final int hight, final String keywords){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                StringBuilder hql = new StringBuilder("select count(*) from Goods");
+                String where = null;
+                StringBuilder typeEqual = null;
+                StringBuilder cost = null;
+                StringBuilder keyEqual = null;
+                for (int i = 0; i < Goods.TYPES.length; i++) {
+                    if (type == Goods.TYPES[i]) {
+                        typeEqual = new StringBuilder();
+                        where = "where";
+                        typeEqual.append(" ").append(where).append(" ");
+                        typeEqual.append("type = :type");
+
+                        hql.append(typeEqual);
+                        break;
+                    }
+                }
+                if((low >= 0 || hight >= 0)){
+                    cost = new StringBuilder();
+                    if(where == null){
+                        where = "where";
+                        cost.append(" ").append(where).append(" ");
+                    }else {
+                        cost.append(" ").append("and").append(" ");
+                    }
+
+                    if(low <= 0 && hight > 0){
+                        cost.append("cost >= ").append(":hight");
+                    }else if(low > 0 && hight <= 0){
+                        cost.append("cost <= ").append(":low");
+                    }else if(low > 0 && hight > 0 && low < hight){
+                        cost.append("between ").append(":low").append(" and ").append(":hight");
+                    }
+
+                    hql.append(cost);
+                }
+                if(keywords != null && !keywords.equals("")){
+                    keyEqual = new StringBuilder();
+                    if(where == null){
+                        where = "where";
+                        keyEqual.append(" ").append(where).append(" ");
+                    }else {
+                        keyEqual.append(" ").append("and").append(" ");
+                    }
+
+                    keyEqual.append("name like ").append(":name");
+
+                    hql.append(keyEqual);
+                }
+                if(where == null){
+                    where = "where";
+                    hql.append(" ").append(where).append(" ");
+                }else {
+                    hql.append(" ").append("and").append(" ");
+                }
+                hql.append("status = :status");
+                Query query = session.createQuery(hql.toString());
+                if(typeEqual != null){
+                    query.setParameter("type", type);
+                }
+                if(cost != null){
+                    if(low <= 0 && hight > 0){
+                        query.setParameter("hight", hight);
+                    }else if(low > 0 && hight <= 0){
+                        query.setParameter("low", low);
+                    }else if(low > 0 && hight > 0){
+                        query.setParameter("hight", hight);
+                        query.setParameter("low", low);
+                    }
+                }
+                if(keyEqual != null){
+                    StringTokenizer tokenizer = new StringTokenizer(keywords," ");
+                    StringBuilder name = new StringBuilder();
+                    name.append("%");
+                    while (tokenizer.hasMoreTokens()){
+                        String key = tokenizer.nextToken();
+                        name.append(key).append("%");
+                    }
+                    query.setParameter("name", name.toString());
+                }
+                query.setParameter("status", Goods.UP);
+                List<Long> list = query.list();
+                long count = 0;
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
             }
         });
     }

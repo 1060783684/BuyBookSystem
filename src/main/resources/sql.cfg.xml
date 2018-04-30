@@ -39,6 +39,14 @@
     <query name="getGoodsStoreIdAndId">
         <![CDATA[ from Goods where store_id = :store_id and id = :id]]>
     </query>
+
+    <query name="getShopCarInfoListByUserId">
+        <![CDATA[ from ShopCar s, Goods g where s.user_id = :user_id and s.goods_id = g.id]]>
+    </query>
+
+    <query name="getShopCarCountByUserId">
+        <![CDATA[ select count(*) from ShopCar where user_id = :user_id]]>
+    </query>
     <!--&lt;!&ndash;根据价格范围获取物品list&ndash;&gt;-->
     <!--<query name="getGoodsListByCostBetween">-->
         <!--<![CDATA[ from Goods where cost between :low and :hight]]>-->

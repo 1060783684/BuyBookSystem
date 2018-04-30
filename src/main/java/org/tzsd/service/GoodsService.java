@@ -80,6 +80,44 @@ public class GoodsService {
     }
 
     /**
+     * @description: 获取对应条件的物品的页数
+     * @param type 物品类型
+     * @param cost 价格
+     * @param keywords 关键字
+     * @return
+     */
+    public long getGoodsPage(int type, int cost, String keywords){
+        int low = -1;
+        int hight = low;
+        switch (cost){
+            case COST_ONE:
+                low = 50;
+                break;
+            case COST_TWO:
+                low = 50;
+                hight = 100;
+                break;
+            case COST_THREE:
+                low = 100;
+                hight = 200;
+                break;
+            case COST_FOUR:
+                low = 200;
+                hight = 300;
+                break;
+            case COST_FIVE:
+                hight = 300;
+                break;
+        }
+        long count = getGoodsDAO().getGoodsListPage(type, low, hight, keywords);
+        long pageNum = count/PAGE_SIZE;
+        if(count%PAGE_SIZE > 0){
+            pageNum += 1;
+        }
+        return pageNum;
+    }
+
+    /**
      * @description: 通过物品id获取物品的详细信息
      * @param goodsId 物品id
      * @return 物品实例

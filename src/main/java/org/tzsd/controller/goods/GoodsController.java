@@ -6,8 +6,10 @@ import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.EvaluateInfo;
 import org.tzsd.pojo.Goods;
+import org.tzsd.pojo.Store;
 import org.tzsd.service.EvaluateInfoService;
 import org.tzsd.service.GoodsService;
+import org.tzsd.service.StoreService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +26,13 @@ import java.util.Map;
 public class GoodsController extends BaseController {
 
     @Resource(name = "goodsService")
-    GoodsService goodsService;
+    private GoodsService goodsService;
 
     @Resource(name = "evaluateInfoService")
     private EvaluateInfoService evaluateInfoService;
+
+    @Resource(name = "storeService")
+    private StoreService storeService;
 
     public GoodsService getGoodsService() {
         return goodsService;
@@ -45,16 +50,24 @@ public class GoodsController extends BaseController {
         this.evaluateInfoService = evaluateInfoService;
     }
 
+    public StoreService getStoreService() {
+        return storeService;
+    }
+
+    public void setStoreService(StoreService storeService) {
+        this.storeService = storeService;
+    }
+
     /**
      * @description: 物品搜索
      * @param request
      * @param response
      */
-    @RequestMapping("/searchGoodsList")
+    @RequestMapping("/searchGoodsList.do")
     public void searchGoods(HttpServletRequest request, HttpServletResponse response){
         String typeStr = request.getParameter("type");
         String costStr = request.getParameter("cost");
-        String keywords = request.getParameter("keywords");
+        String keywords = request.getParameter("keyword");
         String pageStr = request.getParameter("page");
         int cost = -1;
         int page = 0;
@@ -82,10 +95,12 @@ public class GoodsController extends BaseController {
             }
         }
         List<Goods> goodses = getGoodsService().searchGoods(type, cost, keywords, page);
+        long pageNum = getGoodsService().getGoodsPage(type, cost, keywords);
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         if(goodses != null && !goodses.isEmpty()){
             jsonMap.put(JSONProtocolConstance.RESULT,  JSONProtocolConstance.RESULT_SUCCESS);
             jsonMap.put(JSONProtocolConstance.GOODS_LIST, goodses);
+            jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
         }else {
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }
@@ -98,7 +113,7 @@ public class GoodsController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("/getGoodsInfo")
+    @RequestMapping("/getGoodsInfo.do")
     public void getGoodsInfo(HttpServletRequest request, HttpServletResponse response){
         String goodsId = request.getParameter("goodsId");
         Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -106,13 +121,16 @@ public class GoodsController extends BaseController {
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         }else {
             Goods goods = getGoodsService().getGoodsInfo(goodsId);
+            Store store = getStoreService().getStoreByGoodsId(goodsId);
             if (goods == null) {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
             } else {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
                 jsonMap.put(JSONProtocolConstance.GOODS_INFO, goods);
+                jsonMap.put(JSONProtocolConstance.STORE_INFO, store);
             }
         }
+        writeJSONProtocol(response, jsonMap);
     }
 
     /**

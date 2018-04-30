@@ -40,3 +40,34 @@ CREATE TABLE store_info
 )
   DEFAULT CHARSET = "utf8";
 CREATE INDEX user_id ON store_info (user_id);
+CREATE TABLE goods
+(
+  id VARCHAR(40) PRIMARY KEY NOT NULL,
+  store_id BIGINT(20),
+  name VARCHAR(60),
+  descs VARCHAR(200),
+  cost FLOAT,
+  good_est BIGINT(20),
+  bad_est BIGINT(20),
+  sell_num BIGINT(20),
+  sales_num BIGINT(20),
+  num BIGINT(20),
+  img VARCHAR(60),
+  status INT(11),
+  type INT(11),
+  CONSTRAINT goods_ibfk_1 FOREIGN KEY (store_id) REFERENCES store_info (id)
+)
+  DEFAULT CHARSET = "utf8";
+CREATE INDEX store_id ON goods (store_id);
+CREATE TABLE shop_car
+(
+  id VARCHAR(40) PRIMARY KEY NOT NULL,
+  goods_id VARCHAR(40),
+  user_id BIGINT(20),
+  goods_num BIGINT(20),
+  CONSTRAINT shop_car_ibfk_1 FOREIGN KEY (goods_id) REFERENCES goods (id),
+  CONSTRAINT shop_car_ibfk_2 FOREIGN KEY (user_id) REFERENCES user_info (id)
+)
+  DEFAULT CHARSET = "utf8";
+CREATE INDEX goods_id ON shop_car (goods_id);
+CREATE INDEX user_id ON shop_car (user_id);

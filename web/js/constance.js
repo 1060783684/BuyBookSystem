@@ -12,6 +12,8 @@ var USERNAME = "username"; //主页加载用户信息
 //店铺信息获取相关
 var STORE_INFO = "storeInfo"; //店铺信息
 
+var REDIRECT = "redirect";
+
 //正常的成功与失败
 var RESULT_SUCCESS = 1;
 var RESULT_FAIL = 0;
@@ -75,3 +77,6 @@ var LAGISLATION = 6; //法律
 var UP = 2; //上架
 var STAYUP = 1; //待审核
 var DOWN = 0; //下架
+
+//重定向相关
+var POST_REDIRECT = -1;
