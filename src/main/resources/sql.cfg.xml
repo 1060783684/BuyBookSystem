@@ -81,12 +81,28 @@
         <![CDATA[ delete from ShopCar where id=:id]]>
     </query>
 
-    <query name="getOrderListByUsernameAndStatus">
-        <![CDATA[  from Order where user_id = :userId and status = :status]]>
+    <query name="getOrderListByUserIdAndStatus">
+        <![CDATA[  from Order o, Goods g where user_id = :user_id and o.status = :status and o.goods_id = g.id]]>
+    </query>
+
+    <query name="getOrderCountByUserIdAndStatus">
+        <![CDATA[ select count(*) from Order where user_id = :user_id and status = :status]]>
+    </query>
+
+    <query name="getOrderListByStoreIdAndStatus">
+        <![CDATA[  from Order o, Goods g where o.store_id = :store_id and o.status = :status and o.goods_id = g.id]]>
+    </query>
+
+    <query name="getOrderCountByStoreIdAndStatus">
+        <![CDATA[ select count(*) from Order where store_id = :store_id and status = :status]]>
     </query>
 
     <query name="getOrderByIdAndUserId">
         <![CDATA[ from Order  where id = :id and user_id = :user_id]]>
+    </query>
+
+    <query name="getOrderByIdAndStoreId">
+        <![CDATA[ from Order  where id = :id and store_id = :store_id]]>
     </query>
 
     <query name="getAddressInfoByIdAndUserId">
@@ -111,6 +127,11 @@
 
     <query name="getStoreByUserId">
         <![CDATA[ from Store where user_id=:user_id]]>
+    </query>
+
+    <!--减少库存-->
+    <query name="updateGoodsNumReduce">
+        <![CDATA[ update Goods set num = num - :num where id = :id]]>
     </query>
     <!--<query name="updateGoodsStatusById">-->
         <!--<![CDATA[ update Goods set status = :status where id = :id]]>-->

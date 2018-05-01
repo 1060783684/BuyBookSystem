@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>店铺待发货</title>
+    <style type="text/css">
+        .a {
+            color: #000;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        .b {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .c {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .d {
+            color: #000;
+        }
+
+        .e {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .a {
+            font-size: 14px;
+        }
+
+        .d {
+            font-size: 14px;
+        }
+
+        .aaa {
+            color: #FFF;
+        }
+
+        .bbb {
+            color: #FFF;
+        }
+
+        .h {
+            color: #000;
+        }
+
+        .ddd {
+            color: #000;
+        }
+
+        .eee {
+            color: #000;
+        }
+
+        .fff {
+            color: #000;
+        }
+
+        .ggg {
+            color: #000;
+        }
+
+        #x {
+            color: #F00;
+        }
+
+        #x {
+            color: #000;
+        }
+
+        .j {
+            color: #F00;
+        }
+
+        .k {
+            color: #000;
+        }
+
+        .m {
+            color: #000;
+        }
+
+        #z #x .x {
+            font-size: 14px;
+        }
+
+        #z #x .x {
+            font-size: 14px;
+        }
+
+        .x {
+            font-size: 14px;
+        }
+
+        #z #x .x {
+            font-size: 12px;
+        }
+
+        #ss {
+            font-size: 12px;
+        }
+
+        .tj {
+            color: white
+        }
+
+        #yy {
+            font-size: 12px;
+        }
+
+        .z {
+            color: #000;
+            font-size: 14px;
+        }
+
+        #qb {
+            color: #F00;
+        }
+
+        .h1 {
+            color: #000;
+        }
+
+        .j1 {
+            color: #000;
+        }
+
+        .j1 {
+            color: #F00;
+        }
+
+        #ss #ss {
+            color: #000;
+        }
+    </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        var goodsTableHtml = "";
+        $(document).ready(function () {
+            goodsTableHtml = $("#orderTable").html();
+            $.post("/store/getOrderList.do", {"page":0, "status":WAIT_PUB}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval("(" + data + ")");
+                    if (json != undefined) {
+                        if (json.sresult == RESULT_SUCCESS) {
+                            var orderList = json.orders;
+                            var orderInfos = "";
+                            for (var i = 0; i < orderList.length; i++) {
+                                var order = orderList[i][0];
+                                var goods = orderList[i][1];
+                                orderInfos += '<tr><td height="33" colspan="7" bgcolor="#DBE7F2" id=ss>&nbsp; &nbsp;&nbsp;<span id="ss">&nbsp;订单号：' + order.id + '</span></td></tr>';
+                                orderInfos += '<tr>';
+                                //图片路径
+                                if(goods.imgSrc != undefined){
+                                    orderInfos += '<td width="158" height="163" align="left" valign="top" style="border:1px solid #E9E9E9;"><a href="#"><img src="' + goods.imgSrc + '" width="156" height="156"/></a></td>';
+                                }else {
+                                    orderInfos += '<td width="158" height="163" align="left" valign="top" style="border:1px solid #E9E9E9;"><a href="#"><img src="/userimg/goods/default.png" width="156" height="156"/></a></td>';
+                                }
+                                //书名
+                                if(goods.name != undefined){
+                                    orderInfos += '<td width="103" align="left" valign="top" style="border:1px solid #E9E9E9;"><p><a href="#" title="ll">' + goods.name + '</a></p></td>';
+                                }else {
+                                    orderInfos += '<td width="103" align="left" valign="top" style="border:1px solid #E9E9E9;"><p><a href="#" title="ll">' + '无' + '</a></p></td>';
+                                }
+                                //单价
+                                var cost = 0;
+                                if(goods.cost != undefined){
+                                    cost = goods.cost;
+                                    orderInfos += '<td width="84" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + cost + '</span></td>';
+                                }else {
+                                    orderInfos += '<td width="84" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + cost + '</span></td>';
+                                }
+                                //个数
+                                var num = 0;
+                                if(order.number != undefined){
+                                    num = order.number;
+                                    orderInfos += '<td width="63" align="left" valign="top" style="border:1px solid #E9E9E9;">' + num + '</td>';
+                                }else {
+                                    orderInfos += '<td width="63" align="left" valign="top" style="border:1px solid #E9E9E9;">' + num + '</td>';
+                                }
+                                //总价格
+                                orderInfos += '<td width="91" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + (cost * num) + '</span></td>';
+                                orderInfos += '<td width="132" align="left" valign="top" style="border:1px solid #E9E9E9;"><p>待发货</p></td>';
+                                orderInfos += '<td width="173" align="left" valign="top" style="border:1px solid #E9E9E9;">' +
+                                                '<form action="/view/safety/store/check/storeDeliverGoods.html" method="get">' +
+                                                  '<input type="submit" value="发货" style="background:red;height:30px" class="tj" color="grey"/>' +
+                                                  '<input type="hidden" name="orderId" value="' + order.id + '"/>' +
+                                                '</form>' +
+                                              '</td>';
+                                orderInfos += '</tr>';
+                            }
+                            var pageButtons = "";
+                            if(json.page != undefined){
+                                var pageNum = parseInt(json.page);
+                                pageButtons += '<tr><td colspan="6" align="center">';
+                                for(var i = 0; i < pageNum; i++){
+                                    pageButtons += '<input type="button" value="' + (i+1) + '" onclick="selectPage(' + i + ')"/>';
+                                }
+                                pageButtons += '</td></tr>';
+                            }
+                            $("#orderTable").html(goodsTableHtml + orderInfos + pageButtons);
+                        }
+                    }
+                }
+            });
+        });
+        function selectPage(page) {
+            $.post("/store/getOrderList.do", {"page":page, "status":WAIT_PUB}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval("(" + data + ")");
+                    if (json != undefined) {
+                        if (json.sresult == RESULT_SUCCESS) {
+                            var orderList = json.orders;
+                            var orderInfos = "";
+                            for (var i = 0; i < orderList.length; i++) {
+                                var order = orderList[i][0];
+                                var goods = orderList[i][1];
+                                orderInfos += '<tr><td height="33" colspan="7" bgcolor="#DBE7F2" id=ss>&nbsp; &nbsp;&nbsp;<span id="ss">&nbsp;订单号：' + order.id + '</span></td></tr>';
+                                orderInfos += '<tr>';
+                                //图片路径
+                                if(goods.imgSrc != undefined){
+                                    orderInfos += '<td width="158" height="163" align="left" valign="top" style="border:1px solid #E9E9E9;"><a href="#"><img src="' + goods.imgSrc + '" width="156" height="156"/></a></td>';
+                                }else {
+                                    orderInfos += '<td width="158" height="163" align="left" valign="top" style="border:1px solid #E9E9E9;"><a href="#"><img src="/userimg/goods/default.png" width="156" height="156"/></a></td>';
+                                }
+                                //书名
+                                if(goods.name != undefined){
+                                    orderInfos += '<td width="103" align="left" valign="top" style="border:1px solid #E9E9E9;"><p><a href="#" title="ll">' + goods.name + '</a></p></td>';
+                                }else {
+                                    orderInfos += '<td width="103" align="left" valign="top" style="border:1px solid #E9E9E9;"><p><a href="#" title="ll">' + '无' + '</a></p></td>';
+                                }
+                                //单价
+                                var cost = 0;
+                                if(goods.cost != undefined){
+                                    cost = goods.cost;
+                                    orderInfos += '<td width="84" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + cost + '</span></td>';
+                                }else {
+                                    orderInfos += '<td width="84" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + cost + '</span></td>';
+                                }
+                                //个数
+                                var num = 0;
+                                if(order.number != undefined){
+                                    num = order.number;
+                                    orderInfos += '<td width="63" align="left" valign="top" style="border:1px solid #E9E9E9;">' + num + '</td>';
+                                }else {
+                                    orderInfos += '<td width="63" align="left" valign="top" style="border:1px solid #E9E9E9;">' + num + '</td>';
+                                }
+                                //总价格
+                                orderInfos += '<td width="91" align="left" valign="top" style="border:1px solid #E9E9E9;"><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1" data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">' + (cost * num) + '</span></td>';
+                                orderInfos += '<td width="132" align="left" valign="top" style="border:1px solid #E9E9E9;"><p>待发货</p></td>';
+                                orderInfos += '<td width="173" align="left" valign="top" style="border:1px solid #E9E9E9;">' +
+                                               '<form action="/view/safety/store/check/storeDeliverGoods.html" method="get">' +
+                                                '<input type="submit" value="发货" style="background:red;height:30px" class="tj" color="grey"/>' +
+                                                '<input type="hidden" name="orderId" value="' + order.id + '"/>' +
+                                               '</form>' +
+                                              '</td>';
+                                orderInfos += '</tr>';
+                            }
+                            var pageButtons = "";
+                            if(json.page != undefined){
+                                var pageNum = parseInt(json.page);
+                                pageButtons += '<tr><td colspan="6" align="center">';
+                                for(var i = 0; i < pageNum; i++){
+                                    pageButtons += '<input type="button" value="' + (i+1) + '" onclick="selectPage(' + i + ')"/>';
+                                }
+                                pageButtons += '</td></tr>';
+                            }
+                            $("#orderTable").html(goodsTableHtml + orderInfos + pageButtons);
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<table width="1049" border="0">
+    <tr>
+        <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
+        <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
+        <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
+        <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
+        <td width="123"><span class="a"> <a href="/view/safety/user/userShopCar.html" title="g">购物车</a></span></td>
+        <td width="146" colspan="2"><a href="#" class="a">退出</a></td>
+    </tr>
+    <tr>
+        <td colspan="7">&nbsp;</td>
+    </tr>
+</table>
+<table width="1050" border="0" background="34.jpg">
+    <tr>
+        <td width="244" height="52"><img src="我的店铺.jpg" width="244" height="52"/></td>
+        <td width="164">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a
+                href="/view/safety/store/check/storeMainPage.html" title="aaa" class="aaa">店铺首页</a></td>
+        <td width="633"></td>
+    </tr>
+</table>
+<table width="1052" border="0" rules="none" style="border: 1px solid #E9E9E9; color: #000;">
+    <tbody id="orderTable">
+    <tr>
+        <td width="205" rowspan="25" valign="top" id="x">
+            <div>
+                <p><span id="qb">&nbsp; &nbsp; &nbsp;全部功能</span></p>
+                <p><a href="#" title="ccc" class="ccc">
+        <span>
+        &nbsp; &nbsp; &nbsp;我的订单</span></a></p>
+                <p>
+
+                    <a href="/view/safety/store/check/storeInfo.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;店铺资料
+                    </a></p>
+                <p><a href="#" title="eee" class="eee">&nbsp; &nbsp; &nbsp;安全设置</a></p>
+                <p><a href="/view/safety/store/check/storePubGoods.html" title="fff" class="fff">&nbsp; &nbsp; &nbsp;发布宝贝</a></p>
+                <p>
+
+                    <a href="/view/safety/store/check/storeSoldGoods.html" title="ggg" class="ggg">&nbsp; &nbsp; &nbsp;下架宝贝</a></p>
+                <p>
+
+                    <a href="/view/safety/store/check/storeAllGoods.html"title="hhh">&nbsp; &nbsp; &nbsp;店铺宝贝</a></p>
+            </div>
+        </td>
+        <td colspan="7" bgcolor="#FFFFFF">
+            <pre></pre>
+        </td>
+    </tr>
+    <tr border="1">
+        <td height="51" style="border:1px solid #E9E9E9;">&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<a href="/view/safety/store/check/storeWaitPayOrders.html" title="h"
+                                                                                                     class="h1">待付款</a>
+        </td>
+        <td height="51" colspan="3" style="border: 1px solid #E9E9E9; color: #F00;">&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<a href="/view/safety/store/check/storeWaitPubOrders.html" title="j" class="j1">待发货</a></td>
+        <td height="51" colspan="2" style="border:1px solid #E9E9E9;"><a href="/view/safety/store/check/storeWaitIncomeOrders.html" title="k" class="k">待收货</a></td>
+        <td height="51" style="border:1px solid #E9E9E9;"><a href="/view/safety/store/check/storeWaitEvalOrders.html" title="m" class="m">待评价</a></td>
+    </tr>
+    <tr>
+        <td height="20" colspan="7" bgcolor="#FFFFFF">&nbsp; </td>
+    </tr>
+    <tr id="yy">
+        <td height="39" colspan="2" bgcolor="#EFEFEF" id="z">
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 宝贝
+        </td>
+        <td height="39" bgcolor="#EFEFEF" id="z">单价</td>
+        <td height="39" bgcolor="#EFEFEF" id="z">数量</td>
+        <td height="39" bgcolor="#EFEFEF" id="z">实付款</td>
+        <td width="95" height="39" bgcolor="#EFEFEF" id="z">交易状态</td>
+        <td width="95" bgcolor="#EFEFEF" id="z">操作</td>
+    </tr>
+    <tr>
+        <td colspan="7">&nbsp; </td>
+    </tr>
+    </tbody>
+    <!--<tr>-->
+        <!--<td height="33" colspan="7" bgcolor="#DBE7F2" id=ss>&nbsp; &nbsp;&nbsp;-->
+            <!--<span id="ss">&nbsp; 订单号：</span></td>-->
+    <!--</tr>-->
+    <!--<tr border="1">-->
+        <!--<td width="192" height="163" align="left" valign="top" style="border:1px solid #E9E9E9;"><a href="#"><img-->
+                <!--src="书图片.jpg" width="156" height="156"/></a>-->
+        <!--<td width="146" align="left" valign="top" style="border:1px solid #E9E9E9;"><p><a href="#" title="ll">书名</a>-->
+        <!--</p>-->
+            <!--<p>分类</p>-->
+        <!--<td width="97" align="left" valign="top" style="border:1px solid #E9E9E9;"><span-->
+                <!--data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span-->
+                <!--data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1"-->
+                <!--data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">000.00</span>-->
+        <!--<td width="75" align="left" valign="top" style="border:1px solid #E9E9E9;">n-->
+        <!--<td width="106" align="left" valign="top" style="border:1px solid #E9E9E9;"><span-->
+                <!--data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.0">￥</span><span-->
+                <!--data-reactid=".0.7:$order-150788455393502820.$150788455393502820.0.1:1:0.$0.$1.0.1.1"-->
+                <!--data-spm-anchor-id="a1z09.2.0.i3.434a2e8dIAF6jZ">000.00</span>-->
+        <!--<td align="left" valign="top" style="border:1px solid #E9E9E9;">等待卖家发货-->
+        <!--<td align="left" valign="top" style="border:1px solid #E9E9E9;"><input type="button" value="发货"-->
+                                                                               <!--style="background:red;height:30px"-->
+                                                                               <!--class="tj" color="grey"/>-->
+    <!--</tr>-->
+</table>
+</body>
+</html>

@@ -60,12 +60,14 @@ public class HibernateTemplateImpl implements HibernateTemplate{
             result = callback.doCall(session);
             transaction.commit();
         } catch (HibernateException e){
+            result = null;
             if(transaction != null){
                 transaction.rollback();
             }
             //错误日志
             e.printStackTrace();
         } catch (Exception e){
+            result = null;
             if(transaction != null){
                 transaction.rollback();
             }

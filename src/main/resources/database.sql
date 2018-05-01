@@ -71,3 +71,22 @@ CREATE TABLE shop_car
   DEFAULT CHARSET = "utf8";
 CREATE INDEX goods_id ON shop_car (goods_id);
 CREATE INDEX user_id ON shop_car (user_id);
+CREATE TABLE orders_info
+(
+  id VARCHAR(40) PRIMARY KEY NOT NULL,
+  store_id BIGINT(20),
+  user_id BIGINT(20),
+  goods_id VARCHAR(40),
+  status INT(11),
+  goods_num BIGINT(20),
+  addr_start VARCHAR(70),
+  addr_end VARCHAR(70),
+  express_id VARCHAR(40),
+  CONSTRAINT orders_info_ibfk_1 FOREIGN KEY (store_id) REFERENCES store_info (id),
+  CONSTRAINT orders_info_ibfk_2 FOREIGN KEY (user_id) REFERENCES user_info (id),
+  CONSTRAINT orders_info_ibfk_3 FOREIGN KEY (goods_id) REFERENCES goods (id)
+)
+  DEFAULT CHARSET = "utf8";
+CREATE INDEX goods_id ON orders_info (goods_id);
+CREATE INDEX store_id ON orders_info (store_id);
+CREATE INDEX user_id ON orders_info (user_id);

@@ -78,5 +78,11 @@ var UP = 2; //上架
 var STAYUP = 1; //待审核
 var DOWN = 0; //下架
 
+//订单状态
+var WAIT_PAY = 0; //待支付
+var WAIT_PUB = 1; //待发货
+var WAIT_INCOME = 2; //待收货
+var WAIT_EVAL = 3; //待评价
+
 //重定向相关
 var POST_REDIRECT = -1;

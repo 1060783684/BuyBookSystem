@@ -40,6 +40,9 @@ public class LoginUserController extends BaseController {
     @Resource(name = "storeService")
     private StoreService storeService;
 
+    @Resource(name = "buyGoodsService")
+    private BuyGoodsService buyGoodsService;
+
     public UserInfoService getUserInfoService() {
         return userInfoService;
     }
@@ -80,7 +83,17 @@ public class LoginUserController extends BaseController {
         this.storeService = storeService;
     }
 
+
+    public BuyGoodsService getBuyGoodsService() {
+        return buyGoodsService;
+    }
+
+    public void setBuyGoodsService(BuyGoodsService buyGoodsService) {
+        this.buyGoodsService = buyGoodsService;
+    }
+
     /**
+
      * @param request
      * @param response
      * @description: 用户注销登陆, session无效化, 删除session管理者中的session
@@ -227,32 +240,120 @@ public class LoginUserController extends BaseController {
     }
 
     /**
+     * @description: 欲购买宝贝
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/readyBuyGoods.do")
+    public void readyBuyGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String goodsId = request.getParameter("goodsId");
+        String addressId = request.getParameter("addressId");
+        String numStr = request.getParameter("num");
+        if(user == null || goodsId == null || numStr == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.READY_BUY_FAIL);
+        }else {
+            try{
+                long num = Long.valueOf(numStr);
+                Object[] results = getBuyGoodsService().readyBuyGoods(user.getName(), addressId, goodsId, num);
+                int result = (int)results[0];
+                jsonMap.put(JSONProtocolConstance.RESULT, result);
+                if(result == JSONProtocolConstance.READY_BUY_SUCCESS){
+                    String orderId = (String)results[1];
+                    jsonMap.put(JSONProtocolConstance.ORDER_ID, orderId);
+                }
+            }catch (Exception e){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.READY_BUY_FAIL);
+                e.printStackTrace();
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 购买宝贝
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/buyGoods.do")
+    public void buyGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String orderId = request.getParameter("orderId");
+        if (user == null || orderId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            if(getBuyGoodsService().buyGoods(user.getName(), orderId)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 确认收货
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/incomeGoods.do")
+    public void incomeGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String orderId = request.getParameter("orderId");
+        if (user == null || orderId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            if(getBuyGoodsService().incomeGoods(user.getName(), orderId)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+    /**
      * @param request
      * @param response
      * @description: 获取订单list
      */
-    @RequestMapping("/getOrderList")
+    @RequestMapping("/getOrderList.do")
     public void getOrderList(HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getParameter("username");
-        String status = request.getParameter("status");
         Map<String, Object> jsonMap = new HashMap();
-        if (username == null || status == null) {
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String statusStr = request.getParameter("status");
+        String pageStr = request.getParameter("page");
+        int page = 0;
+        try {
+            page = Integer.valueOf(pageStr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        String username = user.getName();
+        if (user == null || statusStr == null) {
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
         } else {
-            //判断用户名和session是否对应
-            String sessionId = request.getSession().getAttribute("sessionId").toString();
-            if (!SessionService.getInstance().isUser(sessionId, username)) {
+            try {
+                int status = Integer.valueOf(statusStr);
+                //操作
+                List orders = getOrderService().getOrderList(username, status, page);
+                long pageNum = getOrderService().getOrderListPage(username, status);
+                if (orders == null || orders.isEmpty()) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                } else {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                    jsonMap.put(JSONProtocolConstance.ORDER_LIST, orders);
+                    jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
+                }
+            }catch (Exception e){
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-                writeJSONProtocol(response, jsonMap);
-                return;
-            }
-            //操作
-            List<Order> orders = getOrderService().getOrderList(username, status);
-            if (orders == null || orders.isEmpty()) {
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
-            } else {
-                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-                jsonMap.put(JSONProtocolConstance.ORDER_LIST, orders);
+                e.printStackTrace();
             }
         }
         writeJSONProtocol(response, jsonMap);

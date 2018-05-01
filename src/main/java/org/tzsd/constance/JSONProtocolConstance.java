@@ -25,6 +25,7 @@ public interface JSONProtocolConstance {
     //订单相关信息
     String ORDER_LIST = "orders"; //订单list
     String ORDER_INFO = "orderInfo"; //订单信息
+    String ORDER_ID = "orderId"; //订单id
 
     //地址信息相关
     String ADDRESS_LIST = "addressList"; //地址list
@@ -87,6 +88,11 @@ public interface JSONProtocolConstance {
     int PUB_INFO_ERROR = 5; //信息填写错误
     int PUB_IMG_NOTFOUND = 6; //没有文件
     int PUB_FAIL = 0; //操作错误
+
+    //预购买相关
+    int READY_BUY_SUCCESS = 1; //操作成功
+    int READY_BUY_NUM_NOT_ENG = 2; //库存不足
+    int READY_BUY_FAIL = 3; //操作失败
 
     //重定向相关
     int POST_REDIRECT = -1;

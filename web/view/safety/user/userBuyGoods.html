@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>购买-提交订单</title>
+    <style type="text/css">
+        .a {
+            color: #000;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .a a {
+            color: #000;
+        }
+
+        .a {
+            color: #000;
+        }
+
+        .b {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .c {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .d {
+            color: #000;
+        }
+
+        .e {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .a {
+            font-size: 14px;
+        }
+
+        .d {
+            font-size: 14px;
+        }
+
+        #xz {
+            font-weight: bold;
+        }
+
+        #xz {
+            font-weight: bold;
+        }
+
+        .tj {
+            color: white
+        }
+    </style>
+    <script src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript" src="/js/url.util.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var id = getQueryVariable("goodsId");
+            var num = getQueryVariable("num");
+            //请求物品信息
+            $.post("/goods/getGoodsInfo.do", {"goodsId": id}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval('(' + data + ')');
+                    if (json != undefined) {
+                        var result = json.sresult;
+                        switch (result) {
+                            case RESULT_SUCCESS: {
+                                var goods = json.goodsInfo;
+                                var store = json.storeInfo;
+                                if (goods.id != undefined) {
+                                    $("#goodsId").val(goods.id);
+                                }
+                                if (goods.imgSrc != undefined) {
+                                    $("#imgSrc").attr("src", goods.imgSrc);
+                                }
+                                if (goods.name != undefined) {
+                                    $("#name").text(goods.name);
+                                }
+                                var cost = 0;
+                                if (goods.cost != undefined) {
+                                    cost = goods.cost;
+                                    $("#cost").text(goods.cost);
+                                }
+                                if (num != false) {
+                                    $("#num").text(num);
+                                } else {
+                                    $("#num").text(0);
+                                }
+                                $("#sumCost").text(cost * num);
+                                break;
+                            }
+                            case RESULT_FAIL:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            });
+
+            //请求地址
+            $.post("/user/getAddressList.do", {}, function (data, status) {
+                if (data != undefined) {
+                    var json = eval("(" + data + ")");
+                    if(json != undefined) {
+                        if (json.sresult == RESULT_SUCCESS) {
+                            var addressList = json.addressList;
+                            var addressInfos = "";
+                            for (var i = 0; i < addressList.length; i++) {
+                                var addressInfo = "<tr>";
+                                var address = addressList[i];
+                                if (address.name != undefined) {
+                                    addressInfo += '<td height="34">' + address.name + '</td>';
+                                } else {
+                                    addressInfo += '<td height="34">' + 无 + '</td>';
+                                }
+                                if (address.addr != undefined) {
+                                    addressInfo += '<td>' + address.addr + '</td>';
+                                } else {
+                                    addressInfo += '<td>' + 无 + '</td>';
+                                }
+                                if (address.mail != undefined) {
+                                    addressInfo += '<td>' + address.mail + '</td>';
+                                } else {
+                                    addressInfo += '<td>' + 无 + '</td>';
+
+                                }
+                                if (address.phone != undefined) {
+                                    addressInfo += '<td>' + address.phone + '</td>';
+                                } else {
+                                    addressInfo += '<td>' + 无 + '</td>';
+                                }
+                                var addrId = address.id;
+                                addressInfo += '<td><input type="radio" name="addresses" value="' + addrId +'"></td>';
+                                addressInfo += "</tr>";
+                                addressInfos += addressInfo;
+                            }
+                            var addressTableHtml = $("#addressTable").html();
+                            addressTableHtml += addressInfos;
+                            $("#addressTable").html(addressTableHtml);
+                        }else {
+                            var addressUrl = '<a href="/view/safety/user/userAddressList.html" title="ddd" class="ddd">&nbsp; &nbsp; &nbsp;添加收货地址 </a>';
+                            $("#addressTable").html("您还没有收货地址，请添加收货地址" + '<br/>' + addressUrl);
+                        }
+                    }
+                }
+            });
+
+            //提交订单
+            $("#submit").click(function () {
+                var addresses = document.getElementsByName("addresses"); //获取地址的单选框数组
+                var addressId = null;
+                for (var i = 0; i < addresses.length; i++){
+                    if(addresses[i].checked){
+                        addressId = addresses[i].value;
+                    }
+                }
+                var goodsId = $("#goodsId").val();
+                var num = $("#num").text();
+                if(addressId == null){
+                    alert("请选择地址")
+                }else {
+                    $.post("/user/readyBuyGoods.do",{"goodsId":goodsId,"addressId":addressId,"num":num},function (data, status) {
+                        if (data != undefined) {
+                            var json = eval('(' + data + ')');
+                            if (json != undefined) {
+                                var result = json.sresult;
+                                switch (result) {
+                                    case RESULT_SUCCESS:
+                                        alert("订单生成成功");
+                                        var orderId = json.orderId;
+                                        window.location.href = "/view/safety/user/userConfirmBuy.html?sumCost=" + ($("#sumCost").text()) + "&orderId="+orderId;
+                                        break;
+                                    case RESULT_FAIL:
+                                        alert("操作错误");
+                                        window.location.href = "/index.html"
+                                        break;
+                                    default:
+                                        alert("操作错误");
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<table width="1052" height="37" border="0" rules="none">
+    <tr>
+        <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="/index.html" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="/view/safety/user/userMainPage.html" title="d" class="d">我的易书 </a></td>
+        <td width="135" bgcolor="#E6E6E6"><a href="/view/safety/store/check/storeMainPage.html" title="e" class="e">卖家中心</a></td>
+    </tr>
+</table>
+<table width="1053" border="0">
+    <tr>
+        <td width="1047" height="29"><img src="/img/logo.png" width="150" height="57"/></td>
+    </tr>
+    <tr>
+        <td height="30">
+            <hr align=center width=1010 color=#000 size=1>
+        </td>
+    </tr>
+</table>
+<p id="xz">选择收货地址<br/>
+</p>
+<table width="1050" border="0" style="border: 1px solid #E9E9E9" rules="none">
+    <tr>
+        <td width="146" height="37" align="left" bgcolor="#F0F0F0">收件人</td>
+        <td width="386" bgcolor="#F0F0F0">详细地址</td>
+        <td width="135" bgcolor="#F0F0F0">邮编</td>
+        <td width="187" bgcolor="#F0F0F0">电话</td>
+        <td width="162" bgcolor="#F0F0F0">选择</td>
+    </tr>
+    <tbody id="addressTable">
+    <!--<tr>-->
+        <!--<td height="34">党旺娥</td>-->
+        <!--<td>甘肃省定西市通渭县</td>-->
+        <!--<td>743300</td>-->
+        <!--<td>13920083873</td>-->
+        <!--<td><input type="radio" name="addresses" value="1"></td>-->
+    <!--</tr>-->
+    </tbody>
+</table>
+<p id="xz1">确认订单信息</p>
+<table width="1050" border="0" rules="none" style="border: 1px solid #E9E9E9">
+    <tr>
+        <td height="36" colspan="2" align="center" bgcolor="#F0F0F0">宝贝</td>
+        <td width="217" bgcolor="#F0F0F0"> 单价</td>
+        <td width="222" bgcolor="#F0F0F0">数量</td>
+        <td width="257" bgcolor="#F0F0F0">小计</td>
+    </tr>
+    <tr>
+        <td width="170" height="166" align="center"><img src="/img/book.jpg" width="156" height="156" id="imgSrc"/></td>
+        <td width="150" valign="top" id="name">书名及描述</td>
+        <td valign="top">￥<a id="cost">100</a></td>
+        <td valign="top"><a id="num">2</a></td>
+        <td valign="top">￥<a id="sumCost">200</a></td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<table width="1050" border="0">
+    <tr>
+        <td width="779" height="41">&nbsp;</td>
+        <td width="255">&nbsp;<input type="hidden" id="goodsId"/><input type="button" value="提交订单" style="background:red;height:30px" class="tj" color="grey" id="submit"/></td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

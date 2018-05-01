@@ -16,7 +16,8 @@ public class Order {
     @Column(name = "id")
     private String id; //订单id
 
-    private String store_id; //商店id
+    @Column(name = "store_id")
+    private long store_id; //商店id
 
     @Column(name = "user_id")
     private long user_id; //用户id
@@ -25,45 +26,40 @@ public class Order {
     private String goods_id; //宝贝id
 
     @Column(name = "status")
-    private Status status; //状态
+    private int status; //状态
 
     @Column(name = "goods_num")
-    private long number; //库存
+    private long number; //购买的个数
 
     @Column(name = "addr_start")
     private String addr_start; //起始地址
 
-    @Column(name = "addr_start_ext")
-    private String addr_start_ext; //起始地址详情
-
     @Column(name = "addr_end")
     private String addr_end; //结束地址
 
-    @Column(name = "addr_end_ext")
-    private String addr_end_ext; //结束地址详情
+    @Column(name = "express_id")
+    private String express_id; //快递单号
 
-    enum Status{
-        WAIT_PAY,
-        WAIT_DELIVERY,
-        WAIT_RECEIPT,
-        WAIT_EVALUATION
-    }
+    public static final int WAIT_PAY = 0; //待支付
+    public static final int WAIT_PUB = 1; //待发货
+    public static final int WAIT_INCOME = 2; //待收货
+    public static final int WAIT_EVAL = 3; //待评价
 
     public Order(){
 
     }
 
-    public Order(String id, long user_id, String goods_id, Status status,
-                 long number, String addr_start, String addr_start_ext, String addr_end, String addr_end_ext) {
+    public Order(String id, long store_id, long user_id, String goods_id,
+                 int status, long number, String addr_start, String addr_end, String express_id) {
         this.id = id;
+        this.store_id = store_id;
         this.user_id = user_id;
         this.goods_id = goods_id;
         this.status = status;
         this.number = number;
         this.addr_start = addr_start;
-        this.addr_start_ext = addr_start_ext;
         this.addr_end = addr_end;
-        this.addr_end_ext = addr_end_ext;
+        this.express_id = express_id;
     }
 
     public String getId() {
@@ -74,11 +70,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getStore_id() {
+    public long getStore_id() {
         return store_id;
     }
 
-    public void setStore_id(String store_id) {
+    public void setStore_id(long store_id) {
         this.store_id = store_id;
     }
 
@@ -98,11 +94,11 @@ public class Order {
         this.goods_id = goods_id;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -122,14 +118,6 @@ public class Order {
         this.addr_start = addr_start;
     }
 
-    public String getAddr_start_ext() {
-        return addr_start_ext;
-    }
-
-    public void setAddr_start_ext(String addr_start_ext) {
-        this.addr_start_ext = addr_start_ext;
-    }
-
     public String getAddr_end() {
         return addr_end;
     }
@@ -138,26 +126,11 @@ public class Order {
         this.addr_end = addr_end;
     }
 
-    public String getAddr_end_ext() {
-        return addr_end_ext;
+    public String getExpress_id() {
+        return express_id;
     }
 
-    public void setAddr_end_ext(String addr_end_ext) {
-        this.addr_end_ext = addr_end_ext;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", user_id=" + user_id +
-                ", goods_id='" + goods_id + '\'' +
-                ", status=" + status +
-                ", number=" + number +
-                ", addr_start='" + addr_start + '\'' +
-                ", addr_start_ext='" + addr_start_ext + '\'' +
-                ", addr_end='" + addr_end + '\'' +
-                ", addr_end_ext='" + addr_end_ext + '\'' +
-                '}';
+    public void setExpress_id(String express_id) {
+        this.express_id = express_id;
     }
 }

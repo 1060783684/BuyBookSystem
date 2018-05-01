@@ -138,7 +138,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var id = getQueryVariable("id");
-            $.post("/goods/getGoodsInfo.do", {"goodsId":id}, function (data, status) {
+            $.post("/goods/getGoodsInfo.do", {"goodsId": id}, function (data, status) {
                 if (data != undefined) {
                     var json = eval('(' + data + ')');
                     if (json != undefined) {
@@ -147,20 +147,23 @@
                             case RESULT_SUCCESS: {
                                 var goods = json.goodsInfo;
                                 var store = json.storeInfo;
-                                if(goods.id != undefined){
+                                if (goods.id != undefined) {
                                     $("#goodsId").val(goods.id);
                                 }
-                                if(goods.imgSrc != undefined){
+                                if (goods.imgSrc != undefined) {
                                     $("#imgSrc").attr("src", goods.imgSrc);
                                 }
-                                if(goods.name != undefined){
+                                if (goods.name != undefined) {
                                     $("#name").text(goods.name);
                                 }
-                                if(goods.cost != undefined){
+                                if (goods.cost != undefined) {
                                     $("#cost").text(goods.cost);
                                 }
-                                if(store.addr != undefined){
+                                if (store.addr != undefined) {
                                     $("#addr").text(store.addr);
+                                }
+                                if (goods.num != undefined) {
+                                    $("#number").text(goods.num);
                                 }
                                 break;
                             }
@@ -172,33 +175,34 @@
                     }
                 }
             });
-        });
-        function addShopCar() {
-            var id = $("#goodsId").val();
-            var num = $("#num").val();
-            $.post("/shopcar/addShopCar.do", {"goodsId":id, "num":num}, function (data, status) {
-                var json = eval('(' + data + ')');
-                if(json == undefined){
-                    $(document).html(data)
-                }
-                var result = json.sresult;
-                switch (result) {
-                    case RESULT_SUCCESS:
-                        alert("添加成功");
-                        window.location.href = "/index.html"
-                        break;
-                    case RESULT_FAIL:
-                        alert("添加失败");
-                        break;
-                    case POST_REDIRECT:
-                        var r_url = json.redirect;
-                        window.location.href = r_url;
-                        break;
-                    default:
-                        alert("操作错误");
-                }
+
+            $("#addShopCar").click(function() {
+                var id = $("#goodsId").val();
+                var num = $("#num").val();
+                $.post("/shopcar/addShopCar.do", {"goodsId": id, "num": num}, function (data, status) {
+                    var json = eval('(' + data + ')');
+                    if (json == undefined) {
+                        $(document).html(data)
+                    }
+                    var result = json.sresult;
+                    switch (result) {
+                        case RESULT_SUCCESS:
+                            alert("添加成功");
+                            window.location.href = "/index.html";
+                            break;
+                        case RESULT_FAIL:
+                            alert("添加失败");
+                            break;
+                        case POST_REDIRECT:
+                            var r_url = json.redirect;
+                            window.location.href = r_url;
+                            break;
+                        default:
+                            alert("操作错误");
+                    }
+                });
             });
-        }
+        });
     </script>
 </head>
 
@@ -207,9 +211,9 @@
     <tr>
         <td width="469" height="33" bgcolor="#E6E6E6"><a href="#" title="a" class="a"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
                 class="a">账号&nbsp;&nbsp;&nbsp; </span></a></td>
-        <td width="210" bgcolor="#E6E6E6"><a href="#" title="b" class="b">易书网首页</a></td>
-        <td width="220" bgcolor="#E6E6E6"><a href="#" title="d" class="d">我的易书 </a></td>
-        <td width="135" bgcolor="#E6E6E6"><a href="#" title="e" class="e">卖家中心</a></td>
+        <td width="210" bgcolor="#E6E6E6"><a href="/index.html" title="b" class="b">易书网首页</a></td>
+        <td width="220" bgcolor="#E6E6E6"><a href="/view/safety/user/userMainPage.html" title="d" class="d">我的易书 </a></td>
+        <td width="135" bgcolor="#E6E6E6"><a href="/view/safety/store/check/storeMainPage.html" title="e" class="e">卖家中心</a></td>
     </tr>
 </table>
 <table width="1053" border="0">
@@ -223,37 +227,40 @@
     </tr>
 </table>
 <br/>
-<table width="1052" border="0" style="border:1px solid #E6E6E6">
-    <tr>
-        <td width="236" height="277" rowspan="6" align="left" valign="top">
-            <img src="/img/book.jpg" width="156" height="156" id="imgSrc"/>
-        </td>
-        <td width="806" height="41" class="z" id="name">书名及描述</td>
-    </tr>
-    <tr>
-        <td height="41" bgcolor="#FFE6E6">价格： <span id="st"><strong id="st"><em>¥</em><em id="cost"
-                                                                                          data-spm-anchor-id="2013.1.iteminfo.i0.73d2f226XPtwrN">39.99</em></strong></span>
-        </td>
-    </tr>
-    <tr>
-        <td height="37">商家地址：<a id="addr">广州</a></td>
-    </tr>
-    <tr>
-        <td height="37">购买数量：
-            <input type="text" name="name" style="height:15px;width:25px" id="num"/>
-        </td>
-    </tr>
-    <tr>
-        <td height="37"><input type="button" value="购买" style="background:red;height:30px" class="tj" color="grey"/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="button" value="加入购物车" style="background:#FFB3B3;height:30px" class="tj" color="grey" id="addShopCar" onclick="addShopCar()"/>
-            <input type="hidden" id="goodsId"/>
-        </td>
-    </tr>
-    <tr>
-        <td height="0"><a href="#" title="jj" class="jj">进入店铺</a></td>
-    </tr>
-</table>
+<form action="/view/safety/user/userBuyGoods.html" method="get">
+    <table width="1052" border="0" style="border:1px solid #E6E6E6">
+        <tr>
+            <td width="236" height="277" rowspan="6" align="left" valign="top">
+                <img src="/img/book.jpg" width="156" height="156" id="imgSrc"/>
+            </td>
+            <td width="806" height="41" class="z" id="name">书名及描述</td>
+        </tr>
+        <tr>
+            <td height="41" bgcolor="#FFE6E6">价格： <span id="st"><strong id="st"><em>¥</em><em id="cost"
+                                                                                              data-spm-anchor-id="2013.1.iteminfo.i0.73d2f226XPtwrN">39.99</em></strong></span>
+            </td>
+        </tr>
+        <tr>
+            <td height="37">商家地址：<a id="addr">广州</a></td>
+        </tr>
+        <tr>
+            <td height="37">购买数量：
+                <input type="text" name="num" style="height:15px;width:25px" id="num"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;库存(<a id="number"></a>)
+            </td>
+        </tr>
+        <tr>
+            <td height="37">
+
+                <input type="submit" value="购买" style="background:red;height:30px" class="tj" color="grey"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="hidden" id="goodsId" name="goodsId"/>
+                <input type="button" value="加入购物车" style="background:#FFB3B3;height:30px" class="tj" color="grey" id="addShopCar" onclick="addShopCar()"/>
+            </td>
+        </tr>
+        <tr>
+            <td height="0"><a href="#" title="jj" class="jj">进入店铺</a></td>
+        </tr>
+    </table>
+</form>
 <br/>
 <table width="1050" border="0" rules="none" style="border:1px solid #E6E6E6">
     <tr>

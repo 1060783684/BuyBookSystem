@@ -11,6 +11,8 @@ import org.tzsd.manager.LoginUserManager;
 import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
+import org.tzsd.service.BuyGoodsService;
+import org.tzsd.service.OrderService;
 import org.tzsd.service.StoreService;
 
 import javax.annotation.Resource;
@@ -30,12 +32,34 @@ public class StoreController extends BaseController{
     @Resource(name = "storeService")
     private StoreService storeService;
 
+    @Resource(name = "orderService")
+    private OrderService orderService;
+
+    @Resource(name = "buyGoodsService")
+    private BuyGoodsService buyGoodsService;
+
     public StoreService getStoreService() {
         return storeService;
     }
 
     public void setStoreService(StoreService storeService) {
         this.storeService = storeService;
+    }
+
+    public OrderService getOrderService() {
+        return orderService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    public BuyGoodsService getBuyGoodsService() {
+        return buyGoodsService;
+    }
+
+    public void setBuyGoodsService(BuyGoodsService buyGoodsService) {
+        this.buyGoodsService = buyGoodsService;
     }
 
     /**
@@ -270,6 +294,72 @@ public class StoreController extends BaseController{
                 }else {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
                 }
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @param request
+     * @param response
+     * @description: 获取订单list
+     */
+    @RequestMapping("/getOrderList.do")
+    public void getOrderList(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String statusStr = request.getParameter("status");
+        String pageStr = request.getParameter("page");
+        int page = 0;
+        try {
+            page = Integer.valueOf(pageStr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        String username = user.getName();
+        if (user == null || statusStr == null) {
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        } else {
+            try {
+                int status = Integer.valueOf(statusStr);
+                //操作
+                List orders = getOrderService().getStoreOrderList(username, status, page);
+                long pageNum = getOrderService().getOrderListPage(username, status);
+                if (orders == null || orders.isEmpty()) {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                } else {
+                    jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+                    jsonMap.put(JSONProtocolConstance.ORDER_LIST, orders);
+                    jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
+                }
+            }catch (Exception e){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+                e.printStackTrace();
+            }
+        }
+        writeJSONProtocol(response, jsonMap);
+    }
+
+    /**
+     * @description: 发货
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/deliverGoods.do")
+    public void deliverGoods(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> jsonMap = new HashMap();
+        String sessionId = request.getSession().getId();
+        User user = LoginUserManager.getInstance().getUsers().get(sessionId);
+        String orderId = request.getParameter("orderId");
+        String expressId = request.getParameter("expressId");
+        if (user == null || orderId == null || expressId == null){
+            jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
+        }else {
+            if(getBuyGoodsService().deliverGoods(user.getName(), orderId, expressId)){
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
+            }else {
+                jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
             }
         }
         writeJSONProtocol(response, jsonMap);

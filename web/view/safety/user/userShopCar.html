@@ -135,7 +135,8 @@
                                 }
                                 //总价格
                                 shopCarInfos += '<td width="97" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal3" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + (cost * num) + '</p><p id="j">&nbsp;</p></td>';
-                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj"/></p><p>&nbsp; </p></td>';
+                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p>'+
+                                        '<input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj" onclick="payGoods(\'' + goods.id + '\',\'' + num + '\')"/></p><p>&nbsp; </p></td>';
                                 shopCarInfos += '</tr>';
                             }
                             var pageButtons = "";
@@ -153,6 +154,9 @@
                 }
             });
         });
+        function payGoods(goodsId,num) {
+            window.location.href="/view/safety/user/userBuyGoods.html?num=" + num + "&goodsId=" + goodsId;
+        }
         function selectPage(page) {
             $.post("/shopcar/getShopCars.do", {"page":page}, function (data, status) {
                 if (data != undefined) {
@@ -202,7 +206,7 @@
                                 }
                                 //总价格
                                 shopCarInfos += '<td width="97" align="left" valign="top" bgcolor="#F9FBFB"><p><strong><em id="J_SmallTotal3" data-spm-anchor-id="a1z0d.6639537.0.i2.6a207484tbKTxM">￥</em></strong>' + (cost * num) + '</p><p id="j">&nbsp;</p></td>';
-                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj"/></p><p>&nbsp; </p></td>';
+                                shopCarInfos += '<td width="123" align="left" valign="top" bgcolor="#F9FBFB"><p><input type="button" value="删除" style="height:30px" class="tj" onclick="deleteShopCar(\'' + shopCar.id + '\')"/></p><p><input type="button" value="结算" style="background:red;height:30px" class="tj" onclick="payGoods(\'' + goods.id + '\',\'' + num + '\')"/></p><p>&nbsp; </p></td>';
                                 shopCarInfos += '</tr>';
                             }
                             var pageButtons = "";
