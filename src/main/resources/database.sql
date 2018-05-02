@@ -97,3 +97,17 @@ CREATE TABLE manager
   password VARCHAR(20)
 )
   DEFAULT CHARSET = "utf8";
+CREATE TABLE store_user
+(
+  id BIGINT(20) PRIMARY KEY NOT NULL,
+  name VARCHAR(20),
+  idnumber VARCHAR(30),
+  store_name VARCHAR(40),
+  type VARCHAR(20),
+  business VARCHAR(16),
+  tax FLOAT,
+  store_id BIGINT(20),
+  CONSTRAINT store_user_ibfk_1 FOREIGN KEY (store_id) REFERENCES store_info (id)
+)
+  DEFAULT CHARSET = "utf8";
+CREATE INDEX store_id ON store_user (store_id);

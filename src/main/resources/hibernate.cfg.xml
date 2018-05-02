@@ -38,7 +38,8 @@
 
         <!--sql语句文件-->
         <mapping resource="sql.cfg.xml"/>
-        
+
+        <!--bean-->
         <mapping class="org.tzsd.pojo.AddressInfo"/>
         <mapping class="org.tzsd.pojo.EvaluateInfo"/>
         <mapping class="org.tzsd.pojo.Goods"/>
@@ -48,5 +49,6 @@
         <mapping class="org.tzsd.pojo.User"/>
         <mapping class="org.tzsd.pojo.UserDetailsInfo"/>
         <mapping class="org.tzsd.pojo.Manager"/>
+        <mapping class="org.tzsd.pojo.StoreUser"/>
     </session-factory>
 </hibernate-configuration>

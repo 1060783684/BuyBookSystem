@@ -38,6 +38,9 @@ public interface JSONProtocolConstance {
     String STORE_INFO = "storeInfo"; //店铺信息
     String STORE_LIST = "storeList"; //商店list
 
+    //店铺申请人信息相关
+    String STOREUSER_LIST = "storeUserList"; //店铺申请人list
+
     String PAGE = "page"; //业务无关,代表页数
 
     //------------------------post重定向---------------------------------

@@ -1,13 +1,11 @@
 package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
-import org.tzsd.dao.GoodsDAO;
-import org.tzsd.dao.ManagerDAO;
-import org.tzsd.dao.ShopCarDAO;
-import org.tzsd.dao.StoreDAO;
+import org.tzsd.dao.*;
 import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.Manager;
 import org.tzsd.pojo.Store;
+import org.tzsd.pojo.StoreUser;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +17,9 @@ import java.util.List;
 public class ManagerService {
     @Resource(name = "managerDao")
     private ManagerDAO managerDAO;
+
+    @Resource(name = "storeUserDao")
+    private StoreUserDAO storeUserDAO;
 
     @Resource(name = "storeDao")
     private StoreDAO storeDAO;
@@ -32,6 +33,14 @@ public class ManagerService {
 
     public void setManagerDAO(ManagerDAO managerDAO) {
         this.managerDAO = managerDAO;
+    }
+
+    public StoreUserDAO getStoreUserDAO() {
+        return storeUserDAO;
+    }
+
+    public void setStoreUserDAO(StoreUserDAO storeUserDAO) {
+        this.storeUserDAO = storeUserDAO;
     }
 
     public StoreDAO getStoreDAO() {
@@ -78,8 +87,8 @@ public class ManagerService {
      * @description: 获取未审核店铺list
      * @return 未审核店铺list
      */
-    public List<Store> getNotCheckStoreList(int page){
-        return getStoreDAO().getStoreListByCheck(Store.NO, page * PAGE_SIZE, PAGE_SIZE);
+    public List<StoreUser> getNotCheckStoreUserList(int page){
+        return getStoreUserDAO().getStoreUserByStoreCheck(Store.NO, page * PAGE_SIZE, PAGE_SIZE);
     }
 
     /**
@@ -94,8 +103,8 @@ public class ManagerService {
      * @description: 返回未审核的商店页面数
      * @return 未审核的商店页面数
      */
-    public long getNotCheckStorePage(){
-        long count = getStoreDAO().getStoreCountByCheck(Store.NO);
+    public long getNotCheckStoreUserPage(){
+        long count = getStoreUserDAO().getStoreUserCountByStoreCheck(Store.NO);
         long page = count/PAGE_SIZE;
         if(count % PAGE_SIZE > 0){
             page += 1;

@@ -6,11 +6,9 @@ import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.constance.TestConstance;
 import org.tzsd.dao.GoodsDAO;
 import org.tzsd.dao.StoreDAO;
+import org.tzsd.dao.StoreUserDAO;
 import org.tzsd.dao.UserDAO;
-import org.tzsd.pojo.Goods;
-import org.tzsd.pojo.Store;
-import org.tzsd.pojo.User;
-import org.tzsd.pojo.UserDetailsInfo;
+import org.tzsd.pojo.*;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -32,6 +30,9 @@ public class StoreService {
 
     @Resource(name = "goodsDao")
     private GoodsDAO goodsDAO;
+
+    @Resource(name = "storeUserDao")
+    StoreUserDAO storeUserDAO;
 
     public UserDAO getUserDAO() {
         return userDAO;
@@ -55,6 +56,14 @@ public class StoreService {
 
     public void setGoodsDAO(GoodsDAO goodsDAO) {
         this.goodsDAO = goodsDAO;
+    }
+
+    public StoreUserDAO getStoreUserDAO() {
+        return storeUserDAO;
+    }
+
+    public void setStoreUserDAO(StoreUserDAO storeUserDAO) {
+        this.storeUserDAO = storeUserDAO;
     }
 
     public static final String STOREHEAD_IMG_PATH = "/userimg/storeHead/"; //客户端请求头像的根目录
@@ -110,10 +119,6 @@ public class StoreService {
         if (user == null) {
             return JSONProtocolConstance.STORE_APPLY_FAIL;
         }
-
-        //生成审核信息
-
-
         //生成商店
         long userId = user.getId(); //用户id
         long stordId = userId * 10 + 1; //用户id * 10 +1
@@ -121,9 +126,13 @@ public class StoreService {
         if (store != null) {
             return JSONProtocolConstance.STORE_APPLY_EXIST;
         }
-
         Store newStore = new Store(stordId, null, storeName, null, null, userId, 0, Store.NO);
         getStoreDAO().save(newStore);
+
+        //生成审核信息
+        float taxFloat = Float.valueOf(tax);
+        StoreUser storeUser = new StoreUser(stordId, name, idNumber, storeName, type, business, taxFloat, stordId);
+        getStoreUserDAO().save(storeUser);
         return JSONProtocolConstance.STORE_APPLY_SUCCESS;
     }
 

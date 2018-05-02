@@ -6,6 +6,7 @@ import org.tzsd.constance.JSONProtocolConstance;
 import org.tzsd.controller.BaseController;
 import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.Store;
+import org.tzsd.pojo.StoreUser;
 import org.tzsd.service.ManagerService;
 
 import javax.annotation.Resource;
@@ -37,7 +38,7 @@ public class ManagerController extends BaseController{
      * @param request
      * @param response
      */
-    @RequestMapping("/getNotCheckStoreList.do")
+    @RequestMapping("/getNotCheckStoreUserList.do")
     public void getNotCheckStoreList(HttpServletRequest request, HttpServletResponse response){
         String pageStr = request.getParameter("page");
         Map<String, Object> jsonMap = new HashMap();
@@ -46,11 +47,11 @@ public class ManagerController extends BaseController{
         }else {
             try {
                 int page = Integer.valueOf(pageStr);
-                List<Store> list = getManagerService().getNotCheckStoreList(page);
+                List<StoreUser> list = getManagerService().getNotCheckStoreUserList(page);
                 if(list != null && !list.isEmpty()){
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_SUCCESS);
-                    jsonMap.put(JSONProtocolConstance.STORE_LIST, list);
-                    long pageNum = getManagerService().getNotCheckStorePage();
+                    jsonMap.put(JSONProtocolConstance.STOREUSER_LIST, list);
+                    long pageNum = getManagerService().getNotCheckStoreUserPage();
                     jsonMap.put(JSONProtocolConstance.PAGE, pageNum);
                 }else {
                     jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.RESULT_FAIL);
@@ -68,7 +69,7 @@ public class ManagerController extends BaseController{
      * @param request
      * @param response
      */
-    @RequestMapping("/checkStore.do")
+    @RequestMapping("/checkStoreUser.do")
     public void checkStore(HttpServletRequest request, HttpServletResponse response){
         String storeIdStr = request.getParameter("storeId");
         Map<String, Object> jsonMap = new HashMap();

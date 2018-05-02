@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Repository("managerDao")
 public class ManagerDAO extends GenericDAO{
+
     public Manager getManagerByName(String username){
         return getTemplate().doCall(new HibernateCallback<Manager>() {
             @Override
@@ -29,4 +30,5 @@ public class ManagerDAO extends GenericDAO{
             }
         });
     }
+
 }
