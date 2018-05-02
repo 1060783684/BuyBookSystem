@@ -40,6 +40,9 @@ public class Order {
     @Column(name = "express_id")
     private String express_id; //快递单号
 
+    @Column(name = "addr_id")
+    private String addr_id;
+
     public static final int WAIT_PAY = 0; //待支付
     public static final int WAIT_PUB = 1; //待发货
     public static final int WAIT_INCOME = 2; //待收货
@@ -50,7 +53,7 @@ public class Order {
     }
 
     public Order(String id, long store_id, long user_id, String goods_id,
-                 int status, long number, String addr_start, String addr_end, String express_id) {
+                 int status, long number, String addr_start, String addr_end, String express_id, String addr_id) {
         this.id = id;
         this.store_id = store_id;
         this.user_id = user_id;
@@ -60,6 +63,7 @@ public class Order {
         this.addr_start = addr_start;
         this.addr_end = addr_end;
         this.express_id = express_id;
+        this.addr_id = addr_id;
     }
 
     public String getId() {
@@ -132,5 +136,13 @@ public class Order {
 
     public void setExpress_id(String express_id) {
         this.express_id = express_id;
+    }
+
+    public String getAddr_id() {
+        return addr_id;
+    }
+
+    public void setAddr_id(String addr_id) {
+        this.addr_id = addr_id;
     }
 }

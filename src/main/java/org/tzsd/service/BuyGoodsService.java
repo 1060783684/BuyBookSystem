@@ -118,8 +118,8 @@ public class BuyGoodsService {
             while (getOrderDAO().getOrderById(orderId) != null) { //uuid冲突重新获取
                 orderId  = UUID.randomUUID().toString();
             }
-            Order order = new Order(orderId, store.getId(), user.getId(), goodsId,
-                    Order.WAIT_PAY, num, store.getAddr(), addressInfo.getAddr(), null);
+            Order order = new Order(orderId, store.getId(), user.getId(), goodsId, Order.WAIT_PAY,
+                    num, store.getAddr(), addressInfo.getAddr(), null, addressInfo.getId());
             result = getOrderDAO().saveOrderAndUpdateGoodsNum(order, goodsId, num);
             if(result == null){
                 objects[0] = JSONProtocolConstance.READY_BUY_FAIL;

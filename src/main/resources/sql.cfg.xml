@@ -90,7 +90,8 @@
     </query>
 
     <query name="getOrderListByStoreIdAndStatus">
-        <![CDATA[  from Order o, Goods g where o.store_id = :store_id and o.status = :status and o.goods_id = g.id]]>
+        <![CDATA[  from Order o, Goods g, AddressInfo a
+                   where o.store_id = :store_id and o.status = :status and o.goods_id = g.id and o.addr_id = a.id]]>
     </query>
 
     <query name="getOrderCountByStoreIdAndStatus">

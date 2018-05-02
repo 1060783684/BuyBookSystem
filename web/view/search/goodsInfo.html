@@ -165,6 +165,15 @@
                                 if (goods.num != undefined) {
                                     $("#number").text(goods.num);
                                 }
+                                if (goods.descs != undefined){
+                                    $("#descs").text(goods.descs);
+                                }
+                                if (goods.good_est != undefined){
+                                    $("#good_est").text(goods.good_est);
+                                }
+                                if (goods.bad_est != undefined){
+                                    $("#bad_est").text(goods.bad_est);
+                                }
                                 break;
                             }
                             case RESULT_FAIL:
@@ -264,19 +273,18 @@
 <br/>
 <table width="1050" border="0" rules="none" style="border:1px solid #E6E6E6">
     <tr>
-        <td width="237" height="30" bgcolor="#F1F1F1" class="t"><p id="abc">宝贝详情&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        </td>
+        <td width="237" height="30" bgcolor="#F1F1F1" class="t"><p id="abc">宝贝详情&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></td>
         <td width="803" bgcolor="#F1F1F1" class="t"><p id="def">宝贝评价</p></td>
     </tr>
     <tr border="1">
         <td height="277" colspan="2" align="left" valign="top" bgcolor="#FFFFFF" style="border:1px solid #F1F1F1">
-            <div id="p1">宝贝详情</div>
+            <div id="p1">宝贝详情<br><p id="descs"></p></div>
             <div id="p2" style="display:none">
-                <p><span>好评数：   差评数：</span></p>
+                <p><span>好评数：<a id="good_est"></a>   差评数：<a id="bad_est"></a></span></p>
                 <table width="1042" border="0" style="border:1px solid #E6E6E6">
                     <tr>
-                        <td width="103" height="79" align="center" valign="middle"><img src="头像副本.png" width="55"
-                                                                                        height="55"/></td>
+                        <td width="103" height="79" align="center" valign="middle">
+                            <img src="头像副本.png" width="55" height="55"/></td>
                         <td width="927" rowspan="2" align="center">评价内容</td>
                     </tr>
                     <tr>

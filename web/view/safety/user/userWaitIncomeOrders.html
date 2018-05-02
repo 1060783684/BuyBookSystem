@@ -155,7 +155,11 @@
                             for (var i = 0; i < orderList.length; i++) {
                                 var order = orderList[i][0];
                                 var goods = orderList[i][1];
-                                orderInfos += '<tr><td height="33" colspan="7" bgcolor="#DBE7F2" id=ss>&nbsp; &nbsp;&nbsp;<span id="ss">&nbsp;订单号：' + order.id + '</span></td></tr>';
+                                var express_id = '无';
+                                if(order.express_id != undefined){
+                                    express_id = order.express_id
+                                }
+                                orderInfos += '<tr><td height="33" colspan="3" bgcolor="#DBE7F2" id=ss>&nbsp; &nbsp;&nbsp;<span id="ss">&nbsp;订单号：' + order.id + '</span></td><td height="33" colspan="4" bgcolor="#DBE7F2" id=ss>快递单号：' + express_id + '</td></tr>';
                                 orderInfos += '<tr>';
                                 //图片路径
                                 if(goods.imgSrc != undefined){
