@@ -129,9 +129,28 @@
         <![CDATA[ from Store where user_id=:user_id]]>
     </query>
 
+    <query name="getStoreListByCheck">
+        <![CDATA[ from Store where isCheck = :isCheck]]>
+    </query>
+
+    <query name="getStoreCountByCheck">
+        <![CDATA[ select count(*) from Store where isCheck = :isCheck]]>
+    </query>
+
+    <query name="getGoodsListByStatus">
+        <![CDATA[ from Goods where status = :status]]>
+    </query>
+
+    <query name="getGoodsCountByStatus">
+        <![CDATA[ select count(*) from Goods where status = :status]]>
+    </query>
     <!--减少库存-->
     <query name="updateGoodsNumReduce">
         <![CDATA[ update Goods set num = num - :num where id = :id]]>
+    </query>
+
+    <query name="getManagerByName">
+        <![CDATA[ from Manager where username = :username]]>
     </query>
     <!--<query name="updateGoodsStatusById">-->
         <!--<![CDATA[ update Goods set status = :status where id = :id]]>-->

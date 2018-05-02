@@ -68,4 +68,17 @@
         <filter-name>entryStoreMainPageFilter</filter-name>
         <url-pattern>/view/safety/store/check/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>managerFilter</filter-name>
+        <filter-class>org.tzsd.filter.ManagerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>managerFilter</filter-name>
+        <url-pattern>/manager/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>managerFilter</filter-name>
+        <url-pattern>/managers/*</url-pattern>
+    </filter-mapping>
 </web-app>

@@ -90,3 +90,10 @@ CREATE TABLE orders_info
 CREATE INDEX goods_id ON orders_info (goods_id);
 CREATE INDEX store_id ON orders_info (store_id);
 CREATE INDEX user_id ON orders_info (user_id);
+CREATE TABLE manager
+(
+  id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  username VARCHAR(20),
+  password VARCHAR(20)
+)
+  DEFAULT CHARSET = "utf8";

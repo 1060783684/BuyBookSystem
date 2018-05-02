@@ -51,6 +51,47 @@ public class GoodsDAO extends GenericDAO{
     }
 
     /**
+     * @description: 返回对应状态的物品个数
+     * @param status 状态
+     * @return 返回对应状态的物品个数
+     */
+    public long getGoodsCountByStatus(final int status){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                long count = 0;
+                Query query = session.getNamedQuery("getGoodsCountByStatus");
+                query.setParameter("status",status);
+                List<Long> list = query.list();
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
+            }
+        });
+    }
+
+    /**
+     * @description: 根据状态获取goods list
+     * @param status 状态
+     * @param startPage 页码
+     * @param pageSize　页的大小
+     * @return goods list
+     */
+    public List<Goods> getGoodsListByStatus(final int status, final int startPage, final int pageSize){
+        return getTemplate().doCall(new HibernateCallback<List<Goods>>() {
+            @Override
+            public List<Goods> doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getGoodsListByStatus");
+                query.setParameter("status",status);
+                query.setFirstResult(startPage);
+                query.setMaxResults(pageSize);
+                return query.list();
+            }
+        });
+    }
+
+    /**
      * @description: 获取对应类型价格对应范围以及对应关键字的物品list
      * @param type 物品类型
      * @param low 最低价格

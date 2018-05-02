@@ -36,6 +36,7 @@ public interface JSONProtocolConstance {
 
     //店铺信息获取相关
     String STORE_INFO = "storeInfo"; //店铺信息
+    String STORE_LIST = "storeList"; //商店list
 
     String PAGE = "page"; //业务无关,代表页数
 

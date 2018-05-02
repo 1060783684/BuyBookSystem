@@ -47,5 +47,6 @@
         <mapping class="org.tzsd.pojo.Store"/>
         <mapping class="org.tzsd.pojo.User"/>
         <mapping class="org.tzsd.pojo.UserDetailsInfo"/>
+        <mapping class="org.tzsd.pojo.Manager"/>
     </session-factory>
 </hibernate-configuration>

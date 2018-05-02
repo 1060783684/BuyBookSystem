@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>管理系统-宝贝审核</title>
+    <style type="text/css">
+        .tj {
+            color: white
+        }
+    </style>
+    <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/js/constance.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function selectGoodsPage(page) {
+                $.post("/managers/getNotCheckGoodsList.do", {"page":page}, function (data, status) {
+                    if (data != undefined) {
+                        var json = eval("(" + data + ")");
+                        if(json != undefined) {
+                            if (json.sresult == RESULT_SUCCESS) {
+                                var goodsList = json.goodsList;
+                                for (var i = 0; i < goodsList.length; i++) {
+                                    var goods = goodsList[i];
+                                    if(goods.imgSrc != undefined){
+                                        $("#img" + (i+1)).html('<img src="' + goods.imgSrc + '" width="156" height="156"/>');
+                                    }else {
+                                        $("#img" + (i+1)).html('<img src="/userimg/goods/default.png" width="156" height="156"/>');
+
+                                    }
+                                    if(goods.name != undefined){
+                                        $("#name" + (i+1)).text(goods.name);
+                                    }else {
+                                        $("#name" + (i+1)).text("无");
+
+                                    }
+                                    if(goods.descs != undefined){
+                                        $("#descs" + (i+1)).text(goods.descs);
+                                    }else {
+                                        $("#descs" + (i+1)).text("无");
+                                    }
+                                    if(goods.cost != undefined){
+                                        $("#cost" + (i+1)).text(goods.cost);
+                                    }else {
+                                        $("#cost" + (i+1)).text("无");
+                                    }
+                                    if(goods.num != undefined){
+                                        $("#num" + (i+1)).text(goods.num);
+                                    }else {
+                                        $("#num" + (i+1)).text("无");
+                                    }
+                                    if(goods.type != undefined){
+                                        var goodsType = "无";
+                                        switch (goods.type){
+                                            case EDUCATION:{
+                                                goodsType = "教育";
+                                                break;
+                                            }
+                                            case PHILOPHY:{
+                                                goodsType = "哲学";
+                                                break;
+                                            }
+                                            case ART:{
+                                                goodsType = "艺术";
+                                                break;
+                                            }
+                                            case CLASSICAL:{
+                                                goodsType = "古典";
+                                                break;
+                                            }
+                                            case LITERATURE:{
+                                                goodsType = "文学";
+                                                break;
+                                            }
+                                            case CHILDREN:{
+                                                goodsType = "少儿";
+                                                break;
+                                            }
+                                            case LAGISLATION:{
+                                                goodsType = "法律";
+                                                break;
+                                            }
+                                        }
+                                        $("#type" + (i+1)).text(goodsType);
+                                    }else {
+                                        $("#type" + (i+1)).text("无");
+                                    }
+                                    $("#button" + (i+1)).html('<input type="button" value="是" style="background:red;height:30px" class="tj" color="grey" onclick="checkGoods(\'' + goods.id + '\')"/>'+
+                                            '<input type="button" value="否" style="background:red;height:30px" class="tj" color="grey"/>');
+                                }
+                                var pageButtons = "";
+                                if(json.page != undefined){
+                                    var pageNum = parseInt(json.page);
+                                    pageButtons += '<tr><td colspan="6" align="center">';
+                                    for(var i = 0; i < pageNum; i++){
+                                        pageButtons += '<input type="button" value="' + (i+1) + '" onclick="selectPage(' + i + ')"/>';
+                                    }
+                                    pageButtons += '</td></tr>';
+                                }
+                                var goodsTableHtml = $("#goodsTable").html();
+                                $("#goodsTable").html(goodsTableHtml+ pageButtons);
+                            }
+                        }
+                    }
+                });
+            }
+            selectGoodsPage(0);
+        });
+        function checkGoods(goodsId) {
+            if(confirm("是否确认通过?") == true) {
+                $.post("/managers/checkGoods.do", {"goodsId": goodsId}, function (data, status) {
+                    if (data != undefined) {
+                        var json = eval('(' + data + ')');
+                        if (json != undefined) {
+                            var result = json.sresult;
+                            switch (result) {
+                                case RESULT_SUCCESS:
+                                    alert("审核成功");
+                                    window.location.reload();
+                                    break;
+                                case RESULT_FAIL:
+                                    alert("审核失败");
+                                    break;
+                                default:
+                                    alert("操作错误");
+                            }
+                        }
+                    } else {
+                        alert("消息发送错误");
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+<p>&nbsp;</p>
+<table width="1050" border="1" style="border:1px solid #E9E9E9;">
+    <tbody id="goodsTable">
+    <tr>
+        <td height="39" colspan="7" align="center">宝贝审核</td>
+    </tr>
+    <tr>
+        <td width="167" height="38">图片</td>
+        <td width="116">名称</td>
+
+        <td width="166">描述</td>
+        <td width="123">价格</td>
+        <td width="152">数量</td>
+        <td width="138">类别</td>
+        <td width="142">是否同意</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img1"></td>
+        <td id="name1"></td>
+        <td id="desc1"></td>
+        <td id="cost1"></td>
+        <td id="num1"></td>
+        <td id="type1"></td>
+        <td id="button1"></td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img2">&nbsp;</td>
+        <td id="name2">&nbsp;</td>
+        <td id="desc2">&nbsp;</td>
+        <td id="cost2">&nbsp;</td>
+        <td id="num2">&nbsp;</td>
+        <td id="type2">&nbsp;</td>
+        <td id="button2">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img3">&nbsp;</td>
+        <td id="name3">&nbsp;</td>
+        <td id="desc3">&nbsp;</td>
+        <td id="cost3">&nbsp;</td>
+        <td id="num3">&nbsp;</td>
+        <td id="type3">&nbsp;</td>
+        <td id="button3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img4">&nbsp;</td>
+        <td id="name4">&nbsp;</td>
+        <td id="desc4">&nbsp;</td>
+        <td id="cost4">&nbsp;</td>
+        <td id="num4">&nbsp;</td>
+        <td id="type4">&nbsp;</td>
+        <td id="button4">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img5">&nbsp;</td>
+        <td id="name5">&nbsp;</td>
+        <td id="desc5">&nbsp;</td>
+        <td id="cost5">&nbsp;</td>
+        <td id="num5">&nbsp;</td>
+        <td id="type5">&nbsp;</td>
+        <td id="button5">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img6">&nbsp;</td>
+        <td id="name6">&nbsp;</td>
+        <td id="desc6">&nbsp;</td>
+        <td id="cost6">&nbsp;</td>
+        <td id="num6">&nbsp;</td>
+        <td id="type6">&nbsp;</td>
+        <td id="button6">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img7">&nbsp;</td>
+        <td id="name7">&nbsp;</td>
+        <td id="desc7">&nbsp;</td>
+        <td id="cost7">&nbsp;</td>
+        <td id="num7">&nbsp;</td>
+        <td id="type7">&nbsp;</td>
+        <td id="button7">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img8">&nbsp;</td>
+        <td id="name8">&nbsp;</td>
+        <td id="desc8">&nbsp;</td>
+        <td id="cost8">&nbsp;</td>
+        <td id="num8">&nbsp;</td>
+        <td id="type8">&nbsp;</td>
+        <td id="button8">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="156" align="center" id="img9">&nbsp;</td>
+        <td id="name9">&nbsp;</td>
+        <td id="desc9">&nbsp;</td>
+        <td id="cost9">&nbsp;</td>
+        <td id="num9">&nbsp;</td>
+        <td id="type9">&nbsp;</td>
+        <td id="button9">&nbsp;</td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

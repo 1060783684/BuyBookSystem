@@ -43,4 +43,43 @@ public class StoreDAO extends GenericDAO{
             }
         });
     }
+
+    /**
+     * @description: 根据检查状态获取store list
+     * @param isCheck 状态
+     * @return 商店list
+     */
+    public List<Store> getStoreListByCheck(final int isCheck, final int startPage, final int pageSize){
+        return getTemplate().doCall(new HibernateCallback<List<Store>>() {
+            @Override
+            public List<Store> doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("getStoreListByCheck");
+                query.setParameter("isCheck",isCheck);
+                query.setFirstResult(startPage);
+                query.setMaxResults(pageSize);
+                return query.list();
+            }
+        });
+    }
+
+    /**
+     * @description: 返回对应检查状态的商店个数
+     * @param isCheck
+     * @return
+     */
+    public long getStoreCountByCheck(final int isCheck){
+        return getTemplate().doCall(new HibernateCallback<Long>() {
+            @Override
+            public Long doCall(Session session) throws HibernateException {
+                long count = 0;
+                Query query = session.getNamedQuery("getStoreCountByCheck");
+                query.setParameter("isCheck",isCheck);
+                List<Long> list = query.list();
+                if(list != null && !list.isEmpty()){
+                    count = list.get(0);
+                }
+                return count;
+            }
+        });
+    }
 }
