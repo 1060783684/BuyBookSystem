@@ -88,7 +88,7 @@
     </style>
     <script type="text/javascript" src="/jslib/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/js/constance.js"></script>
-    <script type="text/javascript" src="/js/url.util.js"></script>
+    <script type="text/javascript" src="/js/url.util.js" charset="UTF-8"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $.post("/mainPageLoad.do", {}, function (data, status) {
@@ -107,7 +107,7 @@
                 }
             });
             //搜索
-            var keyword = getQueryVariable("keyword");
+            var keyword = decodeURI(getQueryVariable("keyword")); //若是中文需要解码
             var type = getQueryVariable("type");
             $("#type").val(type); //给type赋值
             $("#keyword").val(keyword); //给keyword赋值
