@@ -107,12 +107,11 @@ public class StoreService {
      * @param storeName 商店名
      * @param type      经营类型
      * @param business  营业执照号码
-     * @param tax       税务
      * @return
      * @description: 店铺申请业务
      */
-    public int storeApply(String username, String name, String idNumber, String storeName, String type, String business, String tax) {
-        if (name == null || idNumber == null || storeName == null || type == null || business == null || tax == null) {
+    public int storeApply(String username, String name, String idNumber, String storeName, String type, String business) {
+        if (name == null || idNumber == null || storeName == null || type == null || business == null) {
             return JSONProtocolConstance.STORE_APPLY_INFO_NOTFULL;
         }
         User user = getUserDAO().getUserByName(username);
@@ -130,8 +129,7 @@ public class StoreService {
         getStoreDAO().save(newStore);
 
         //生成审核信息
-        float taxFloat = Float.valueOf(tax);
-        StoreUser storeUser = new StoreUser(stordId, name, idNumber, storeName, type, business, taxFloat, stordId);
+        StoreUser storeUser = new StoreUser(stordId, name, idNumber, storeName, type, business, stordId);
         getStoreUserDAO().save(storeUser);
         return JSONProtocolConstance.STORE_APPLY_SUCCESS;
     }

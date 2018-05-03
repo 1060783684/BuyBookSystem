@@ -185,7 +185,6 @@ public class LoginUserController extends BaseController {
         } else {
             long id = user.getId();
             String name = request.getParameter("name");
-            String id_number = request.getParameter("idnumber");
             String phone = request.getParameter("phone");
             int sex = -1;
             try {
@@ -194,7 +193,7 @@ public class LoginUserController extends BaseController {
 
             }
             try {
-                getUserInfoService().updateUserDetailsInfo(id, name, id_number, phone, sex);
+                getUserInfoService().updateUserDetailsInfo(id, name, phone, sex);
             } catch (Exception e) {
 
             }
@@ -607,14 +606,13 @@ public class LoginUserController extends BaseController {
             String storeName = request.getParameter("storeName"); //商店名称
             String type = request.getParameter("type"); //营业类型
             String business = request.getParameter("business"); //营业执照号
-            String tax = request.getParameter("tax"); //税务
             String username = user.getName(); //用户名
 
             if (username == null) {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.STORE_APPLY_FAIL);
             } else {
                 //操作
-                int result = getStoreService().storeApply(username, name, idNumber, storeName, type, business, tax);
+                int result = getStoreService().storeApply(username, name, idNumber, storeName, type, business);
                 jsonMap.put(JSONProtocolConstance.RESULT, result);
             }
         }

@@ -92,7 +92,7 @@ public class UserInfoService {
     public long regist(final String username, final String password) {
         long id = Long.valueOf(username);
         User user = new User(id, username, password);
-        UserDetailsInfo userExt = new UserDetailsInfo(id, null, null, null, null, null);
+        UserDetailsInfo userExt = new UserDetailsInfo(id, null, null, null, username, null);
         return (long) userDAO.saveUser(user, userExt);
     }
 
@@ -134,19 +134,15 @@ public class UserInfoService {
      * @description: 保存用户附加信息
      * @param id        用户id
      * @param name      名字
-     * @param id_number 身份证号
      * @param phone     电话号
      * @param sex       性别
      * @return
      */
-    public void updateUserDetailsInfo(long id, String name, String id_number, String phone, int sex) {
+    public void updateUserDetailsInfo(long id, String name, String phone, int sex) {
         UserDetailsInfo userExt = getUserDetailsInfoDAO().getUserDetailsInfoById(id);
 
         if (name != null && name.length() < 20) {
             userExt.setName(name);
-        }
-        if (id_number != null && id_number.length() < 30) {
-            userExt.setId_number(id_number);
         }
         if (phone != null && phone.length() <= 11) {
             userExt.setPhone(phone);

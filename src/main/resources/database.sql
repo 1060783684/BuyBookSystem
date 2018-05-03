@@ -123,3 +123,5 @@ ALTER TABLE orders_info
   ADD COLUMN addr_id VARCHAR(40);
 ALTER TABLE orders_info
   ADD FOREIGN KEY (addr_id) REFERENCES address_info (id);
+ALTER TABLE store_user
+  DROP COLUMN tax;
