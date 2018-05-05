@@ -338,21 +338,18 @@
     <column id="104" parent="18" name="business">
       <data-type>varchar(16)|0</data-type>
     </column>
-    <column id="105" parent="18" name="tax">
-      <data-type>float|0</data-type>
-    </column>
-    <column id="106" parent="18" name="store_id">
+    <column id="105" parent="18" name="store_id">
       <data-type>bigint(20)|0</data-type>
     </column>
-    <index id="107" parent="18" name="store_id">
+    <index id="106" parent="18" name="store_id">
       <columns>store_id</columns>
       <desc-columns />
     </index>
-    <key id="108" parent="18" name="PRIMARY">
+    <key id="107" parent="18" name="PRIMARY">
       <columns>id</columns>
       <primary>1</primary>
     </key>
-    <foreign-key id="109" parent="18" name="store_user_ibfk_1">
+    <foreign-key id="108" parent="18" name="store_user_ibfk_1">
       <columns>store_id</columns>
       <ref-key>~.store_info.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>

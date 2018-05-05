@@ -162,6 +162,32 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#submit").click(function () {
+                var goodsImg = $("#goodsImg").val();
+                var name = $("#name").val();
+                var costInt = $("#costInt").val();
+                var costDec = $("#costDec").val();
+                var num = $("#num").val();
+                var descs = $("#descs").val();
+                if(goodsImg == null || goodsImg == ""){
+                    alert("请选择图片");
+                    return;
+                }
+                if(name == null || name == ""){
+                    alert("请填写书名");
+                    return;
+                }
+                if(costInt == null || costDec == null || costInt == "" || costDec == ""){
+                    alert("请填写价格");
+                    return;
+                }
+                if(num == null || num == ""){
+                    alert("请填写库存");
+                    return;
+                }
+                if(descs == null || descs == ""){
+                    alert("请填写说明");
+                    return;
+                }
                 $("#goodsForm").ajaxSubmit({
                     success: function (data) { //这里的data会被转换成dataType要求的类型
                         if (data != undefined) {
@@ -189,6 +215,18 @@
                                 }
                                 case PUB_IMG_NOTFOUND: {
                                     alert("没有上传宝贝图片");
+                                    break;
+                                }
+                                case PUB_NON_COST: {
+                                    alert("没有完整填写价格信息");
+                                    break;
+                                }
+                                case PUB_NON_NUM: {
+                                    alert("没有填写库存信息");
+                                    break;
+                                }
+                                case PUB_NON_DESCS: {
+                                    alert("没有填写描述信息");
                                     break;
                                 }
                                 case PUB_FAIL: {
@@ -281,11 +319,13 @@
         </tr>
         <tr>
             <td height="40" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 价格： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="cost" style="height:25px;width:150px" id="cost"/></td>
+                <input type="text" name="costInt" style="height:25px;width:150px" id="costInt" onKeypress="javascript:if(!(event.keyCode >= 48 && event.keyCode <= 57))event.returnValue = false;"/>.
+                <input type="text" name="costDec" style="height:25px;width:150px" id="costDec" onKeypress="javascript:if(!(event.keyCode >= 48 && event.keyCode <= 57))event.returnValue = false;"/>
+            </td>
         </tr>
         <tr>
             <td height="36" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 数量： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" name="num" style="height:25px;width:150px" id="num"/></td>
+                <input type="text" name="num" style="height:25px;width:150px" id="num" onKeypress="javascript:if(!(event.keyCode >= 48 && event.keyCode <= 57))event.returnValue = false;"/></td>
         </tr>
         <tr>
             <td height="32" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 类别： &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -64,6 +64,9 @@ var PUB_UPLOAD_TYPE_ERROR = 3; //文件类型错误
 var PUB_GOODS_TYPE_ERROR = 4; //发布物品类型错误
 var PUB_INFO_ERROR = 5; //信息填写错误
 var PUB_IMG_NOTFOUND = 6; //没有文件
+var PUB_NON_NUM = 7; //没有填写库存
+var PUB_NON_COST = 8; //没有填写价格
+var PUB_NON_DESCS = 9; //没有填写描述信息
 var PUB_FAIL = 0; //操作错误
 
 //-----------------------JSON协议常量end------------------------------

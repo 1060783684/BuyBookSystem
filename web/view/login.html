@@ -44,6 +44,11 @@
             $("#login").click(function () {
                 var username = $("#uname").val();
                 var password = $("#psword").val();
+                if(username == undefined || password == undefined || username == null
+                        || password == null || username == "" || password == ""){
+                    alert("请完整填写用户名和密码");
+                    return;
+                }
                 $.post("/validate.do", {"username": username, "password": password}, function (data, status) {
                     var json = eval('(' + data + ')');
                     var result = json.sresult;
@@ -89,9 +94,8 @@
     </tr>
     <tr>
         <td width="49" bgcolor="#FFFFFF">&nbsp;</td>
-        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input id="uname" type="text"
-                                                                                           name="name"
-                                                                                           style="height:25px;width:250px"/>
+        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF">
+            <input id="uname" type="text" name="name" style="height:25px;width:250px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
     </tr>
     <tr>
@@ -104,16 +108,16 @@
     </tr>
     <tr>
         <td width="49" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="32" colspan="2" bgcolor="#FFFFFF"><input id="psword" type="password" name="name2"
-                                                             style="height:25px;width:250px"/>
+        <td height="32" colspan="2" bgcolor="#FFFFFF">
+            <input id="psword" type="password" name="name2" style="height:25px;width:250px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
     </tr>
     <tr>
         <td width="49" bgcolor="#FFFFFF">&nbsp;</td>
         <td width="207" height="42" bgcolor="#FFFFFF">&nbsp;</td>
-        <td width="100" bgcolor="#FFFFFF"><input id="login" type="button" value="登录" style="background:blue;height:30px"
-                                                 class="tj"
-                                                 color="grey"/></td>
+        <td width="100" bgcolor="#FFFFFF">
+            <input id="login" type="button" value="登录" style="background:blue;height:30px" class="tj" color="grey"/>
+        </td>
     </tr>
     <tr>
         <td width="49" bgcolor="#FFFFFF">&nbsp;</td>

@@ -254,7 +254,7 @@
         </tr>
         <tr>
             <td height="37">购买数量：
-                <input type="text" name="num" style="height:15px;width:25px" id="num"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;库存(<a id="number"></a>)
+                <input type="text" name="num" style="height:15px;width:25px" id="num" onKeypress="javascript:if(!(event.keyCode >= 48 && event.keyCode <= 57))event.returnValue = false;"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;库存(<a id="number"></a>)
             </td>
         </tr>
         <tr>

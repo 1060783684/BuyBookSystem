@@ -48,7 +48,7 @@ public class ValidateController extends BaseController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Map<String, Object> jsonMap = new HashMap();
-        if(username == null || password == null){
+        if(username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()){ //用户名密码为空就别找数据库的麻烦了
             jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.VALID_FAIL);
         }else {
             User user = null;
