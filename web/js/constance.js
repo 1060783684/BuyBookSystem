@@ -55,6 +55,7 @@ var ADDRESS_TOMUCH = 2;
 var STORE_APPLY_SUCCESS = 1; //成功
 var STORE_APPLY_INFO_NOTFULL = 2; //信息填写不全
 var STORE_APPLY_EXIST = 3; //店铺申请已提交
+var STORE_APPLY_ILLCODE = 4; //信息中含有非法字符
 var STORE_APPLY_FAIL = 0; //操作错误
 
 //发布物品相关

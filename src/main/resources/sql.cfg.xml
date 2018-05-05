@@ -156,7 +156,7 @@
 
     <!--商家信息相关-->
     <query name="getStoreUserByStoreCheck">
-        <![CDATA[ select new StoreUser(su.id, su.name, su.idNumber, su.store_name, su.type, su.business, su.store_id)
+        <![CDATA[ select new StoreUser(su.id, su.name, su.idNumber, su.store_name, su.type, su.store_id)
                   from StoreUser su, Store s where s.isCheck = :isCheck and su.store_id = s.id]]>
     </query>
 

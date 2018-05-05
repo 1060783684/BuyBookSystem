@@ -99,9 +99,19 @@
                 var idnumber = $("#idnumber").val(); //身份证号
                 var storeName = $("#storeName").val(); //商店名
                 var type = $("#type").val(); //经营类型
-                var business = $("#business").val(); //营业执照id
-                var tax = $("#tax").val(); //税务
-                //这里加个判断
+                var reg = /[ ]/;
+                //判断是否有信息为空
+                if(name == undefined || idnumber == undefined || storeName == undefined || type == undefined || business == undefined ||
+                   name == "" || idnumber == "" || storeName == "" || type == ""){
+                    alert("请将信息填写完整");
+                    return;
+                }
+                //判断是否有非法信息
+                if(reg.test(name) || reg.test(idnumber) || reg.test(storeName) || reg.test(type) || reg.test(business)){
+                    alert("信息中不能含有空格");
+                    return;
+                }
+                //这里加个判断，判断是否是正确的身份证号格式
                 $.post("/user/applyStore.do", {
                     "name": name,
                     "idnumber": idnumber,
@@ -125,6 +135,11 @@
                                     }
                                     case STORE_APPLY_EXIST : {
                                         alert("已提交过申请");
+                                        break;
+                                    }
+                                    case STORE_APPLY_ILLCODE:{
+                                        alert("信息中不能含有空格");
+                                        break;
                                     }
                                     case STORE_APPLY_FAIL : {
                                         alert("操作失败");
@@ -166,35 +181,28 @@
     <tr>
         <td height="72" valign="bottom">&nbsp;</td>
         <td width="151" height="72" valign="bottom">公司法人姓名：</td>
-        <td width="305" valign="bottom"><input type="text" name="name2" style="height:25px;width:200px" id="name"/></td>
+        <td width="305" valign="bottom"><input type="text" name="name2" style="height:25px;width:200px" id="name" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/></td>
         <td width="305" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="46">&nbsp;</td>
         <td height="46" valign="bottom">公司法人身份证号：</td>
-        <td height="46" valign="bottom"><input type="text" name="name" style="height:25px;width:200px" id="idnumber"/>
+        <td height="46" valign="bottom"><input type="text" name="name" style="height:25px;width:200px" id="idnumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
         <td height="46" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="47">&nbsp;</td>
         <td height="47" valign="bottom">店铺名称：</td>
-        <td height="47" valign="bottom"><input type="text" name="name3" style="height:25px;width:200px" id="storeName"/>
+        <td height="47" valign="bottom"><input type="text" name="name3" style="height:25px;width:200px" id="storeName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
         <td height="47" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td height="45">&nbsp;</td>
         <td height="45" valign="bottom">经营类目：</td>
-        <td height="45" valign="bottom"><input type="text" name="name4" style="height:25px;width:200px" id="type"/></td>
+        <td height="45" valign="bottom"><input type="text" name="name4" style="height:25px;width:200px" id="type" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/></td>
         <td height="45" valign="bottom">&nbsp;</td>
-    </tr>
-    <tr>
-        <td height="47">&nbsp;</td>
-        <td height="47" valign="bottom">营业执照：</td>
-        <td height="47" valign="bottom"><input type="text" name="name5" style="height:25px;width:200px" id="business"/>
-        </td>
-        <td height="47" valign="bottom">&nbsp;</td>
     </tr>
     <tr>
         <td colspan="4" id="ty">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

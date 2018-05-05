@@ -16,6 +16,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @description: 店铺相关操作
@@ -106,14 +108,26 @@ public class StoreService {
      * @param idNumber  身份证号
      * @param storeName 商店名
      * @param type      经营类型
-     * @param business  营业执照号码
      * @return
      * @description: 店铺申请业务
      */
-    public int storeApply(String username, String name, String idNumber, String storeName, String type, String business) {
-        if (name == null || idNumber == null || storeName == null || type == null || business == null) {
+    public int storeApply(String username, String name, String idNumber, String storeName, String type) {
+        if (name == null || idNumber == null || storeName == null || type == null
+                ||name.trim().isEmpty() || idNumber.trim().isEmpty() || storeName.trim().isEmpty() || type.trim().isEmpty()) {
             return JSONProtocolConstance.STORE_APPLY_INFO_NOTFULL;
         }
+        String reg = " "; //非法字符
+        Pattern pattern = Pattern.compile(reg);
+        Matcher nameMatcher = pattern.matcher(name);
+        Matcher idNumberMatcher = pattern.matcher(idNumber);
+        Matcher storeNameMatcher = pattern.matcher(storeName);
+        Matcher typeMatcher = pattern.matcher(type);
+
+        if(nameMatcher.find() || idNumberMatcher.find() ||
+                storeNameMatcher.find() || typeMatcher.find()){
+            return JSONProtocolConstance.STORE_APPLY_ILLCODE; //信息中含有非法字符(空格)
+        }
+
         User user = getUserDAO().getUserByName(username);
         if (user == null) {
             return JSONProtocolConstance.STORE_APPLY_FAIL;
@@ -129,7 +143,7 @@ public class StoreService {
         getStoreDAO().save(newStore);
 
         //生成审核信息
-        StoreUser storeUser = new StoreUser(stordId, name, idNumber, storeName, type, business, stordId);
+        StoreUser storeUser = new StoreUser(stordId, name, idNumber, storeName, type, stordId);
         getStoreUserDAO().save(storeUser);
         return JSONProtocolConstance.STORE_APPLY_SUCCESS;
     }

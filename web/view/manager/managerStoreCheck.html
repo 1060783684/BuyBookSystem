@@ -25,44 +25,44 @@
 
                                     //公司法人姓名
                                     if(storeUser.name != undefined){
-                                        $("#name" + (i+1)).text(storeUser.name)
+                                        $("#name" + (i+1)).text(storeUser.name);
                                     }else {
-                                        $("#name" + (i+1)).text(无)
+                                        $("#name" + (i+1)).text("无");
                                     }
 
                                     //公司法人身份证号码
                                     if(storeUser.idNumber != undefined){
-                                        $("#idnumber" + (i+1)).text(storeUser.idNumber)
+                                        $("#idnumber" + (i+1)).text(storeUser.idNumber);
                                     }else {
-                                        $("#idnumber" + (i+1)).text(无)
+                                        $("#idnumber" + (i+1)).text("无");
                                     }
 
                                     //店铺名称
                                     if(storeUser.store_name != undefined){
-                                        $("#sname" + (i+1)).text(storeUser.store_name)
+                                        $("#sname" + (i+1)).text(storeUser.store_name);
                                     }else {
-                                        $("#sname" + (i+1)).text(无)
+                                        $("#sname" + (i+1)).text("无");
                                     }
 
                                     //经营类别
                                     if(storeUser.type != undefined){
-                                        $("#type" + (i+1)).text(storeUser.type)
+                                        $("#type" + (i+1)).text(storeUser.type);
                                     }else {
-                                        $("#type" + (i+1)).text(无)
+                                        $("#type" + (i+1)).text("无");
                                     }
 
                                     //营业执照编号
                                     if(storeUser.business != undefined){
-                                        $("#business" + (i+1)).text(storeUser.business)
+                                        $("#business" + (i+1)).text(storeUser.business);
                                     }else {
-                                        $("#business" + (i+1)).text(无)
+                                        $("#business" + (i+1)).text("无");
                                     }
 
                                     //税务
                                     if(storeUser.tax != undefined){
-                                        $("#tax" + (i+1)).text(storeUser.tax)
+                                        $("#tax" + (i+1)).text(storeUser.tax);
                                     }else {
-                                        $("#tax" + (i+1)).text(无)
+                                        $("#tax" + (i+1)).text("无");
                                     }
 
                                     $("#button" + (i+1)).html('<input type="button" value="是" style="background:red;height:30px" class="tj" color="grey" onclick="checkStoreUser(\'' + storeUser.id + '\')"/>'+

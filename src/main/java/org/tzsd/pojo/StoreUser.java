@@ -27,9 +27,6 @@ public class StoreUser {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "business")
-    private String business;
-
     @Column(name = "store_id")
     private long store_id;
 
@@ -73,14 +70,6 @@ public class StoreUser {
         this.type = type;
     }
 
-    public String getBusiness() {
-        return business;
-    }
-
-    public void setBusiness(String business) {
-        this.business = business;
-    }
-
     public long getStore_id() {
         return store_id;
     }
@@ -93,13 +82,12 @@ public class StoreUser {
 
     }
 
-    public StoreUser(long id, String name, String idNumber, String store_name, String type, String business, long store_id) {
+    public StoreUser(long id, String name, String idNumber, String store_name, String type, long store_id) {
         this.id = id;
         this.name = name;
         this.idNumber = idNumber;
         this.store_name = store_name;
         this.type = type;
-        this.business = business;
         this.store_id = store_id;
     }
 }

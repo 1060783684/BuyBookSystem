@@ -127,3 +127,5 @@ ALTER TABLE store_user
   DROP COLUMN tax;
 ALTER TABLE user_ext
   DROP COLUMN id_number;
+ALTER TABLE store_user
+  DROP COLUMN business;

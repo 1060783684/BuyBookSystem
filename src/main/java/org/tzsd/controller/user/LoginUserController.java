@@ -605,14 +605,13 @@ public class LoginUserController extends BaseController {
             String idNumber = request.getParameter("idnumber"); //公司法人身份证id
             String storeName = request.getParameter("storeName"); //商店名称
             String type = request.getParameter("type"); //营业类型
-            String business = request.getParameter("business"); //营业执照号
             String username = user.getName(); //用户名
 
             if (username == null) {
                 jsonMap.put(JSONProtocolConstance.RESULT, JSONProtocolConstance.STORE_APPLY_FAIL);
             } else {
                 //操作
-                int result = getStoreService().storeApply(username, name, idNumber, storeName, type, business);
+                int result = getStoreService().storeApply(username, name, idNumber, storeName, type);
                 jsonMap.put(JSONProtocolConstance.RESULT, result);
             }
         }
