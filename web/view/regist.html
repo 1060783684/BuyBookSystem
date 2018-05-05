@@ -53,7 +53,26 @@
                 var username = $("#uname").val();
                 var password = $("#psword").val();
                 var conpassword = $("#conpsword").val();
+                var reg = /[ ]/;
+                if(reg.test(password)){
+                    alert("密码中不能含有空格");
+                    return;
+                }
+                if(username == "" || password == ""){
+                    alert("用户名密码不能为空");
+                    return;
+                }
+                if(password.length < 6 || password.length > 16){
+                    alert("密码长度必须大于6小于16");
+                    return;
+                }
                 if(password == conpassword) {
+                    var pattern = /^[1][3,4,5,7,8][0-9]{9}$/;//标准电话号码格式
+                    var flag = pattern.test(username);
+                    if(flag == false){
+                        alert("此用户名不符合手机号格式");
+                        return;
+                    }
                     $.post("/regist.do", {"username": username, "password": password}, function (data, status) {
                         var json = eval('(' + data + ')');
                         var result = json.sresult;
@@ -67,6 +86,21 @@
                                 break;
                             case REGIST_VALIDCODE_FAIL:
                                 alert("验证码错误");
+                                break;
+                            case REGIST_UN_CONTAIN_NONNUM:
+                                alert("用户名含有非数字");
+                                break;
+                            case REGIST_PW_CONTAIN_ILLCODE:
+                                alert("密码含有非法字符");
+                                break;
+                            case REGIST_UP_ISNON:
+                                alert("用户名密码不能为空");
+                                break;
+                            case REGIST_UN_NONPHONE:
+                                alert("用户名不符合手机号格式");
+                                break;
+                            case REGIST_PW_LENGTH_FAIL:
+                                alert("密码长度必须大于6小于16");
                                 break;
                             case REGIST_FAIL:
                                 alert("注册失败");
@@ -109,9 +143,8 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF"><input id="uname" type="text"
-                                                                                           name="name"
-                                                                                           style="height:25px;width:250px"/>
+        <td colspan="2" align="left" valign="top" nowrap="nowrap" bgcolor="#FFFFFF">
+            <input id="uname" type="text" name="name" style="height:25px;width:250px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
     </tr>
     <tr>
@@ -124,8 +157,8 @@
     </tr>
     <tr>
         <td width="43" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="32" colspan="2" bgcolor="#FFFFFF"><input id="psword" type="password" name="name2"
-                                                             style="height:25px;width:250px"/>
+        <td height="32" colspan="2" bgcolor="#FFFFFF">
+            <input id="psword" type="password" name="name2" style="height:25px;width:250px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
     </tr>
     <tr>
@@ -137,8 +170,8 @@
     </tr>
     <tr>
         <td width="43" rowspan="3" bgcolor="#FFFFFF">&nbsp;</td>
-        <td height="31" colspan="2" bgcolor="#FFFFFF"><input id="conpsword" type="password" name="name3"
-                                                             style="height:25px;width:250px"/>
+        <td height="31" colspan="2" bgcolor="#FFFFFF">
+            <input id="conpsword" type="password" name="name3" style="height:25px;width:250px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
         </td>
     </tr>
     <tr>

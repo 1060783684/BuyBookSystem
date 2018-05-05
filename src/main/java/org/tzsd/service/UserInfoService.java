@@ -92,7 +92,7 @@ public class UserInfoService {
     public long regist(final String username, final String password) {
         long id = Long.valueOf(username);
         User user = new User(id, username, password);
-        UserDetailsInfo userExt = new UserDetailsInfo(id, null, null, null, username, null);
+        UserDetailsInfo userExt = new UserDetailsInfo(id, null, null, username, null);
         return (long) userDAO.saveUser(user, userExt);
     }
 

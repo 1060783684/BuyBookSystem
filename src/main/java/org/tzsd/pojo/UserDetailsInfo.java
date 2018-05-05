@@ -18,9 +18,6 @@ public class UserDetailsInfo {
     @Column(name = "name")
     private String name; //姓名
 
-    @Column(name = "id_number")
-    private String id_number; //身份证号
-
     @Column(name = "phone")
     private String phone; //手机号
 
@@ -31,11 +28,10 @@ public class UserDetailsInfo {
 
     }
 
-    public UserDetailsInfo(long id, String headSrc, String name, String id_number, String phone, String sex) {
+    public UserDetailsInfo(long id, String headSrc, String name, String phone, String sex) {
         this.id = id;
         this.headSrc = headSrc;
         this.name = name;
-        this.id_number = id_number;
         this.phone = phone;
         this.sex = sex;
     }
@@ -64,14 +60,6 @@ public class UserDetailsInfo {
         this.name = name;
     }
 
-    public String getId_number() {
-        return id_number;
-    }
-
-    public void setId_number(String id_number) {
-        this.id_number = id_number;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -86,16 +74,5 @@ public class UserDetailsInfo {
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-    @Override
-    public String toString() {
-        return "UserDetailsInfo{" +
-                "id=" + id +
-                ", headSrc='" + headSrc + '\'' +
-                ", name='" + name + '\'' +
-                ", id_number='" + id_number + '\'' +
-                ", phone='" + phone + '\'' +
-                ", sex='" + sex + '\'' +
-                '}';
     }
 }

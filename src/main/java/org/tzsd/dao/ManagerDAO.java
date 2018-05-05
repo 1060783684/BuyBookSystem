@@ -15,7 +15,7 @@ import java.util.List;
 @Repository("managerDao")
 public class ManagerDAO extends GenericDAO{
 
-    public Manager getManagerByName(String username){
+    public Manager getManagerByName(final String username){
         return getTemplate().doCall(new HibernateCallback<Manager>() {
             @Override
             public Manager doCall(Session session) throws HibernateException {

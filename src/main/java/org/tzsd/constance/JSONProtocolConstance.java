@@ -62,8 +62,13 @@ public interface JSONProtocolConstance {
     //注册业务返回值
     int REGIST_SUCCESS = 1;
     int REGIST_USERNAME_EXIST = 2;
-    int REGIST_VALIDCODE_FAIL = 3;
-    int REGIST_FAIL = 4;
+    int REGIST_VALIDCODE_FAIL = 3; //验证码错误
+    int REGIST_UN_CONTAIN_NONNUM = 4; //用户名含有非数字
+    int REGIST_PW_CONTAIN_ILLCODE = 5; //密码含有非法字符
+    int REGIST_UP_ISNON = 6; //用户名密码为空
+    int REGIST_UN_NONPHONE = 7; //用户名不是手机号格式
+    int REGIST_PW_LENGTH_FAIL = 8; //密码长度不符合要求
+    int REGIST_FAIL = 0;
 
     //正常的成功与失败
     int RESULT_SUCCESS = 1;

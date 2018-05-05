@@ -35,7 +35,12 @@ var UPDATE_PW_FAIL = 0; //操作错误
 var REGIST_SUCCESS = 1; //注册成功
 var REGIST_USERNAME_EXIST = 2; //用户名已存在
 var REGIST_VALIDCODE_FAIL = 3; //验证码错误
-var REGIST_FAIL = 4; //注册失败
+var REGIST_UN_CONTAIN_NONNUM = 4; //用户名含有非数字
+var REGIST_PW_CONTAIN_ILLCODE = 5; //密码含有非法字符
+var REGIST_UP_ISNON = 6; //用户名密码为空
+var REGIST_UN_NONPHONE = 7; //用户名不是手机号格式
+var REGIST_PW_LENGTH_FAIL = 8; //密码长度不符合要求
+var REGIST_FAIL = 0; //注册失败
 
 //上传可能产生的结果
 var UPLOAD_SUCCESS = 1; //上传成功

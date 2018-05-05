@@ -79,7 +79,12 @@ public class Test {
 //        TestGetDAO();
 //        testJson();
 //        testStringTokenizer();
-        float cost = Float.valueOf("23.5");
-        System.out.println(cost);
+//        float cost = Float.valueOf("23.5");
+        String str = "                         ";
+        System.out.println("length : " + str.length());
+        System.out.println("isEmpty : " + str.isEmpty());
+        String str1 = str.trim();
+        System.out.println("length : " + str1.length());
+        System.out.println("isEmpty : " + str1.isEmpty());
     }
 }

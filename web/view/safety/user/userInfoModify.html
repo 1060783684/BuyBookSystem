@@ -145,9 +145,6 @@
                             if (userExt.name != undefined) {
                                 $("#name").val(userExt.name);
                             }
-                            if (userExt.id_number != undefined) {
-                                $("#idnumber").val(userExt.id_number);
-                            }
                             if (userExt.phone != undefined) {
                                 $("#phone").val(userExt.phone);
                             }
@@ -173,7 +170,6 @@
                 var name = $("#name").val();
                 var sex = 0;
                 var phone = $("#phone").val();
-                var idnumber = $("#idnumber").val();
                 if (document.getElementById("man").checked) {
                     sex = $("#man").val();
                 }
@@ -183,8 +179,7 @@
                 $.post("/user/updateUserInfo.do", {
                     "name": name,
                     "sex": sex,
-                    "phone": phone + "",
-                    "idnumber": idnumber + ""
+                    "phone": phone + ""
                 }, function (data, status) {
                     var json = eval('(' + data + ')');
                     switch (json.sresult) {
@@ -269,11 +264,6 @@
     <tr>
         <td height="37" colspan="2" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 手机号： &nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" name="name4" style="height:25px;width:150px" id="phone"/>
-        </td>
-    </tr>
-    <tr>
-        <td height="40" colspan="2" align="left" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 身份证： &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" name="name3" style="height:25px;width:150px" id="idnumber"/>
         </td>
     </tr>
     <tr>
