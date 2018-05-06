@@ -97,6 +97,9 @@ public interface JSONProtocolConstance {
     int PUB_GOODS_TYPE_ERROR = 4; //发布物品类型错误
     int PUB_INFO_ERROR = 5; //信息填写错误
     int PUB_IMG_NOTFOUND = 6; //没有文件
+    int PUB_NON_NUM = 7; //没有填写库存
+    int PUB_NON_COST = 8; //没有填写价格
+    int PUB_NON_DESCS = 9; //没有填写描述信息
     int PUB_FAIL = 0; //操作错误
 
     //预购买相关

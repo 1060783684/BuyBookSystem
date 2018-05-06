@@ -44,6 +44,11 @@
             $("#login").click(function () {
                 var username = $("#uname").val();
                 var password = $("#psword").val();
+                if(username == undefined || password == undefined || username == null
+                        || password == null || username == "" || password == ""){
+                    alert("请完整填写用户名和密码");
+                    return;
+                }
                 $.post("/validate.do", {"username": username, "password": password}, function (data, status) {
                     var json = eval('(' + data + ')');
                     var result = json.sresult;

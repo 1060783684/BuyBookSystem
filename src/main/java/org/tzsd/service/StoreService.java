@@ -301,7 +301,8 @@ public class StoreService {
         }
 
         String name = null;
-        float cost = -1;
+        float costInt = -1;
+        float costDec = -1;
         long num = -1;
         int type = -1;
         String descs = null;
@@ -332,10 +333,11 @@ public class StoreService {
                 if (fileItem.getFieldName().equals("name")) {
                     name = fileItem.getString("utf-8");
                     goods.setName(name);
-                }else if(fileItem.getFieldName().equals("cost")){
-                    cost = Float.valueOf(fileItem.getString("utf-8"));
-                    goods.setCost(cost);
-                }else if(fileItem.getFieldName().equals("num")){
+                }else if(fileItem.getFieldName().equals("costInt")){ //价格的整数部分
+                    costInt = Float.valueOf(fileItem.getString("utf-8"));
+                }else if(fileItem.getFieldName().equals("costDec")) { //价格的小数部分
+                    costDec = Float.valueOf("0." + fileItem.getString("utf-8"));
+                } else if(fileItem.getFieldName().equals("num")){
                     num = Long.valueOf(fileItem.getString("utf-8"));
                     goods.setNum(num);
                 }else if(fileItem.getFieldName().equals("type")){
@@ -424,17 +426,28 @@ public class StoreService {
                     }
                 }
             }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return JSONProtocolConstance.PUB_INFO_ERROR;
+        } catch (Exception e){
+            e.printStackTrace();
+            return JSONProtocolConstance.PUB_INFO_ERROR;
         }
 
-        if (name == null || cost <= 0 || num <= 0) {
-            return JSONProtocolConstance.PUB_INFO_ERROR;
+        if (name == null || costInt < 0  || costDec < 0 || costInt+costDec <= 0) {
+            return JSONProtocolConstance.PUB_NON_COST;
         }
         if (!isStorFile){
             return JSONProtocolConstance.PUB_IMG_NOTFOUND;
         }
-
+        if(num <= 0){
+            return JSONProtocolConstance.PUB_NON_NUM;
+        }
+        if(descs == null || descs.trim().isEmpty()){
+            return JSONProtocolConstance.PUB_NON_DESCS;
+        }
+        goods.setCost(costInt + costDec);
         //设置主要属性
         goods.setId(goodsId);
         goods.setStore_id(store.getId());
