@@ -39,6 +39,30 @@
                 }
             });
         });
+        $.post("/goods/searchGoodsList.do", {"page":0, "type":"4"}, function (data, status) {
+            if(data != undefined && data != null){
+                var json = eval('(' + data + ')');
+                var result = json.sresult;
+                switch (result) {
+                    case RESULT_SUCCESS: {
+                        var goodsList = json.goodsList;
+                        for(var i = 0; goodsList.length; i++){
+                            var goods = goodsList[i];
+                            $("#img" + (i+1)).attr("src", goods.imgSrc);
+                            $("#name" + (i+1)).html(goods.name + "<br><font size='3' color='gray'>" + goods.descs + "</font>");
+                            $("#src" + (i+1)).attr("href", "/view/search/goodsInfo.html?id=" + goods.id);
+                            $("#name" + (i+1)).attr("href", "/view/search/goodsInfo.html?id=" + goods.id);
+                            $("#cost" + (i+1)).text("¥" + goods.cost);
+                        }
+                        break;
+                    }
+                    case RESULT_FAIL:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         function logout() {
             $.post("/user/logout.do", {}, function (data, status) {
                 var json = eval('(' + data + ')');
@@ -99,26 +123,48 @@
         <td width="258">&nbsp;</td>
     </tr>
     <tr>
-        <td height="180" align="center" valign="middle"><a href="#"><img
-                src="/img/book.jpg" width="156" height="156"/></a></td>
-        <td height="180" align="center" valign="middle"><a href="#"><img
-                src="/img/book.jpg" width="156" height="156"/></a></td>
-        <td height="180" align="center" valign="middle"><a href="#"><img
-                src="/img/book.jpg" width="156" height="156"/></a></td>
-        <td height="180" align="center" valign="middle"><a href="#"><img
-                src="/img/book.jpg" width="156" height="156"/></a></td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src1"><img width="156" height="156" id="img1"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src2"><img width="156" height="156" id="img2"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src3"><img width="156" height="156" id="img3"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src4"><img width="156" height="156" id="img4"/></a>
+        </td>
     </tr>
     <tr>
-        <td height="29" align="center"><a href="#">书名及描述</a></td>
-        <td height="29" align="center"><a href="#">书名及描述</a></td>
-        <td height="29" align="center"><a href="#">书名及描述</a></td>
-        <td height="29" align="center"><a href="#">书名及描述</a></td>
+        <td height="29" align="center"><a href="" id="name1"></a></td>
+        <td height="29" align="center"><a href="" id="name2"></a></td>
+        <td height="29" align="center"><a href="" id="name3"></a></td>
+        <td height="29" align="center"><a href="" id="name4"></a></td>
     </tr>
     <tr>
-        <td align="center" id="q">¥<strong>3580</strong></td>
-        <td align="center" id="q">¥<strong>3580</strong></td>
-        <td align="center" id="q">¥<strong>3580</strong></td>
-        <td align="center" id="q">¥<strong>3580</strong></td>
+        <td align="center" id="q"><strong id="cost1"></strong></td>
+        <td align="center" id="q1"><strong id="cost2"></strong></td>
+        <td align="center" id="q2"><strong id="cost3"></strong></td>
+        <td align="center" id="q3"><strong id="cost4"></strong></td>
+    </tr>
+    <tr>
+        <td height="180" align="center" valign="middle"><a href="#" id="src5"><img width="156" height="156" id="img5"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src6"><img width="156" height="156" id="img6"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src7"><img width="156" height="156" id="img7"/></a>
+        </td>
+        <td height="180" align="center" valign="middle"><a href="#" id="src8"><img width="156" height="156" id="img8"/></a>
+        </td>
+    </tr>
+    <tr>
+        <td height="29" align="center"><a href="" id="name5"></a></td>
+        <td height="29" align="center"><a href="" id="name6"></a></td>
+        <td height="29" align="center"><a href="" id="name7"></a></td>
+        <td height="29" align="center"><a href="" id="name8"></a></td>
+    </tr>
+    <tr>
+        <td align="center" id="q4"><strong id="cost5"></strong></td>
+        <td align="center" id="q5"><strong id="cost6"></strong></td>
+        <td align="center" id="q6"><strong id="cost7"></strong></td>
+        <td align="center" id="q7"><strong id="cost8"></strong></td>
     </tr>
 </table>
 </body>
