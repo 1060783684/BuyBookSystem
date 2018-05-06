@@ -6,8 +6,12 @@ import org.tzsd.dao.UserDAO;
 import org.tzsd.pojo.Goods;
 import org.tzsd.pojo.User;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @description: 物品相关的服务类
@@ -21,6 +25,18 @@ public class GoodsService {
     public static final int COST_FIVE = 5; //价格范围3: cost >= x5
 
     public static final int PAGE_SIZE = 8; //物品list一页的大小
+
+    private static ReentrantLock lock = new ReentrantLock();
+    private ExecutorService threadPool = Executors.newFixedThreadPool(10); //规定数量的线程池
+
+    /**
+     * @description: 关闭线程池
+     */
+    @PreDestroy
+    public void destory(){
+        //平缓关闭
+        threadPool.shutdown();
+    }
 
     @Resource(name = "goodsDao")
     private GoodsDAO goodsDAO;
@@ -75,7 +91,7 @@ public class GoodsService {
                 hight = 300;
                 break;
         }
-        List<Goods> results = getGoodsDAO().getGoodsList(type, low, hight, keywords, page, PAGE_SIZE);
+        List<Goods> results = getGoodsDAO().getGoodsList(type, low, hight, keywords, page * PAGE_SIZE, PAGE_SIZE);
         return results;
     }
 
@@ -126,7 +142,26 @@ public class GoodsService {
         if(goodsId == null){
             return null;
         }
-        return getGoodsDAO().getGoodsById(goodsId);
+        final Goods goods = getGoodsDAO().getGoodsById(goodsId);
+        //将这个操作抛出取让一个线程去做,保证商品详情查看的效率
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                if(goods != null) {
+                    try {
+                        GoodsService.lock.lock();
+                        //增加访问量
+                        goods.setSell_num(goods.getSell_num() + 1);
+                        getGoodsDAO().merge(goods);
+                    } finally {
+                        if (GoodsService.lock.isHeldByCurrentThread()) {
+                            GoodsService.lock.unlock();
+                        }
+                    }
+                }
+            }
+        });
+        return goods;
     }
 
     /**

@@ -7,6 +7,9 @@ import org.tzsd.pojo.Store;
 import org.tzsd.pojo.User;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description: 测试类
@@ -80,11 +83,26 @@ public class Test {
 //        testJson();
 //        testStringTokenizer();
 //        float cost = Float.valueOf("23.5");
-        String str = "                         ";
-        System.out.println("length : " + str.length());
-        System.out.println("isEmpty : " + str.isEmpty());
-        String str1 = str.trim();
-        System.out.println("length : " + str1.length());
-        System.out.println("isEmpty : " + str1.isEmpty());
+//        String str = "                         ";
+//        System.out.println("length : " + str.length());
+//        System.out.println("isEmpty : " + str.isEmpty());
+//        String str1 = str.trim();
+//        System.out.println("length : " + str1.length());
+//        System.out.println("isEmpty : " + str1.isEmpty());
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(20);
+        pool.schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("xxxxxx");
+                throw new RuntimeException();
+            }
+        }, 10, TimeUnit.SECONDS);
+
+        pool.schedule(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("yyyyy");
+            }
+        }, 20, TimeUnit.SECONDS);
     }
 }

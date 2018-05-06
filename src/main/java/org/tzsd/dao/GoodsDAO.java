@@ -110,6 +110,8 @@ public class GoodsDAO extends GenericDAO{
                 StringBuilder typeEqual = null;
                 StringBuilder cost = null;
                 StringBuilder keyEqual = null;
+                
+                //类型
                 for (int i = 0; i < Goods.TYPES.length; i++) {
                     if (type == Goods.TYPES[i]) {
                         typeEqual = new StringBuilder();
@@ -121,6 +123,8 @@ public class GoodsDAO extends GenericDAO{
                         break;
                     }
                 }
+
+                //价格范围
                 if((low >= 0 || hight >= 0)){
                     cost = new StringBuilder();
                     if(where == null){
@@ -140,6 +144,8 @@ public class GoodsDAO extends GenericDAO{
 
                     hql.append(cost);
                 }
+
+                //关键字
                 if(keywords != null && !keywords.equals("")){
                     keyEqual = new StringBuilder();
                     if(where == null){
@@ -153,6 +159,8 @@ public class GoodsDAO extends GenericDAO{
 
                     hql.append(keyEqual);
                 }
+
+                //状态
                 if(where == null){
                     where = "where";
                     hql.append(" ").append(where).append(" ");
@@ -160,10 +168,17 @@ public class GoodsDAO extends GenericDAO{
                     hql.append(" ").append("and").append(" ");
                 }
                 hql.append("status = :status");
+
+                //按销量排序
+                hql.append(" order by sales_num");
+
+                //获取请求
                 Query query = session.createQuery(hql.toString());
                 if(typeEqual != null){
                     query.setParameter("type", type);
                 }
+
+                //添加价格范围参数
                 if(cost != null){
                     if(low <= 0 && hight > 0){
                         query.setParameter("hight", hight);
@@ -174,6 +189,8 @@ public class GoodsDAO extends GenericDAO{
                         query.setParameter("low", low);
                     }
                 }
+
+                //添加关键字参数
                 if(keyEqual != null){
                     StringTokenizer tokenizer = new StringTokenizer(keywords," ");
                     StringBuilder name = new StringBuilder();
@@ -184,11 +201,15 @@ public class GoodsDAO extends GenericDAO{
                     }
                     query.setParameter("name", name.toString());
                 }
+
+                //添加状态参数
                 query.setParameter("status", Goods.UP);
                 if(start >= 0 && size > 0){
                     query.setFirstResult(start);
                     query.setMaxResults(size);
                 }
+
+                //请求
                 return query.list();
             }
         });
@@ -261,6 +282,8 @@ public class GoodsDAO extends GenericDAO{
                     hql.append(" ").append("and").append(" ");
                 }
                 hql.append("status = :status");
+                //按销量排序
+                hql.append(" order by sales_num");
                 Query query = session.createQuery(hql.toString());
                 if(typeEqual != null){
                     query.setParameter("type", type);

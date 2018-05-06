@@ -140,4 +140,24 @@ public class OrderDAO extends GenericDAO{
             }
         });
     }
+
+    /**
+     * @description: 删除订单信息
+     * @param orderId
+     */
+    public void deleteOrderByIdAndUpdateGoods(final String orderId, final String goodsId, final long num){
+        getTemplate().doCall(new HibernateCallback<Object>() {
+            @Override
+            public Object doCall(Session session) throws HibernateException {
+                Query query = session.getNamedQuery("deleteOrderById");
+                query.setParameter("id", orderId);
+                Object object = query.executeUpdate();
+                query = session.getNamedQuery("addGoodsNum");
+                query.setParameter("id", goodsId);
+                query.setParameter("num", num);
+                query.executeUpdate();
+                return object;
+            }
+        });
+    }
 }

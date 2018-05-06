@@ -69,7 +69,7 @@ public class ShopCarService {
             return null;
         }
         long user_id = user.getId();
-        return getShopCarDAO().getShopCarListByUserId(user_id, page, PAGE_SIZE);
+        return getShopCarDAO().getShopCarListByUserId(user_id, page * PAGE_SIZE, PAGE_SIZE);
     }
 
     /**

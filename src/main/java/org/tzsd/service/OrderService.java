@@ -90,7 +90,7 @@ public class OrderService {
         if(user == null){
             return null;
         }
-        return orderDAO.getOrderListByUserIdAndStatus(user.getId(), status, page, PAGE_SIZE);
+        return orderDAO.getOrderListByUserIdAndStatus(user.getId(), status, page * PAGE_SIZE, PAGE_SIZE);
     }
 
     /**
@@ -111,7 +111,7 @@ public class OrderService {
         if(store == null){
             return null;
         }
-        return orderDAO.getOrderListByStoreIdAndStatus(store.getId(), status, page, PAGE_SIZE);
+        return orderDAO.getOrderListByStoreIdAndStatus(store.getId(), status, page * PAGE_SIZE, PAGE_SIZE);
     }
 
     /**

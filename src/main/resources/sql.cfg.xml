@@ -163,6 +163,14 @@
     <query name="getStoreUserCountByStoreCheck">
         <![CDATA[ select count(*) from StoreUser su, Store s where s.isCheck = :isCheck and su.store_id = s.id]]>
     </query>
+
+    <query name="deleteOrderById">
+        <![CDATA[ delete from Order where id = :id]]>
+    </query>
+
+    <query name="addGoodsNum">
+        <![CDATA[ update Goods set num = num + :num where id = :id]]>
+    </query>
     <!--<query name="updateGoodsStatusById">-->
         <!--<![CDATA[ update Goods set status = :status where id = :id]]>-->
     <!--</query>-->

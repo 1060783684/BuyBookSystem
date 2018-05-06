@@ -43,6 +43,9 @@ public class Order {
     @Column(name = "addr_id")
     private String addr_id;
 
+    @Column(name = "startTime")
+    private long startTime;
+
     public static final int WAIT_PAY = 0; //待支付
     public static final int WAIT_PUB = 1; //待发货
     public static final int WAIT_INCOME = 2; //待收货
@@ -52,8 +55,8 @@ public class Order {
 
     }
 
-    public Order(String id, long store_id, long user_id, String goods_id,
-                 int status, long number, String addr_start, String addr_end, String express_id, String addr_id) {
+    public Order(String id, long store_id, long user_id, String goods_id, int status, long number,
+                 String addr_start, String addr_end, String express_id, String addr_id, long startTime) {
         this.id = id;
         this.store_id = store_id;
         this.user_id = user_id;
@@ -64,6 +67,7 @@ public class Order {
         this.addr_end = addr_end;
         this.express_id = express_id;
         this.addr_id = addr_id;
+        this.startTime = startTime;
     }
 
     public String getId() {
@@ -144,5 +148,13 @@ public class Order {
 
     public void setAddr_id(String addr_id) {
         this.addr_id = addr_id;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 }
