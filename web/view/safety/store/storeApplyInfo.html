@@ -41,7 +41,7 @@
 
         pre {
             color: #000;
-            font-size: 14;
+            font-size: 14px;
         }
 
         .ccc {
@@ -101,13 +101,13 @@
                 var type = $("#type").val(); //经营类型
                 var reg = /[ ]/;
                 //判断是否有信息为空
-                if(name == undefined || idnumber == undefined || storeName == undefined || type == undefined || business == undefined ||
+                if(name == undefined || idnumber == undefined || storeName == undefined || type == undefined ||
                    name == "" || idnumber == "" || storeName == "" || type == ""){
                     alert("请将信息填写完整");
                     return;
                 }
                 //判断是否有非法信息
-                if(reg.test(name) || reg.test(idnumber) || reg.test(storeName) || reg.test(type) || reg.test(business)){
+                if(reg.test(name) || reg.test(idnumber) || reg.test(storeName) || reg.test(type)){
                     alert("信息中不能含有空格");
                     return;
                 }
@@ -116,8 +116,7 @@
                     "name": name,
                     "idnumber": idnumber,
                     "storeName": storeName,
-                    "type": type,
-                    "business": business,
+                    "type": type
                 }, function (data, status) {
                     if (data != undefined) {
                         var json = eval("(" + data + ")");
@@ -162,13 +161,13 @@
 <body>
 <table width="920" border="0">
     <tr>
-        <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
+        <td width="325"></td>
         <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
         <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
         <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span>
         </td>
         <td width="97"><span class="a"> <a href="/view/safety/user/userShopCar.html" title="g">购物车</a></span></td>
-        <td width="43" colspan="2"><a href="#" class="a">退出</a></td>
+        <td width="43" colspan="2"></td>
     </tr>
     <tr>
         <td colspan="7">&nbsp;</td>
