@@ -31,7 +31,7 @@ public class RegistController extends BaseController {
         this.userInfoService = userInfoService;
     }
 
-    /**
+       /**
      * @description: 处理注册业务
      * @param request
      * @param response

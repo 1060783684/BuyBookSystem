@@ -41,7 +41,7 @@
 
         pre {
             color: #000;
-            font-size: 14;
+            font-size: 14px;
         }
 
         .ccc {
@@ -95,6 +95,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
            $("#next").click(function () {
+               var radio = document.getElementById("radio");
+               if(!radio.checked){
+                   alert("还未同意相关协议!");
+                   return;
+               }
                window.location.href="/view/safety/store/storePack.html";
            });
         });
@@ -104,12 +109,12 @@
 <body>
 <table width="915" border="0">
     <tr>
-        <td width="325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
+        <td width="325"></td>
         <td width="162"><a href="/index.html" title="c" class="a">易书网首页</a></td>
         <td width="132"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
         <td width="135"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
         <td width="86"><span class="a"> <a href="/view/safety/user/userShopCar.html" title="g">购物车</a></span></td>
-        <td width="49" colspan="2"><a href="#" class="a">退出</a></td>
+        <td width="49" colspan="2"></td>
     </tr>
     <tr>
         <td colspan="7">&nbsp;</td>

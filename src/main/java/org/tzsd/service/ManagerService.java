@@ -2,13 +2,14 @@ package org.tzsd.service;
 
 import org.springframework.stereotype.Service;
 import org.tzsd.dao.*;
-import org.tzsd.pojo.Goods;
-import org.tzsd.pojo.Manager;
-import org.tzsd.pojo.Store;
-import org.tzsd.pojo.StoreUser;
+import org.tzsd.pojo.*;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description: 管理员服务类
@@ -26,6 +27,8 @@ public class ManagerService {
 
     @Resource(name = "goodsDao")
     private GoodsDAO goodsDAO;
+
+    private ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(10);
 
     public ManagerDAO getManagerDAO() {
         return managerDAO;
@@ -61,6 +64,11 @@ public class ManagerService {
 
     private static final int PAGE_SIZE = 9;
 //    private static final int PAGE_SIZE2 = 20;
+
+    @PreDestroy
+    public void destory() {
+        this.threadPool.shutdown();
+    }
 
     /**
      * @description: 管理员登陆验证
@@ -145,6 +153,38 @@ public class ManagerService {
 
     /**
      * @description: 审核对应店铺id的店铺
+     * @param storeId 店铺id
+     * @return 操作结果
+     */
+    public boolean noPassStore(long storeId){
+        Store store = getStoreDAO().getStoreById(storeId);
+        if(store == null){
+            return false;
+        }
+        if(store.getIsCheck() != Store.NO){
+            return false;
+        }
+        store.setIsCheck(Store.NOPASS);
+        getStoreDAO().merge(store);
+
+        //删除未通过的商店
+        threadPool.schedule(new Runnable() {
+            @Override
+            public void run() {
+                Store store1 = getStoreDAO().getStoreById(storeId);
+                //多次重试
+                while (store1 != null && store1.getIsCheck() == Store.NOPASS) {
+                    //删除订单，并修改商品的个数
+                    getStoreDAO().deleteStoreByIdAndStatus(store1.getId(), Store.NOPASS);
+                    store1 = getStoreDAO().getStoreById(storeId);
+                }
+            }
+        }, 24, TimeUnit.HOURS);
+        return true;
+    }
+
+    /**
+     * @description: 审核对应商品id的商品
      * @param goodsId 物品id
      * @return 操作结果
      */
@@ -157,6 +197,24 @@ public class ManagerService {
             return false;
         }
         goods.setStatus(Goods.UP);
+        getGoodsDAO().merge(goods);
+        return true;
+    }
+
+    /**
+     * @description: 未通过对应商品id的商品
+     * @param goodsId 物品id
+     * @return 操作结果
+     */
+    public boolean noPasskGoods(String goodsId){
+        Goods goods = getGoodsDAO().getGoodsById(goodsId);
+        if(goods == null){
+            return false;
+        }
+        if(goods.getStatus() != Goods.STAYUP){
+            return false;
+        }
+        goods.setStatus(Goods.NOPASS);
         getGoodsDAO().merge(goods);
         return true;
     }

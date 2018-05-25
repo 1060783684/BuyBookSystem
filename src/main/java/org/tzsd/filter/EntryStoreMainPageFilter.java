@@ -36,6 +36,8 @@ public class EntryStoreMainPageFilter implements Filter {
             request.getRequestDispatcher("/view/safety/store/storeApply.html").forward(req,resp);
         }else if(store.getIsCheck() == Store.NO){ //还在审核
             request.getRequestDispatcher("/view/safety/store/storeCheck.html").forward(req,resp);
+        }else if(store.getIsCheck() == Store.NOPASS){ //审核未通过
+            request.getRequestDispatcher("/view/safety/store/storeNoPass.html").forward(req,resp);
         }
 
         chain.doFilter(req, resp);

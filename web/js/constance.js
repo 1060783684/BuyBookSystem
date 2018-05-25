@@ -83,6 +83,7 @@ var CHILDREN = 5; //少儿
 var LAGISLATION = 6; //法律
 
 //宝贝状态
+var NOPASS = 3; //审核未通过
 var UP = 2; //上架
 var STAYUP = 1; //待审核
 var DOWN = 0; //下架

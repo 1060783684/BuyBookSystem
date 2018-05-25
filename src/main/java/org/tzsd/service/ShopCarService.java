@@ -109,6 +109,9 @@ public class ShopCarService {
         if(goods == null){
             return false;
         }
+        if(goods.getNum() < number){
+            return false;
+        }
         UUID uuid = null;
         do {
             uuid = UUID.randomUUID();

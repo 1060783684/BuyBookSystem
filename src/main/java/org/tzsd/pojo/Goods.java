@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "goods")
 public class Goods {
     //宝贝状态
+    public static final int NOPASS = 3; //审核未通过
     public static final int UP = 2; //上架
     public static final int STAYUP = 1; //待审核
     public static final int DOWN = 0; //下架

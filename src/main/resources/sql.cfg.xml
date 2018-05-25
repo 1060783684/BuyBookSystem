@@ -171,6 +171,14 @@
     <query name="addGoodsNum">
         <![CDATA[ update Goods set num = num + :num where id = :id]]>
     </query>
+
+    <query name="deleteStoreByIdAndStatus">
+        <![CDATA[ delete from Store where id = :id and isCheck = :isCheck]]>
+    </query>
+
+    <query name="deleteStoreUserById">
+        <![CDATA[ delete from StoreUser where store_id = :storeId ]]>
+    </query>
     <!--<query name="updateGoodsStatusById">-->
         <!--<![CDATA[ update Goods set status = :status where id = :id]]>-->
     <!--</query>-->

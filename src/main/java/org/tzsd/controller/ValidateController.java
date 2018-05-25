@@ -43,7 +43,7 @@ public class ValidateController extends BaseController {
      * @param request
      * @param response
      */
-    @RequestMapping("validate.do")
+    @RequestMapping("/validate.do")
     public void validateUser(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
         String password = request.getParameter("password");

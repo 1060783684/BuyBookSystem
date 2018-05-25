@@ -82,4 +82,25 @@ public class StoreDAO extends GenericDAO{
             }
         });
     }
+
+    /**
+     * @description: 根据店铺id和状态删除店铺
+     * @return
+     */
+    public Object deleteStoreByIdAndStatus(final long id, final int status){
+        return getTemplate().doCall(new HibernateCallback<Object>() {
+            @Override
+            public Object doCall(Session session) throws HibernateException {
+                long count = 0;
+                Query query = session.getNamedQuery("deleteStoreUserById");
+                query.setParameter("storeId",id);
+                query.executeUpdate();
+                query = session.getNamedQuery("deleteStoreByIdAndStatus");
+                query.setParameter("id",id);
+                query.setParameter("isCheck",status);
+                Object result = query.executeUpdate();
+                return result;
+            }
+        });
+    }
 }

@@ -239,6 +239,10 @@
                                                 goodsStatus = "下架";
                                                 break;
                                             }
+                                            case NOPASS:{
+                                                goodsStatus = "未通过";
+                                                break;
+                                            }
                                         }
                                         goodsInfo += '<td align="left" valign="top" style="border:1px solid #E9E9E9;">' + goodsStatus + '</td>';
                                     }else {
@@ -368,6 +372,10 @@
                                                 goodsStatus = "下架";
                                                 break;
                                             }
+                                            case NOPASS:{
+                                                goodsStatus = "未通过";
+                                                break;
+                                            }
                                         }
                                         goodsInfo += '<td align="left" valign="top" style="border:1px solid #E9E9E9;">' + goodsStatus + '</td>';
                                     }else {
@@ -405,12 +413,12 @@
 <body>
 <table width="1050" border="0">
     <tr>
-        <td width="367">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" title="a" class="a"> 账号</a></td>
+        <td width="367"></td>
         <td width="139"><a href="/index.html" title="c" class="a">易书网首页</a></td>
         <td width="141"><a href="/view/safety/user/userMainPage.html" title="e" class="a">我的易书</a></td>
         <td width="142"><span class="a"> <a href="/view/safety/store/check/storeMainPage.html" title="f">卖家中心</a></span></td>
         <td width="125"><span class="a"> <a href="/view/safety/user/userShopCar.html" title="g">购物车</a></span></td>
-        <td width="110" colspan="2"><a href="#" class="a">退出</a></td>
+        <td width="110" colspan="2"></td>
     </tr>
     <tr>
         <td colspan="7">&nbsp;</td>
@@ -428,10 +436,7 @@
 <table width="1052" border="0" rules="none" style="border:1px solid #E6E6E6">
     <tbody id="goodsTable">
     <tr>
-        <td width="203" rowspan="25" valign="top" id="x1"> <pre>  <span id="qu">全部功能</span><a href="#" title="ccc"
-                                                                                            class="ccc">
-  <span id="x">
-  我的订单</span></a>
+        <td width="203" rowspan="25" valign="top" id="x1"> <pre>  <span id="qu">全部功能</span>
 
 <a href="/view/safety/store/check/storeInfo.html" title="ddd" class="ddd">  店铺资料</a>
 

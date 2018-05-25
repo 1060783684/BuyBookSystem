@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -86,7 +85,7 @@
                                         $("#type" + (i+1)).text("无");
                                     }
                                     $("#button" + (i+1)).html('<input type="button" value="是" style="background:red;height:30px" class="tj" color="grey" onclick="checkGoods(\'' + goods.id + '\')"/>'+
-                                            '<input type="button" value="否" style="background:red;height:30px" class="tj" color="grey"/>');
+                                            '<input type="button" value="否" style="background:red;height:30px" class="tj" color="grey" onclick="noPassGoods(\'' + goods.id + '\')"/>');
                                 }
                                 var pageButtons = "";
                                 if(json.page != undefined){
@@ -131,6 +130,32 @@
                 });
             }
         }
+
+        function noPassGoods(goodsId) {
+            if(confirm("是否确认不通过?") == true) {
+                $.post("/managers/noPassGoods.do", {"goodsId": goodsId}, function (data, status) {
+                    if (data != undefined) {
+                        var json = eval('(' + data + ')');
+                        if (json != undefined) {
+                            var result = json.sresult;
+                            switch (result) {
+                                case RESULT_SUCCESS:
+                                    alert("审核成功");
+                                    window.location.reload();
+                                    break;
+                                case RESULT_FAIL:
+                                    alert("审核失败");
+                                    break;
+                                default:
+                                    alert("操作错误");
+                            }
+                        }
+                    } else {
+                        alert("消息发送错误");
+                    }
+                });
+            }
+        }
     </script>
 </head>
 
@@ -139,7 +164,7 @@
 <table width="1050" border="1" style="border:1px solid #E9E9E9;">
     <tbody id="goodsTable">
     <tr>
-        <td height="39" colspan="7" align="center">宝贝审核</td>
+        <td height="39" colspan="7" align="center">宝贝审核&nbsp; &nbsp; &nbsp;<a href="managerMainPage.html">退出</a></td>
     </tr>
     <tr>
         <td width="167" height="38">图片</td>
